@@ -22,7 +22,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.safris.commons.io.input.ReviewableInputStream;
+import org.lib4j.io.input.ReviewableInputStream;
 
 public class CachedURL {
   protected final URL url;
