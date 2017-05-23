@@ -24,7 +24,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
 
-import org.safris.commons.lang.Paths;
+import org.lib4j.lang.Paths;
 
 public final class URLs {
   private static String formatWindowsPath(final String absolutePath) {
