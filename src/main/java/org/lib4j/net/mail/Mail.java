@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.commons.net.mail;
+package org.lib4j.net.mail;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -31,7 +31,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.net.ssl.SSLSocketFactory;
 
-import org.safris.commons.security.Credentials;
+import org.lib4j.security.Credentials;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

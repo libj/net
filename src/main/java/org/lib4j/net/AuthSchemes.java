@@ -14,11 +14,11 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.commons.net;
+package org.lib4j.net;
 
 import javax.xml.bind.DatatypeConverter;
 
-import org.safris.commons.security.Credentials;
+import org.lib4j.security.Credentials;
 
 public final class AuthSchemes {
   public static Credentials parseBasicAuthHeader(final String authorization) {

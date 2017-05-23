@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.commons.net.mail;
+package org.lib4j.net.mail;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
@@ -23,7 +23,9 @@ import javax.mail.internet.InternetAddress;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.safris.commons.security.Credentials;
+import org.lib4j.net.mail.Mail;
+import org.lib4j.net.mail.MimeContent;
+import org.lib4j.security.Credentials;
 
 public class MailTest {
   private int successCount = 0;

@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.commons.net;
+package org.lib4j.net;
 
 import java.net.MalformedURLException;
 import java.net.URL;

@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.commons.net.mail;
+package org.lib4j.net.mail;
 
 public class MimeContent {
   private final String content;
