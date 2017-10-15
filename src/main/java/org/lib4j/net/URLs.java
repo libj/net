@@ -19,9 +19,12 @@ package org.lib4j.net;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.JarURLConnection;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLDecoder;
 
 import org.lib4j.lang.Paths;
@@ -35,7 +38,7 @@ public final class URLs {
     if (path.charAt(0) == '/' || (Character.isLetter(path.charAt(0)) && path.charAt(1) == ':' && path.charAt(2) == '\\' && Character.isLetter(path.charAt(3))))
       return true;
 
-    if (path.startsWith("file:/"))
+    if (path.startsWith("file:/") || path.startsWith("jar:file:/"))
       return true;
 
     return path.matches("^([a-zA-Z0-9]+:)?//.*$");
@@ -186,6 +189,29 @@ public final class URLs {
 
   public static String getName(final URL url) {
     return Paths.getName(url.toString());
+  }
+
+  /**
+   * Get last modified timestamp of the resource at the <code>url</code>
+   * location. This function works for urls that point to local files,
+   * resources in jars, and resources behind HTTP/HTTPS connections. For all
+   * other types of urls, this function returns -1.
+   * @param url The location of the resource.
+   * @return The last modified timestamp.
+   * @throws IOException If an IO connectivity exception occurs.
+   */
+  public static long getLastModified(final URL url) throws IOException {
+    if (URLs.isFile(url))
+      return new File(url.getFile()).lastModified();
+
+    final URLConnection urlConnection = url.openConnection();
+    if (urlConnection instanceof HttpURLConnection)
+      return ((HttpURLConnection)urlConnection).getLastModified();
+
+    if (urlConnection instanceof JarURLConnection)
+      return ((JarURLConnection)urlConnection).getLastModified();
+
+    return -1;
   }
 
   public static URL getParent(final URL url) {

@@ -16,6 +16,7 @@
 
 package org.lib4j.net;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -168,5 +169,13 @@ public class URLsTest {
       Assert.assertEquals(entry.getKey(), URLs.getParent((entry.getValue())));
 
     Assert.assertNull(URLs.getParent(null));
+  }
+
+  @Test
+  public void testGetLastModified() throws Exception {
+    Assert.assertTrue(URLs.getLastModified(Thread.currentThread().getContextClassLoader().getResource(Test.class.getName().replace('.', '/') + ".class")) > 0);
+    Assert.assertTrue(URLs.getLastModified(Thread.currentThread().getContextClassLoader().getResource(URLsTest.class.getName().replace('.', '/') + ".class")) > 0);
+    Assert.assertTrue(URLs.getLastModified(new File("").toURI().toURL()) > 0);
+    Assert.assertTrue(URLs.getLastModified(new URL("http://www.dot.ca.gov/hq/roadinfo/Hourly")) > 0);
   }
 }
