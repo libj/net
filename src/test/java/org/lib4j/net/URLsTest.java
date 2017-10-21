@@ -62,7 +62,7 @@ public class URLsTest {
   }
 
   @Test
-  public void testMakeUrlFromPath() throws Exception {
+  public void testMakeCanonicalUrlFromPath() throws Exception {
     final Map<URL,String> absolute = new LinkedHashMap<URL,String>();
     final Map<URL,String[]> relative = new LinkedHashMap<URL,String[]>();
     if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
@@ -101,10 +101,10 @@ public class URLsTest {
     relative.put(new URL("http://www.google.com/webhp"), new String[] {"http://www.google.com", "/webhp"});
     relative.put(new URL("http://www.google.com/webhp"), new String[] {"http://www.google.com/", "/webhp"});
     for (final Map.Entry<URL,String> entry : absolute.entrySet())
-      Assert.assertEquals(entry.getKey(), URLs.makeUrlFromPath(entry.getValue()));
+      Assert.assertEquals(entry.getKey(), URLs.makeCanonicalUrlFromPath(entry.getValue()));
 
     for (final Map.Entry<URL,String[]> entry : relative.entrySet())
-      Assert.assertEquals(entry.getKey(), URLs.makeUrlFromPath(entry.getValue()[0], entry.getValue()[1]));
+      Assert.assertEquals(entry.getKey(), URLs.makeCanonicalUrlFromPath(entry.getValue()[0], entry.getValue()[1]));
   }
 
   @Test

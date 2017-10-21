@@ -96,7 +96,19 @@ public final class URLs {
       url = new URL("file", "", absolutePath);
     }
 
-    return URLs.canonicalizeURL(url);
+    return url;
+  }
+
+  public static URL makeUrlFromPath(final String parentDir, final String path) throws MalformedURLException {
+    return makeUrlFromPath(Paths.newPath(parentDir, path));
+  }
+
+  public static URL makeCanonicalUrlFromPath(String absolutePath) throws MalformedURLException {
+    return URLs.canonicalizeURL(makeUrlFromPath(absolutePath));
+  }
+
+  public static URL makeCanonicalUrlFromPath(final String parentDir, final String path) throws MalformedURLException {
+    return makeCanonicalUrlFromPath(Paths.newPath(parentDir, path));
   }
 
   public static URL makeUrlFromPath(final URL baseURL, final String path) throws MalformedURLException {
@@ -107,8 +119,8 @@ public final class URLs {
     return new URL(externalForm.endsWith("/") ? externalForm + path : externalForm + "/" + path);
   }
 
-  public static URL makeUrlFromPath(final String basedir, final String path) throws MalformedURLException {
-    return makeUrlFromPath(Paths.newPath(basedir, path));
+  public static URL makeCanonicalUrlFromPath(final URL baseURL, final String path) throws MalformedURLException {
+    return URLs.canonicalizeURL(makeUrlFromPath(baseURL, path));
   }
 
   public static String toExternalForm(final CachedURL url) throws MalformedURLException {
