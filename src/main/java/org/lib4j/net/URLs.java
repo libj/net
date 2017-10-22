@@ -203,6 +203,10 @@ public final class URLs {
     return Paths.getName(url.toString());
   }
 
+  public static String getShortName(final URL url) {
+    return Paths.getShortName(url.toString());
+  }
+
   /**
    * Get last modified timestamp of the resource at the <code>url</code>
    * location. This function works for urls that point to local files,
@@ -232,6 +236,18 @@ public final class URLs {
 
     try {
       return new URL(Paths.getParent(url.toString()));
+    }
+    catch (final MalformedURLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public static URL getCanonicalParent(final URL url) {
+    if (url == null)
+      return null;
+
+    try {
+      return new URL(Paths.getCanonicalParent(url.toString()));
     }
     catch (final MalformedURLException e) {
       throw new RuntimeException(e);

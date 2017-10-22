@@ -147,28 +147,34 @@ public class URLsTest {
 
   @Test
   public void testGetName() throws Exception {
-    final Map<String,URL> urls = new HashMap<String,URL>();
-    urls.put("share", new URL("file:///usr/share/../share"));
-    urls.put("lib", new URL("file:///usr/share/../share/../lib"));
-    urls.put("var", new URL("file:///usr/share/../share/../lib/../../var"));
-    urls.put("resolv.conf", new URL("file:///etc/resolv.conf"));
-
-    for (final Map.Entry<String,URL> entry : urls.entrySet())
-      Assert.assertEquals(entry.getKey(), URLs.getName(entry.getValue()));
-
     Assert.assertNull(URLs.canonicalizeURL(null));
+    Assert.assertEquals("share.txt", URLs.getName(new URL("file:///usr/share/../share.txt")));
+    Assert.assertEquals("lib", URLs.getName(new URL("file:///usr/share/../share/../lib")));
+    Assert.assertEquals("var", URLs.getName(new URL("file:///usr/share/../share/../lib/../../var")));
+    Assert.assertEquals("resolv.conf", URLs.getName(new URL("file:///etc/resolv.conf")));
+  }
+
+  @Test
+  public void testGetShortName() throws Exception {
+    Assert.assertNull(URLs.canonicalizeURL(null));
+    Assert.assertEquals("share", URLs.getShortName(new URL("file:///usr/share/../share")));
+    Assert.assertEquals("lib", URLs.getShortName(new URL("file:///usr/share/../share/../lib")));
+    Assert.assertEquals("var", URLs.getShortName(new URL("file:///usr/share/../share/../lib/../../var")));
+    Assert.assertEquals("resolv", URLs.getShortName(new URL("file:///etc/resolv.conf")));
   }
 
   @Test
   public void testGetParent() throws Exception {
-    final Map<URL,URL> urls = new HashMap<URL,URL>();
-    urls.put(new URL("file:///usr"), new URL("file:///usr/share/../share"));
-    urls.put(new URL("file:///usr/local"), new URL("file:///usr/local/bin/../lib/../bin"));
+    Assert.assertNull(URLs.getCanonicalParent(null));
+    Assert.assertEquals(new URL("file:///usr/share/.."), URLs.getParent(new URL("file:///usr/share/../share")));
+    Assert.assertEquals(new URL("file:///usr/local/bin/../lib/.."), URLs.getParent(new URL("file:///usr/local/bin/../lib/../bin")));
+  }
 
-    for (final Map.Entry<URL,URL> entry : urls.entrySet())
-      Assert.assertEquals(entry.getKey(), URLs.getParent((entry.getValue())));
-
-    Assert.assertNull(URLs.getParent(null));
+  @Test
+  public void testGetCanonicalParent() throws Exception {
+    Assert.assertNull(URLs.getCanonicalParent(null));
+    Assert.assertEquals(new URL("file:///usr"), URLs.getCanonicalParent(new URL("file:///usr/share/../share")));
+    Assert.assertEquals(new URL("file:///usr/local"), URLs.getCanonicalParent(new URL("file:///usr/local/bin/../lib/../bin")));
   }
 
   @Test
