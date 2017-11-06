@@ -48,6 +48,11 @@
       <version>4.0.0-b05</version>
     </dependency>
     <dependency>
+      <groupId>com.github.jnr</groupId>
+      <artifactId>jnr-netdb</artifactId>
+      <version>1.1.6</version>
+    </dependency>
+    <dependency>
       <groupId>org.lib4j</groupId>
       <artifactId>lib4j-io</artifactId>
     </dependency>
