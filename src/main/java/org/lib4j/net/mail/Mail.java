@@ -109,22 +109,24 @@ public final class Mail {
 
     @Override
     public int hashCode() {
-      int hashCode = 0;
-      hashCode += 2 * subject.hashCode();
-      hashCode += 3 * content.hashCode();
-      hashCode += 5 * from.hashCode();
-      hashCode += 7 * (to != null ? to.hashCode() : -1323);
-      hashCode += 11 * (cc != null ? cc.hashCode() : -1837);
-      hashCode += 13 * (bcc != null ? bcc.hashCode() : -1121);
+      int hashCode = 17;
+      hashCode *= 31 * hashCode + subject.hashCode();
+      hashCode *= 31 * hashCode + content.hashCode();
+      hashCode *= 31 * hashCode + from.hashCode();
+      hashCode *= 31 * hashCode + (to == null ? 0 : to.hashCode());
+      hashCode *= 31 * hashCode + (cc == null ? 0 : cc.hashCode());
+      hashCode *= 31 * hashCode + (bcc == null ? 0 : bcc.hashCode());
       return hashCode;
     }
   }
 
   public static final class Sender {
-    private static final boolean debug = true;
+    private static final boolean debug;
 
     static {
-      // System.setProperty("javax.net.debug", "ssl,handshake");
+      final Logger logger = LoggerFactory.getLogger(Mail.class);
+      if (debug = logger.isDebugEnabled() || logger.isTraceEnabled())
+        System.setProperty("javax.net.debug", "ssl,handshake");
     }
 
     private static final Map<Sender,Sender> instances = new HashMap<Sender,Sender>();
@@ -165,10 +167,13 @@ public final class Mail {
       final String protocolString = this.protocol.toString().toLowerCase();
 
       this.defaultProperties = new Properties();
-      defaultProperties.put("mail.debug", "true");
+      if (debug)
+        defaultProperties.put("mail.debug", "true");
+
       defaultProperties.put("mail.transport.protocol", protocolString);
 
-      defaultProperties.put("mail." + protocolString + ".debug", Boolean.toString(debug));
+      if (debug)
+        defaultProperties.put("mail." + protocolString + ".debug", "true");
 
       defaultProperties.put("mail." + protocolString + ".host", host);
       defaultProperties.put("mail." + protocolString + ".port", port);
@@ -270,10 +275,10 @@ public final class Mail {
 
     @Override
     public int hashCode() {
-      int hashCode = 0;
-      hashCode += 2 * host.hashCode();
-      hashCode *= protocol.ordinal() + 1;
-      hashCode += 3 * port;
+      int hashCode = 17;
+      hashCode = 31 * hashCode + host.hashCode();
+      hashCode = 31 * hashCode + protocol.hashCode();
+      hashCode = 31 * hashCode + port;
       return hashCode;
     }
   }
