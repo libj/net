@@ -226,7 +226,7 @@ public final class Mail {
       try {
         transport.connect(host, port, credentials.username, credentials.password);
         for (final Message message : messages) {
-          logger.info("Email:\n  to: " + Arrays.toString(message.to) + "\n  cc: " + Arrays.toString(message.to) + "\n  bcc: " + Arrays.toString(message.bcc));
+          logger.info("Sending Email:\n  subject: " + message.subject + "\n       to: " + Arrays.toString(message.to) + (message.cc != null ? "\n       cc: " + Arrays.toString(message.cc) : "") + (message.bcc != null ? "\n      bcc: " + Arrays.toString(message.bcc) : ""));
           session.getProperties().setProperty("mail." + protocolString + ".from", message.from.getAddress());
           final MimeMessage mimeMessage = new MimeMessage(session);
 
