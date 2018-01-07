@@ -16,7 +16,7 @@
 
 package org.lib4j.net;
 
-import javax.xml.bind.DatatypeConverter;
+import java.util.Base64;
 
 import org.lib4j.security.Credentials;
 
@@ -28,7 +28,7 @@ public final class AuthSchemes {
     if (!authorization.startsWith("Basic "))
       throw new IllegalArgumentException("Auth header is expected to be 'Basic', but was found to be: '" + authorization + "'");
 
-    final String login = new String(DatatypeConverter.parseBase64Binary(authorization.substring(6)));
+    final String login = new String(Base64.getDecoder().decode(authorization.substring(6)));
     final int index = login.indexOf(":");
     if (index == -1)
       throw new IllegalArgumentException("Auth header is malformed: missing ':'");
