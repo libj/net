@@ -208,12 +208,12 @@ public final class Mail {
         properties.put("mail." + protocolString + ".auth", "true");
         // the following 2 lines were causing "Relaying denied. Proper authentication required." messages from sendmail
         // properties.put("mail." + protocolString + ".ehlo", "false");
-        // properties.put("mail." + protocolString + ".user", credentials.username);
+        // properties.put("mail." + protocolString + ".user", credentials.getUsername());
 
         session = Session.getInstance(properties, new Authenticator() {
           @Override
           protected PasswordAuthentication getPasswordAuthentication() {
-            return new PasswordAuthentication(credentials.username, credentials.password);
+            return new PasswordAuthentication(credentials.getUsername(), credentials.getPassword());
           }
         });
       }
@@ -224,7 +224,7 @@ public final class Mail {
       session.setDebug(debug);
       final Transport transport = session.getTransport(protocolString);
       try {
-        transport.connect(host, port, credentials.username, credentials.password);
+        transport.connect(host, port, credentials.getUsername(), credentials.getPassword());
         for (final Message message : messages) {
           logger.info("Sending Email:\n  subject: " + message.subject + "\n       to: " + Arrays.toString(message.to) + (message.cc != null ? "\n       cc: " + Arrays.toString(message.cc) : "") + (message.bcc != null ? "\n      bcc: " + Arrays.toString(message.bcc) : ""));
           session.getProperties().setProperty("mail." + protocolString + ".from", message.from.getAddress());

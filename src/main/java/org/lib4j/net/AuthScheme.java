@@ -20,22 +20,30 @@ import java.util.Base64;
 
 import org.lib4j.security.Credentials;
 
-public final class AuthSchemes {
-  public static Credentials parseBasicAuthHeader(final String authorization) {
+public abstract class AuthScheme extends Credentials {
+  private static final long serialVersionUID = 932674160324133452L;
+
+  public AuthScheme(final String username, final String password) {
+    super(username, password);
+  }
+
+  public static AuthScheme parseBasicAuthHeader(final String authorization) {
     if (authorization == null)
       return null;
 
-    if (!authorization.startsWith("Basic "))
-      throw new IllegalArgumentException("Auth header is expected to be 'Basic', but was found to be: '" + authorization + "'");
+    final boolean isBasic;
+    if (authorization.startsWith("Basic "))
+      isBasic = true;
+    else if (authorization.startsWith("Bearer "))
+      isBasic = false;
+    else
+      throw new IllegalArgumentException("Auth header is expected to be 'Basic' or 'Bearer', but was found to be: '" + authorization + "'");
 
-    final String login = new String(Base64.getDecoder().decode(authorization.substring(6)));
+    final String login = new String(Base64.getDecoder().decode(authorization.substring(isBasic ? 6 : 7)));
     final int index = login.indexOf(":");
     if (index == -1)
       throw new IllegalArgumentException("Auth header is malformed: missing ':'");
 
-    return new Credentials(login.substring(0, index), login.substring(index + 1));
-  }
-
-  private AuthSchemes() {
+    return isBasic ? new Basic(login.substring(0, index), login.substring(index + 1)) : new Bearer(login.substring(0, index), login.substring(index + 1));
   }
 }
