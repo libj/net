@@ -29,6 +29,51 @@ public final class URIs {
     }
   }
 
+  public static URI relativize(final URI base, final URI uri) {
+    // quick bail-out
+    if (!base.isAbsolute() || !uri.isAbsolute())
+      return uri;
+
+    if (base.isOpaque() || uri.isOpaque()) {
+      // Unlikely case of an URN which can't deal with
+      // relative path, such as urn:isbn:0451450523
+      return uri;
+    }
+
+    // Check for common root
+    final URI root = base.resolve("/");
+    // Different protocol/auth/host/port, return as is
+    if (!root.equals(uri.resolve("/")))
+      return uri;
+
+    // Ignore hostname bits for the following , but add "/" in the beginning
+    // so that in worst case we'll still return "/fred" rather than
+    // "http://example.com/fred".
+    final URI baseRel = URI.create("/").resolve(root.relativize(base));
+    final URI uriRel = URI.create("/").resolve(root.relativize(uri));
+
+    // Is it same path?
+    if (baseRel.getPath().equals(uriRel.getPath()))
+      return baseRel.relativize(uriRel);
+
+    // Direct siblings? (ie. in same folder)
+    URI commonBase = baseRel.resolve("./");
+    if (commonBase.equals(uriRel.resolve("./")))
+      return commonBase.relativize(uriRel);
+
+    // No, then just keep climbing up until we find a common base.
+    URI relative = URI.create("");
+    while (!uriRel.getPath().startsWith(commonBase.getPath()) && !commonBase.getPath().equals("/")) {
+      commonBase = commonBase.resolve("../");
+      relative = relative.resolve("../");
+    }
+
+    // Now we can use URI.relativize
+    final URI relToCommon = commonBase.relativize(uriRel);
+    // and prepend the needed ../
+    return relative.resolve(relToCommon);
+  }
+
   private URIs() {
   }
 }

@@ -25,9 +25,14 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.BufferUnderflowException;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import org.lib4j.lang.Paths;
+import org.lib4j.lang.Strings;
 
 public final class URLs {
   private static String formatWindowsPath(final String absolutePath) {
@@ -42,15 +47,6 @@ public final class URLs {
       return true;
 
     return path.matches("^([a-zA-Z0-9]+:)?//.*$");
-  }
-
-  public static String decode(final URL url) {
-    try {
-      return URLDecoder.decode(url.getPath(), "UTF-8");
-    }
-    catch (final UnsupportedEncodingException e) {
-      return url.getPath();
-    }
   }
 
   public static boolean isFile(final URL url) {
@@ -252,6 +248,146 @@ public final class URLs {
     catch (final MalformedURLException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  private static final int RADIX = 16;
+  private static final byte ESCAPE_CHAR = '%';
+  private static final byte PLUS_CHAR = '+';
+
+  public static String urlEncode(final String value) {
+    return urlEncode(value, StandardCharsets.UTF_8.name());
+  }
+
+  public static String urlEncode(final String value, final String enc) {
+    try {
+      return URLEncoder.encode(value, enc);
+    }
+    catch (final UnsupportedEncodingException e) {
+      throw new UnsupportedOperationException(e);
+    }
+  }
+
+  public static String decode(final URL url) {
+    return decode(url.getPath(), StandardCharsets.UTF_8.name(), false);
+  }
+
+  public static String decode(final String url) {
+    return decode(url, StandardCharsets.UTF_8.name(), false);
+  }
+
+  public static String decode(final String url, final Charset enc) {
+    return decode(url, enc.name(), false);
+  }
+
+  public static String decode(final String value, final String enc) {
+    return decode(value, enc, false);
+  }
+
+  private static String decode(final String value, final String enc, final boolean isPath) {
+    boolean needDecode = false;
+    int escapesCount = 0;
+    int i = 0;
+    final int length = value.length();
+    while (i < length) {
+      final char ch = value.charAt(i++);
+      if (ch == ESCAPE_CHAR) {
+        escapesCount += 1;
+        i += 2;
+        needDecode = true;
+      }
+      else if (!isPath && ch == PLUS_CHAR) {
+        needDecode = true;
+      }
+    }
+
+    if (needDecode) {
+      final byte[] valueBytes = Strings.getBytes(value, enc);
+      final ByteBuffer in = ByteBuffer.wrap(valueBytes);
+      final ByteBuffer out = ByteBuffer.allocate(in.capacity() - (2 * escapesCount) + 1);
+      while (in.hasRemaining()) {
+        final int b = in.get();
+        if (!isPath && b == PLUS_CHAR) {
+          out.put((byte)' ');
+        }
+        else if (b == ESCAPE_CHAR) {
+          try {
+            final int u = digit16(in.get());
+            final int l = digit16(in.get());
+            out.put((byte)((u << 4) + l));
+          }
+          catch (final BufferUnderflowException e) {
+            throw new IllegalArgumentException("Invalid URL encoding: Incomplete trailing escape (%) pattern");
+          }
+        }
+        else {
+          out.put((byte)b);
+        }
+      }
+
+      out.flip();
+      return Charset.forName(enc).decode(out).toString();
+    }
+
+    return value;
+  }
+
+  private static int digit16(final byte b) {
+    final int d = Character.digit((char)b, RADIX);
+    if (d == -1)
+      throw new IllegalArgumentException("Invalid URL encoding: not a valid digit (radix " + RADIX + "): " + b);
+
+    return d;
+  }
+
+  private static String componentEncode(final String reservedChars, final String value) {
+    final StringBuilder buffer = new StringBuilder();
+    final StringBuilder bufferToEncode = new StringBuilder();
+
+    for (int i = 0; i < value.length(); i++) {
+      final char ch = value.charAt(i);
+      if (reservedChars.indexOf(ch) != -1) {
+        if (bufferToEncode.length() > 0) {
+          buffer.append(urlEncode(bufferToEncode.toString()));
+          bufferToEncode.setLength(0);
+        }
+
+        buffer.append(ch);
+      }
+      else {
+        bufferToEncode.append(ch);
+      }
+    }
+
+    if (bufferToEncode.length() > 0)
+      buffer.append(urlEncode(bufferToEncode.toString()));
+
+    return buffer.toString();
+  }
+
+  private static final String PATH_RESERVED_CHARACTERS = "=@/:!$&\'(),;~";
+
+  public static String pathEncode(final String value) {
+    String result = componentEncode(PATH_RESERVED_CHARACTERS, value);
+    // URLEncoder will encode '+' to %2B but will turn ' ' into '+'
+    // We need to retain '+' and encode ' ' as %20
+    if (result.indexOf('+') != -1)
+      result = result.replace("+", "%20");
+
+    if (result.indexOf("%2B") != -1)
+      result = result.replace("%2B", "+");
+
+    return result;
+  }
+
+  /**
+   * URL path segments may contain '+' symbols which should not be decoded into ' '
+   * This method replaces '+' with %2B and delegates to URLDecoder
+   *
+   * @param value
+   *          The value to decode.
+   */
+  public static String pathDecode(final String value) {
+    return decode(value, StandardCharsets.UTF_8.name(), true);
   }
 
   private URLs() {

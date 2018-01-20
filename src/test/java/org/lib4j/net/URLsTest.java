@@ -184,4 +184,49 @@ public class URLsTest {
     Assert.assertTrue(URLs.getLastModified(new File("").toURI().toURL()) > 0);
     Assert.assertTrue(URLs.getLastModified(new URL("http://www.dot.ca.gov/hq/roadinfo/Hourly")) > 0);
   }
+
+  @Test
+  public void testUrlDecode() {
+    Assert.assertEquals("+ ", URLs.decode("%2B+"));
+  }
+
+  @Test
+  public void testUrlEncode() {
+    Assert.assertEquals("%2B+", URLs.urlEncode("+ "));
+  }
+
+  @Test
+  public void testPathEncode() {
+    // rfc3986.txt 3.3
+    // segment-nz = 1*pchar
+    // pchar = unreserved / pct-encoded / sub-delims / ":" / "@"
+    // sub-delims = "!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" / "="
+    // unreserved = ALPHA / DIGIT / "-" / "." / "_" / "~"
+
+    // '&' has to be represented as &amp; in WADL
+
+    final String pathChars = ":@!$&'()*+,;=-._~";
+    final String str = URLs.pathEncode(pathChars);
+    Assert.assertEquals(str, pathChars);
+  }
+
+  @Test
+  public void testPathEncodeWithPlusAndSpace() {
+    Assert.assertEquals("+%20", URLs.pathEncode("+ "));
+  }
+
+  @Test
+  public void testURLEncode() {
+    Assert.assertEquals("%2B+", URLs.urlEncode("+ "));
+  }
+
+  @Test
+  public void testUrlDecodeReserved() {
+    Assert.assertEquals("!$&'()*,;=", URLs.decode("!$&'()*,;="));
+  }
+
+  @Test
+  public void testPathDecode() {
+    Assert.assertEquals("+++", URLs.pathDecode("+%2B+"));
+  }
 }
