@@ -40,7 +40,7 @@ public abstract class AuthScheme {
       return instance;
 
     try {
-      instances.put(scheme, instance = scheme.getConstructor().newInstance());
+      instances.put(scheme, instance = scheme.getDeclaredConstructor().newInstance());
       return instance;
     }
     catch (final IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
