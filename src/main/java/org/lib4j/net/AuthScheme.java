@@ -16,34 +16,52 @@
 
 package org.lib4j.net;
 
-import java.util.Base64;
+import java.lang.reflect.InvocationTargetException;
+import java.util.IdentityHashMap;
+import java.util.Map;
 
-import org.lib4j.security.Credentials;
+public abstract class AuthScheme {
+  @SafeVarargs
+  public static AuthScheme parse(final String authorization, final Class<? extends AuthScheme> ... schemes) {
+    for (final Class<? extends AuthScheme> scheme : schemes) {
+      final AuthScheme instance = getInstance(scheme);
+      if (instance.matches(authorization))
+        return instance.decode(authorization);
+    }
 
-public abstract class AuthScheme extends Credentials {
-  private static final long serialVersionUID = 932674160324133452L;
-
-  public AuthScheme(final String username, final String password) {
-    super(username, password);
+    return null;
   }
 
-  public static AuthScheme parseBasicAuthHeader(final String authorization) {
+  private static final Map<Class<? extends AuthScheme>,AuthScheme> instances = new IdentityHashMap<Class<? extends AuthScheme>,AuthScheme>();
+
+  private static AuthScheme getInstance(final Class<? extends AuthScheme> scheme) {
+    AuthScheme instance = instances.get(scheme);
+    if (instance != null)
+      return instance;
+
+    try {
+      instances.put(scheme, instance = scheme.getConstructor().newInstance());
+      return instance;
+    }
+    catch (final IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
+      throw new UnsupportedOperationException(e);
+    }
+  }
+
+  public final boolean matches(final String authorization) {
+    return authorization != null && authorization.startsWith(name() + " ");
+  }
+
+  public AuthScheme parse(final String authorization) {
     if (authorization == null)
       return null;
 
-    final boolean isBasic;
-    if (authorization.startsWith("Basic "))
-      isBasic = true;
-    else if (authorization.startsWith("Bearer "))
-      isBasic = false;
-    else
-      throw new IllegalArgumentException("Auth header is expected to be 'Basic' or 'Bearer', but was found to be: '" + authorization + "'");
+    if (!authorization.startsWith(name() + " "))
+      throw new IllegalArgumentException("Authorization header is expected to be type '" + name() + "', but was found to be: '" + authorization + "'");
 
-    final String login = new String(Base64.getDecoder().decode(authorization.substring(isBasic ? 6 : 7)));
-    final int index = login.indexOf(":");
-    if (index == -1)
-      throw new IllegalArgumentException("Auth header is malformed: missing ':'");
-
-    return isBasic ? new Basic(login.substring(0, index), login.substring(index + 1)) : new Bearer(login.substring(0, index), login.substring(index + 1));
+    return decode(authorization);
   }
+
+  public abstract String name();
+  protected abstract AuthScheme decode(final String authorization);
 }
