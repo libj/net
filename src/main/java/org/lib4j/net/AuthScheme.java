@@ -16,6 +16,7 @@
 
 package org.lib4j.net;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.IdentityHashMap;
 import java.util.Map;
@@ -40,7 +41,9 @@ public abstract class AuthScheme {
       return instance;
 
     try {
-      instances.put(scheme, instance = scheme.getDeclaredConstructor().newInstance());
+      final Constructor<? extends AuthScheme> constructor = scheme.getDeclaredConstructor();
+      constructor.setAccessible(true);
+      instances.put(scheme, instance = constructor.newInstance());
       return instance;
     }
     catch (final IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
