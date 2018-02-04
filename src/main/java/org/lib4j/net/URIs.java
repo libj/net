@@ -17,18 +17,8 @@
 package org.lib4j.net;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 public final class URIs {
-  public static URI makeURI(final String uri) {
-    try {
-      return new URI(uri);
-    }
-    catch (final URISyntaxException e) {
-      throw new UnsupportedOperationException(e);
-    }
-  }
-
   public static URI relativize(final URI base, final URI uri) {
     // quick bail-out
     if (!base.isAbsolute() || !uri.isAbsolute())
