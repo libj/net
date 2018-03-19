@@ -24,7 +24,7 @@ public class InetAddresses {
     final StringBuffer buffer = new StringBuffer();
     for (int i = 0; i < bytes.length; i++) {
       if (i > 0)
-        buffer.append(".");
+        buffer.append('.');
 
       buffer.append(bytes[i] & 0xFF);
     }

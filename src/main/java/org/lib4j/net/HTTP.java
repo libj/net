@@ -155,12 +155,12 @@ public final class HTTP {
     for (final Map.Entry<String,String[]> entry : parameters.entrySet()) {
       final String name = entry.getKey();
       final String[] values = entry.getValue();
-      query.append("&");
+      query.append('&');
       final StringBuilder temp = new StringBuilder();
       for (final String value : values) {
-        temp.append("&");
+        temp.append('&');
         temp.append(URLEncoder.encode(name, charset));
-        temp.append("=");
+        temp.append('=');
         temp.append(URLEncoder.encode(value, charset));
       }
 
