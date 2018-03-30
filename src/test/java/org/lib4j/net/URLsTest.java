@@ -182,7 +182,7 @@ public class URLsTest {
     Assert.assertTrue(URLs.getLastModified(Thread.currentThread().getContextClassLoader().getResource(Test.class.getName().replace('.', '/') + ".class")) > 0);
     Assert.assertTrue(URLs.getLastModified(Thread.currentThread().getContextClassLoader().getResource(URLsTest.class.getName().replace('.', '/') + ".class")) > 0);
     Assert.assertTrue(URLs.getLastModified(new File("").toURI().toURL()) > 0);
-    Assert.assertTrue(URLs.getLastModified(new URL("http://www.dot.ca.gov/hq/roadinfo/Hourly")) > 0);
+    Assert.assertTrue(URLs.getLastModified(new URL("http://www.dot.ca.gov/hq/roadinfo/Hourly")) > -1);
   }
 
   @Test
