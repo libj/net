@@ -110,12 +110,12 @@ public final class Mail {
     @Override
     public int hashCode() {
       int hashCode = 17;
-      hashCode *= 31 * hashCode + subject.hashCode();
-      hashCode *= 31 * hashCode + content.hashCode();
-      hashCode *= 31 * hashCode + from.hashCode();
-      hashCode *= 31 * hashCode + (to == null ? 0 : to.hashCode());
-      hashCode *= 31 * hashCode + (cc == null ? 0 : cc.hashCode());
-      hashCode *= 31 * hashCode + (bcc == null ? 0 : bcc.hashCode());
+      hashCode = 31 * hashCode + subject.hashCode();
+      hashCode = 31 * hashCode + content.hashCode();
+      hashCode = 31 * hashCode + from.hashCode();
+      hashCode = 31 * hashCode + (to == null ? 0 : to.hashCode());
+      hashCode = 31 * hashCode + (cc == null ? 0 : cc.hashCode());
+      hashCode = 31 * hashCode + (bcc == null ? 0 : bcc.hashCode());
       return hashCode;
     }
   }

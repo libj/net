@@ -25,7 +25,7 @@ import java.net.URLConnection;
 import org.lib4j.io.input.ReviewableInputStream;
 
 public class CachedURL {
-  protected final URL url;
+  private final URL url;
   private ReviewableInputStream in;
   private URLConnection connection;
 
@@ -61,6 +61,20 @@ public class CachedURL {
 
   public URL toURL() {
     return url;
+  }
+
+  /**
+   * Constructs a string representation of this {@code URL}. The
+   * string is created by calling the {@code toExternalForm}
+   * method of the stream protocol handler for this object.
+   *
+   * @return  a string representation of this object.
+   * @see     URL#URL(String, String,
+   *                  int, String)
+   * @see     URLStreamHandler#toExternalForm(URL)
+   */
+  public String toExternalForm() {
+    return url.toExternalForm();
   }
 
   @Override

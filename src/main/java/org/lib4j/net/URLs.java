@@ -120,7 +120,7 @@ public final class URLs {
   }
 
   public static String toExternalForm(final CachedURL url) throws MalformedURLException {
-    return toExternalForm(url.url);
+    return toExternalForm(url.toURL());
   }
 
   public static String toExternalForm(final URL url) throws MalformedURLException {
@@ -131,7 +131,9 @@ public final class URLs {
       return url.toURI().toASCIIString();
     }
     catch (final URISyntaxException e) {
-      throw new MalformedURLException(url.toString() + e.getMessage());
+      final MalformedURLException exception = new MalformedURLException(url.toString());
+      exception.initCause(e);
+      throw exception;
     }
   }
 
