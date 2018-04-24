@@ -22,11 +22,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.lib4j.io.input.ReviewableInputStream;
+import org.lib4j.io.input.RewindableInputStream;
 
 public class CachedURL {
   private final URL url;
-  private ReviewableInputStream in;
+  private RewindableInputStream in;
   private URLConnection connection;
 
   public CachedURL(final URL url) {
@@ -42,7 +42,7 @@ public class CachedURL {
   }
 
   public synchronized final InputStream openStream() throws IOException {
-    return in == null ? in = new ReviewableInputStream(openConnection().getInputStream()) : in;
+    return in == null ? in = new RewindableInputStream(openConnection().getInputStream()) : in;
   }
 
   public void destroy() throws IOException {
