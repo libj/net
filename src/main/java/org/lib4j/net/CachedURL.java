@@ -37,6 +37,10 @@ public class CachedURL {
     this.url = new URL(spec);
   }
 
+  public CachedURL(final String protocol, final String host, final String file) throws MalformedURLException {
+    this.url = new URL(protocol, host, file);
+  }
+
   public synchronized URLConnection openConnection() throws IOException {
     return connection == null ? connection = url.openConnection() : connection;
   }
