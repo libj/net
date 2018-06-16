@@ -89,9 +89,16 @@ public final class Mail {
       this(subject, content, from, to, null, null);
     }
 
+    /**
+     * Default no-op implementation of success callback.
+     */
     public void success() {
     }
 
+    /**
+     * Default no-op implementation of failure callback.
+     * @param e The <code>MessagingException</code> that led to the failure.
+     */
     public void failure(final MessagingException e) {
     }
 
