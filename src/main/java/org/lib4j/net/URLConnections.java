@@ -30,10 +30,10 @@ public final class URLConnections {
 
   public static void setRequestProperties(final URLConnection urlConnection, final Properties properties) {
     if (urlConnection == null)
-      throw new NullPointerException("urlConnection == null");
+      throw new IllegalArgumentException("urlConnection == null");
 
     if (properties == null)
-      throw new NullPointerException("properties == null");
+      throw new IllegalArgumentException("properties == null");
 
     for (final Map.Entry<Object,Object> entry : properties.entrySet())
       urlConnection.setRequestProperty((String)entry.getKey(), (String)entry.getValue());

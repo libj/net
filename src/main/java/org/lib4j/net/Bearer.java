@@ -24,7 +24,7 @@ public class Bearer extends AuthScheme {
   public Bearer(final String token) {
     this.token = token;
     if (token == null)
-      throw new NullPointerException("token == null");
+      throw new IllegalArgumentException("token == null");
   }
 
   protected Bearer() {

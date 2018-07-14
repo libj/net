@@ -25,11 +25,11 @@ public class Basic extends AuthScheme {
   public Basic(final String username, final String password) {
     this.username = username;
     if (username == null)
-      throw new NullPointerException("username == null");
+      throw new IllegalArgumentException("username == null");
 
     this.password = password;
     if (password == null)
-      throw new NullPointerException("password == null");
+      throw new IllegalArgumentException("password == null");
   }
 
   protected Basic() {

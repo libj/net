@@ -68,15 +68,15 @@ public final class Mail {
     public Message(final String subject, final MimeContent content, final InternetAddress from, final InternetAddress[] to, final InternetAddress[] cc, final InternetAddress[] bcc) {
       this.subject = subject;
       if (subject == null)
-        throw new NullPointerException("subject == null");
+        throw new IllegalArgumentException("subject == null");
 
       this.content = content;
       if (content == null)
-        throw new NullPointerException("content == null");
+        throw new IllegalArgumentException("content == null");
 
       this.from = from;
       if (from == null)
-        throw new NullPointerException("from == null");
+        throw new IllegalArgumentException("from == null");
 
       this.to = to;
       this.cc = cc;
@@ -161,11 +161,11 @@ public final class Mail {
     private Sender(final Protocol protocol, final String host, final int port) {
       this.protocol = protocol;
       if (protocol == null)
-        throw new NullPointerException("protocol == null");
+        throw new IllegalArgumentException("protocol == null");
 
       this.host = host;
       if (host == null)
-        throw new NullPointerException("host == null");
+        throw new IllegalArgumentException("host == null");
 
       this.port = port;
       if (port < 1 || 65535 < port)
