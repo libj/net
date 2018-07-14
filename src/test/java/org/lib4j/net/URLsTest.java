@@ -63,8 +63,8 @@ public class URLsTest {
 
   @Test
   public void testMakeCanonicalUrlFromPath() throws Exception {
-    final Map<URL,String> absolute = new LinkedHashMap<URL,String>();
-    final Map<URL,String[]> relative = new LinkedHashMap<URL,String[]>();
+    final Map<URL,String> absolute = new LinkedHashMap<>();
+    final Map<URL,String[]> relative = new LinkedHashMap<>();
     if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
       absolute.put(new URL("file", "", "/c:/Windows"), "c:\\Windows");
       relative.put(new URL("file", "", "/c:/Windows/system32"), new String[] {"c:\\Windows", "system32"});
@@ -134,7 +134,7 @@ public class URLsTest {
 
   @Test
   public void testCanonicalizeURL() throws Exception {
-    final Map<URL,URL> map = new HashMap<URL,URL>();
+    final Map<URL,URL> map = new HashMap<>();
     map.put(new URL("file:///usr/share"), new URL("file:///usr/share/../share"));
     map.put(new URL("file:///usr/lib"), new URL("file:///usr/share/../share/../lib"));
     map.put(new URL("file:///var"), new URL("file:///usr/share/../share/../lib/../../var"));

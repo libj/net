@@ -136,7 +136,7 @@ public final class Mail {
         System.setProperty("javax.net.debug", "ssl,handshake");
     }
 
-    private static final Map<Sender,Sender> instances = new HashMap<Sender,Sender>();
+    private static final Map<Sender,Sender> instances = new HashMap<>();
 
     public static Sender instance(final Protocol protocol, final String host, final int port) {
       final Sender key = new Sender(protocol, host, port);

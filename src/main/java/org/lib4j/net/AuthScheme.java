@@ -33,7 +33,7 @@ public abstract class AuthScheme {
     return null;
   }
 
-  private static final Map<Class<? extends AuthScheme>,AuthScheme> instances = new IdentityHashMap<Class<? extends AuthScheme>,AuthScheme>();
+  private static final Map<Class<? extends AuthScheme>,AuthScheme> instances = new IdentityHashMap<>();
 
   private static AuthScheme getInstance(final Class<? extends AuthScheme> scheme) {
     AuthScheme instance = instances.get(scheme);
