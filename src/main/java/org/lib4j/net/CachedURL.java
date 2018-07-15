@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLStreamHandler;
 
 import org.lib4j.io.input.RewindableInputStream;
 
@@ -37,8 +38,24 @@ public class CachedURL {
     this.url = new URL(spec);
   }
 
+  public CachedURL(final URL context, final String spec) throws MalformedURLException {
+    this.url = new URL(context, spec);
+  }
+
+  public CachedURL(final URL context, final String spec, final URLStreamHandler handler) throws MalformedURLException {
+    this.url = new URL(context, spec, handler);
+  }
+
   public CachedURL(final String protocol, final String host, final String file) throws MalformedURLException {
     this.url = new URL(protocol, host, file);
+  }
+
+  public CachedURL(final String protocol, final String host, final int port, final String file) throws MalformedURLException {
+    this.url = new URL(protocol, host, port, file);
+  }
+
+  public CachedURL(final String protocol, final String host, final int port, final String file, final URLStreamHandler handler) throws MalformedURLException {
+    this.url = new URL(protocol, host, port, file, handler);
   }
 
   public synchronized URLConnection openConnection() throws IOException {
@@ -68,19 +85,27 @@ public class CachedURL {
   }
 
   /**
-   * Constructs a string representation of this {@code URL}. The
-   * string is created by calling the {@code toExternalForm}
+   * Constructs a string representation of this <code>URL</code>. The
+   * string is created by calling the <code>toExternalForm</code>
    * method of the stream protocol handler for this object.
    *
    * @return  a string representation of this object.
-   * @see     URL#URL(String, String,
-   *                  int, String)
+   * @see     URL#URL(String, String, int, String)
    * @see     URLStreamHandler#toExternalForm(URL)
    */
   public String toExternalForm() {
     return url.toExternalForm();
   }
 
+  /**
+   * Constructs a string representation of this <code>URL</code>. The
+   * string is created by calling the <code>toExternalForm</code>
+   * method of the stream protocol handler for this object.
+   *
+   * @return  a string representation of this object.
+   * @see     URL#URL(String, String, int, String)
+   * @see     URLStreamHandler#toExternalForm(URL)
+   */
   @Override
   public String toString() {
     return url.toString();
