@@ -62,7 +62,7 @@ public class CachedURL {
     return connection == null ? connection = url.openConnection() : connection;
   }
 
-  public synchronized final InputStream openStream() throws IOException {
+  public synchronized InputStream openStream() throws IOException {
     return in == null ? in = new RewindableInputStream(openConnection().getInputStream()) : in;
   }
 
@@ -94,7 +94,7 @@ public class CachedURL {
    * @see     URLStreamHandler#toExternalForm(URL)
    */
   public String toExternalForm() {
-    return url.toExternalForm();
+    return url == null ? "" : url.toExternalForm();
   }
 
   /**
@@ -108,6 +108,6 @@ public class CachedURL {
    */
   @Override
   public String toString() {
-    return url.toString();
+    return url == null ? "" : url.toString();
   }
 }
