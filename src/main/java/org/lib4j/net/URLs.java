@@ -119,10 +119,6 @@ public final class URLs {
     return URLs.canonicalizeURL(makeUrlFromPath(baseURL, path));
   }
 
-  public static String toExternalForm(final CachedURL url) throws MalformedURLException {
-    return toExternalForm(url.toURL());
-  }
-
   public static String toExternalForm(final URL url) throws MalformedURLException {
     if (url == null)
       return null;
@@ -210,6 +206,7 @@ public final class URLs {
    * location. This function works for urls that point to local files,
    * resources in jars, and resources behind HTTP/HTTPS connections. For all
    * other types of urls, this function returns -1.
+   *
    * @param url The location of the resource.
    * @return The last modified timestamp.
    * @throws IOException If an IO connectivity exception occurs.
