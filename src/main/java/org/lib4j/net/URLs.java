@@ -389,6 +389,15 @@ public final class URLs {
     return decode(value, StandardCharsets.UTF_8.name(), true);
   }
 
+  public static File toFile(final URL url) {
+    try {
+      return new File(url.toURI());
+    }
+    catch (final URISyntaxException e) {
+      return new File(url.getPath());
+    }
+  }
+
   private URLs() {
   }
 }
