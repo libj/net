@@ -29,12 +29,6 @@ public final class URLConnections {
   private static final int[] REDIRECT_CODES = new int[] {HttpURLConnection.HTTP_OK, HttpURLConnection.HTTP_MOVED_PERM, HttpURLConnection.HTTP_MOVED_TEMP, HttpURLConnection.HTTP_SEE_OTHER};
 
   public static void setRequestProperties(final URLConnection urlConnection, final Properties properties) {
-    if (urlConnection == null)
-      throw new IllegalArgumentException("urlConnection == null");
-
-    if (properties == null)
-      throw new IllegalArgumentException("properties == null");
-
     for (final Map.Entry<Object,Object> entry : properties.entrySet())
       urlConnection.setRequestProperty((String)entry.getKey(), (String)entry.getValue());
   }
