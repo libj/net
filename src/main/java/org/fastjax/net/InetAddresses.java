@@ -1,4 +1,4 @@
-/* Copyright (c) 2016 FastJAX
+/* Copyright (c) 2015 FastJAX
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -14,31 +14,24 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.lib4j.net;
+package org.fastjax.net;
 
-import java.io.IOException;
-import java.net.ServerSocket;
+import java.net.InetAddress;
 
-public final class Ports {
-  public static int findOpenPort(final int from, final int to) throws IOException {
-    for (int port = from; port < to; port ++) {
-      try (final ServerSocket socket = new ServerSocket(port)) {
-        return socket.getLocalPort();
-      }
-      catch (final IOException e) {
-        continue;
-      }
+public class InetAddresses {
+  public static String toStringIP(final InetAddress address) {
+    final byte[] bytes = address.getAddress();
+    final StringBuffer buffer = new StringBuffer();
+    for (int i = 0; i < bytes.length; i++) {
+      if (i > 0)
+        buffer.append('.');
+
+      buffer.append(bytes[i] & 0xFF);
     }
 
-    throw new IOException("no available port found");
+    return buffer.toString();
   }
 
-  public static int findRandomOpenPort() throws IOException {
-    try (final ServerSocket socket = new ServerSocket(0)) {
-      return socket.getLocalPort();
-    }
-  }
-
-  private Ports() {
+  private InetAddresses() {
   }
 }

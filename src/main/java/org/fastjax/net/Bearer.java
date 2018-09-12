@@ -1,4 +1,4 @@
-/* Copyright (c) 2016 FastJAX
+/* Copyright (c) 2017 FastJAX
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -14,22 +14,34 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.lib4j.net.mail;
+package org.fastjax.net;
 
-public class MimeContent {
-  private final String content;
-  private final String type;
+import java.util.Base64;
 
-  public MimeContent(final String content, final String type) {
-    this.content = content;
-    this.type = type;
+public class Bearer extends AuthScheme {
+  private final String token;
+
+  public Bearer(final String token) {
+    this.token = token;
+    if (token == null)
+      throw new IllegalArgumentException("token == null");
   }
 
-  public String getContent() {
-    return content;
+  protected Bearer() {
+    this.token = null;
   }
 
-  public String getType() {
-    return type;
+  public String getToken() {
+    return this.token;
+  }
+
+  @Override
+  public String name() {
+    return "Bearer";
+  }
+
+  @Override
+  protected Bearer decode(final String authorization) {
+    return new Bearer(new String(Base64.getDecoder().decode(authorization.substring(7))));
   }
 }

@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.lib4j.net.mail;
+package org.fastjax.net.mail;
 
 import java.util.Arrays;
 import java.util.HashMap;

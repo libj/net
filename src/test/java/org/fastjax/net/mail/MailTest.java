@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.lib4j.net.mail;
+package org.fastjax.net.mail;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
@@ -23,8 +23,8 @@ import javax.mail.internet.InternetAddress;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.lib4j.net.mail.Mail;
-import org.lib4j.net.mail.MimeContent;
+import org.fastjax.net.mail.Mail;
+import org.fastjax.net.mail.MimeContent;
 import org.lib4j.security.Credentials;
 
 public class MailTest {

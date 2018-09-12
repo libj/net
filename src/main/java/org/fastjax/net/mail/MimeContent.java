@@ -1,4 +1,4 @@
-/* Copyright (c) 2018 FastJAX
+/* Copyright (c) 2016 FastJAX
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -14,23 +14,22 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.lib4j.net;
+package org.fastjax.net.mail;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+public class MimeContent {
+  private final String content;
+  private final String type;
 
-import org.junit.Assert;
-import org.junit.Test;
+  public MimeContent(final String content, final String type) {
+    this.content = content;
+    this.type = type;
+  }
 
-public class URIsTest {
-  @Test
-  public void testRelativize() throws URISyntaxException {
-    // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6226081
-    final URI a = new URI("file:/c:/abc/def/myDocument/doc.xml");
-    final URI b = new URI("file:/c:/abc/def/images/subdir/image.png");
+  public String getContent() {
+    return content;
+  }
 
-    final URI c = URIs.relativize(a, b);
-
-    Assert.assertEquals("../images/subdir/image.png", c.toString());
+  public String getType() {
+    return type;
   }
 }

@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.lib4j.net;
+package org.fastjax.net;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

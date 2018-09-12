@@ -1,4 +1,4 @@
-/* Copyright (c) 2017 FastJAX
+/* Copyright (c) 2018 FastJAX
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -14,34 +14,23 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.lib4j.net;
+package org.fastjax.net;
 
-import java.util.Base64;
+import java.net.URI;
+import java.net.URISyntaxException;
 
-public class Bearer extends AuthScheme {
-  private final String token;
+import org.junit.Assert;
+import org.junit.Test;
 
-  public Bearer(final String token) {
-    this.token = token;
-    if (token == null)
-      throw new IllegalArgumentException("token == null");
-  }
+public class URIsTest {
+  @Test
+  public void testRelativize() throws URISyntaxException {
+    // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6226081
+    final URI a = new URI("file:/c:/abc/def/myDocument/doc.xml");
+    final URI b = new URI("file:/c:/abc/def/images/subdir/image.png");
 
-  protected Bearer() {
-    this.token = null;
-  }
+    final URI c = URIs.relativize(a, b);
 
-  public String getToken() {
-    return this.token;
-  }
-
-  @Override
-  public String name() {
-    return "Bearer";
-  }
-
-  @Override
-  protected Bearer decode(final String authorization) {
-    return new Bearer(new String(Base64.getDecoder().decode(authorization.substring(7))));
+    Assert.assertEquals("../images/subdir/image.png", c.toString());
   }
 }
