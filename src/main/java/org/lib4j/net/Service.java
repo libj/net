@@ -18,7 +18,7 @@ package org.lib4j.net;
 
 import java.util.Collection;
 
-import org.lib4j.util.Collections;
+import org.fastjax.util.Collections;
 
 public class Service {
   /** Official service name */

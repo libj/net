@@ -31,8 +31,8 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-import org.lib4j.util.Paths;
-import org.lib4j.util.Strings;
+import org.fastjax.util.Paths;
+import org.fastjax.util.Strings;
 
 public final class URLs {
   public static final String REGEX = "^([a-z][a-z0-9+\\-.]*):(\\/\\/([a-z0-9\\-._~%!$&amp;'()*+,;=]+@)?([a-z0-9\\-._~%]+|\\[[a-f0-9:.]+\\]|\\[v[a-f0-9][a-z0-9\\-._~%!$&amp;'()*+,;=:]+\\])(:[0-9]+)?(\\/[a-z0-9\\-._~%!$&amp;'()*+,;=:@]+)*\\/?|(\\/?[a-z0-9\\-._~%!$&amp;'()*+,;=:@]+(\\/[a-z0-9\\-._~%!$&amp;'()*+,;=:@]+)*\\/?)?)(\\?[a-z0-9\\-._~%!$&amp;'()*+,;=:@/?]*)?(#[a-z0-9\\-._~%!$&amp;'()*+,;=:@/?]*)?$";
