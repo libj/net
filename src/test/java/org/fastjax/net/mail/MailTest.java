@@ -25,7 +25,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.fastjax.net.mail.Mail;
 import org.fastjax.net.mail.MimeContent;
-import org.lib4j.security.Credentials;
+import org.fastjax.security.Credentials;
 
 public class MailTest {
   private int successCount = 0;

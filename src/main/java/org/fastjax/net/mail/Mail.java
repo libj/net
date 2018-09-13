@@ -31,7 +31,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.net.ssl.SSLSocketFactory;
 
-import org.lib4j.security.Credentials;
+import org.fastjax.security.Credentials;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
