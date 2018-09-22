@@ -18,18 +18,29 @@ package org.fastjax.net;
 
 import java.net.InetAddress;
 
+/**
+ * Utility methods to {@link InetAddress}.
+ */
 public class InetAddresses {
+  /**
+   * Returns the decimal representation of the IP of an {@code InetAddress}
+   * <p>
+   * (i.e. where each number is specified as a value in the range 0-255)
+   *
+   * @param address The {@code InetAddress}.
+   * @return The decimal representation of the IP of an {@code InetAddress}.
+   */
   public static String toStringIP(final InetAddress address) {
     final byte[] bytes = address.getAddress();
-    final StringBuffer buffer = new StringBuffer();
-    for (int i = 0; i < bytes.length; i++) {
+    final StringBuilder builder = new StringBuilder();
+    for (int i = 0; i < bytes.length; ++i) {
       if (i > 0)
-        buffer.append('.');
+        builder.append('.');
 
-      buffer.append(bytes[i] & 0xFF);
+      builder.append(bytes[i] & 0xFF);
     }
 
-    return buffer.toString();
+    return builder.toString();
   }
 
   private InetAddresses() {
