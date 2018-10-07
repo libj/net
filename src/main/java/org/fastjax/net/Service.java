@@ -18,7 +18,7 @@ package org.fastjax.net;
 
 import java.util.Collection;
 
-import org.fastjax.util.Collections;
+import org.fastjax.util.FastCollections;
 
 public class Service {
   /** Official service name */
@@ -49,7 +49,7 @@ public class Service {
 
   @Override
   public String toString() {
-    final String alias = Collections.toString(aliases, "\", \"");
+    final String alias = FastCollections.toString(aliases, "\", \"");
     return "{\n  name: \"" + serviceName + "\",\n  port: " + port + ",\n  aliases: [" + (alias.length() > 0 ? "\"" + alias + "\"" : "") + "]\n}";
   }
 }

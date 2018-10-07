@@ -16,116 +16,83 @@
 
 package org.fastjax.net;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URLConnection;
 
 import javax.servlet.http.HttpServletResponse;
 
 public final class Downloads {
   /**
-   * Send the given file as a byte array to the servlet response. If attachment is set to true,
-   * then show a "Save as" dialogue, else show the file inline in the browser or let the
-   * operating system open it in the right application.
-   * @param response The HttpServletResponse to be used.
+   * Send the given file as a byte array to the servlet response. If attachment
+   * is set to true, then show a "Save as" dialogue, else show the file inline
+   * in the browser or let the operating system open it in the right
+   * application.
+   *
+   * @param response The {@code HttpServletResponse}.
    * @param bytes The file contents in a byte array.
    * @param fileName The file name.
-   * @param attachment Download as attachment?
+   * @param attachment If {@code true}, "Content-Disposition" will be
+   *          "attachment"; otherwise, "inline".
+   * @throws IOException If an I/O error has occurred.
    */
-  public static void downloadFile(final HttpServletResponse response, final byte[] bytes, String fileName, final boolean attachment) throws IOException {
-    // Wrap the byte array in a ByteArrayInputStream and pass it through another method.
-    downloadFile(response, new ByteArrayInputStream(bytes), fileName, attachment);
+  public static void downloadFile(final HttpServletResponse response, final byte[] bytes, final String fileName, final boolean attachment) throws IOException {
+    try (final InputStream input = new ByteArrayInputStream(bytes)) {
+      downloadFile(response, input, fileName, attachment);
+    }
   }
 
   /**
-   * Send the given file as a File object to the servlet response. If attachment is set to true,
-   * then show a "Save as" dialogue, else show the file inline in the browser or let the
-   * operating system open it in the right application.
-   * @param response The HttpServletResponse to be used.
+   * Send the given file as a File object to the servlet response. If attachment
+   * is set to true, then show a "Save as" dialogue, else show the file inline
+   * in the browser or let the operating system open it in the right
+   * application.
+   *
+   * @param response The {@code HttpServletResponse}.
    * @param file The file as a File object.
-   * @param attachment Download as attachment?
+   * @param attachment If {@code true}, "Content-Disposition" will be
+   *          "attachment"; otherwise, "inline".
+   * @throws IOException If an I/O error has occurred.
    */
-  @SuppressWarnings("resource")
   public static void downloadFile(final HttpServletResponse response, final File file, final boolean attachment) throws IOException {
-    // Prepare stream.
-    BufferedInputStream input = null;
-    try {
-      // Wrap the file in a BufferedInputStream and pass it through another method.
-      input = new BufferedInputStream(new FileInputStream(file));
-      downloadFile(response, input, file.getName(), attachment);
-    }
-    finally {
-      // Gently close stream.
-      if (input != null) {
-        try {
-          input.close();
-        }
-        catch (final IOException e) {
-          final String message = "Closing file " + file.getPath() + " failed.";
-          // Do your thing with the exception and the message. Print it, log it or mail it.
-          System.err.println(message);
-          e.printStackTrace();
-        }
-      }
+    try (final InputStream in = new FileInputStream(file)) {
+      downloadFile(response, in, file.getName(), attachment);
     }
   }
 
   /**
-   * Send the given file as an InputStream to the servlet response. If attachment is set to true,
-   * then show a "Save as" dialogue, else show the file inline in the browser or let the
-   * operating system open it in the right application.
-   * @param response The HttpServletResponse to be used.
+   * Send the given file as an InputStream to the servlet response. If
+   * attachment is set to true, then show a "Save as" dialogue, else show the
+   * file inline in the browser or let the operating system open it in the right
+   * application.
+   *
+   * @param response The {@code HttpServletResponse}.
    * @param input The file contents in an InputStream.
    * @param fileName The file name.
-   * @param attachment Download as attachment?
+   * @param attachment If {@code true}, "Content-Disposition" will be
+   *          "attachment"; otherwise, "inline".
+   * @throws IOException If an I/O error has occurred.
    */
-  public static void downloadFile(final HttpServletResponse response, final InputStream input, String fileName, final boolean attachment) throws IOException {
-    // Prepare stream.
-    BufferedOutputStream output = null;
+  public static void downloadFile(final HttpServletResponse response, final InputStream input, final String fileName, final boolean attachment) throws IOException {
+    String contentType = URLConnection.guessContentTypeFromName(fileName);
+    if (contentType == null)
+      contentType = "application/octet-stream";
 
-    try {
-      // Prepare.
-      final String disposition = attachment ? "attachment" : "inline";
-      String contentType = URLConnection.guessContentTypeFromName(fileName);
-      int contentLength = input.available();
+    int contentLength = input.available();
 
-      // If content type is unknown, then set the default value.
-      // For all content types, see: http://www.w3schools.com/media/media_mimeref.asp
-      if (contentType == null)
-        contentType = "application/octet-stream";
-
-      // Init servlet response.
-      response.reset();
-      response.setContentLength(contentLength);
-      response.setContentType(contentType);
-      response.setHeader("Content-disposition", disposition + "; filename=\"" + fileName + "\"");
-      output = new BufferedOutputStream(response.getOutputStream());
-
-      // Write file contents to response.
+    response.reset();
+    response.setContentLength(contentLength);
+    response.setContentType(contentType);
+    response.setHeader("Content-disposition", (attachment ? "attachment" : "inline") + "; filename=\"" + fileName + "\"");
+    try (final OutputStream out = response.getOutputStream()) {
       while (contentLength-- > 0)
-        output.write(input.read());
+        out.write(input.read());
 
-      // Finalize task.
-      output.flush();
-    }
-    finally {
-      // Gently close stream.
-      if (output != null) {
-        try {
-          output.close();
-        }
-        catch (final IOException e) {
-          final String message = "Closing HttpServletResponse#getOutputStream() failed.";
-          // Do your thing with the exception and the message. Print it, log it or mail it.
-          System.err.println(message);
-          e.printStackTrace();
-        }
-      }
+      out.flush();
     }
   }
 

@@ -19,7 +19,7 @@ package org.fastjax.net;
 import java.net.InetAddress;
 
 /**
- * Utility methods to {@link InetAddress}.
+ * Utility methods for {@link InetAddress}.
  */
 public class InetAddresses {
   /**

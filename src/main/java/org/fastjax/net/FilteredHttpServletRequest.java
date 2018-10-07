@@ -40,105 +40,111 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.Part;
 
-public class MockHttpServletRequest implements HttpServletRequest {
+public class FilteredHttpServletRequest implements HttpServletRequest {
+  protected HttpServletRequest request;
+
+  public FilteredHttpServletRequest(final HttpServletRequest request) {
+    this.request = request;
+  }
+
   @Override
   public Object getAttribute(final String name) {
-    throw new UnsupportedOperationException();
+    return request.getAttribute(name);
   }
 
   @Override
   public Enumeration<String> getAttributeNames() {
-    throw new UnsupportedOperationException();
+    return request.getAttributeNames();
   }
 
   @Override
   public String getCharacterEncoding() {
-    throw new UnsupportedOperationException();
+    return request.getCharacterEncoding();
   }
 
   @Override
   public void setCharacterEncoding(final String env) throws UnsupportedEncodingException {
-    throw new UnsupportedOperationException();
+    request.setCharacterEncoding(env);
   }
 
   @Override
   public int getContentLength() {
-    throw new UnsupportedOperationException();
+    return request.getContentLength();
   }
 
   @Override
   public long getContentLengthLong() {
-    throw new UnsupportedOperationException();
+    return request.getContentLengthLong();
   }
 
   @Override
   public String getContentType() {
-    throw new UnsupportedOperationException();
+    return request.getContentType();
   }
 
   @Override
   public ServletInputStream getInputStream() throws IOException {
-    throw new UnsupportedOperationException();
+    return request.getInputStream();
   }
 
   @Override
   public String getParameter(final String name) {
-    throw new UnsupportedOperationException();
+    return request.getParameter(name);
   }
 
   @Override
   public Enumeration<String> getParameterNames() {
-    throw new UnsupportedOperationException();
+    return request.getParameterNames();
   }
 
   @Override
   public String[] getParameterValues(final String name) {
-    throw new UnsupportedOperationException();
+    return request.getParameterValues(name);
   }
 
   @Override
   public Map<String,String[]> getParameterMap() {
-    throw new UnsupportedOperationException();
+    return request.getParameterMap();
   }
 
   @Override
   public String getProtocol() {
-    throw new UnsupportedOperationException();
+    return request.getProtocol();
   }
 
   @Override
   public String getScheme() {
-    throw new UnsupportedOperationException();
+    return request.getScheme();
   }
 
   @Override
   public String getServerName() {
-    throw new UnsupportedOperationException();
+    return request.getServerName();
   }
 
   @Override
   public int getServerPort() {
-    throw new UnsupportedOperationException();
+    return request.getServerPort();
   }
 
   @Override
   public BufferedReader getReader() throws IOException {
-    throw new UnsupportedOperationException();
+    return request.getReader();
   }
 
   @Override
   public String getRemoteAddr() {
-    throw new UnsupportedOperationException();
+    return request.getRemoteAddr();
   }
 
   @Override
   public String getRemoteHost() {
-    throw new UnsupportedOperationException();
+    return request.getRemoteHost();
   }
 
   @Override
   public void setAttribute(final String name, final Object o) {
-    throw new UnsupportedOperationException();
+    request.setAttribute(name, o);
   }
 
   @Override
@@ -148,12 +154,12 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
   @Override
   public Locale getLocale() {
-    throw new UnsupportedOperationException();
+    return request.getLocale();
   }
 
   @Override
   public Enumeration<Locale> getLocales() {
-    throw new UnsupportedOperationException();
+    return request.getLocales();
   }
 
   @Override
@@ -163,37 +169,38 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
   @Override
   public RequestDispatcher getRequestDispatcher(final String path) {
-    throw new UnsupportedOperationException();
+    return request.getRequestDispatcher(path);
   }
 
   @Override
+  @Deprecated
   public String getRealPath(final String path) {
-    throw new UnsupportedOperationException();
+    return request.getRealPath(path);
   }
 
   @Override
   public int getRemotePort() {
-    throw new UnsupportedOperationException();
+    return request.getRemotePort();
   }
 
   @Override
   public String getLocalName() {
-    throw new UnsupportedOperationException();
+    return request.getLocalName();
   }
 
   @Override
   public String getLocalAddr() {
-    throw new UnsupportedOperationException();
+    return request.getLocalAddr();
   }
 
   @Override
   public int getLocalPort() {
-    throw new UnsupportedOperationException();
+    return request.getLocalPort();
   }
 
   @Override
   public ServletContext getServletContext() {
-    throw new UnsupportedOperationException();
+    return request.getServletContext();
   }
 
   @Override
@@ -218,77 +225,77 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
   @Override
   public AsyncContext getAsyncContext() {
-    throw new UnsupportedOperationException();
+    return request.getAsyncContext();
   }
 
   @Override
   public DispatcherType getDispatcherType() {
-    throw new UnsupportedOperationException();
+    return request.getDispatcherType();
   }
 
   @Override
   public String getAuthType() {
-    throw new UnsupportedOperationException();
+    return request.getAuthType();
   }
 
   @Override
   public Cookie[] getCookies() {
-    throw new UnsupportedOperationException();
+    return request.getCookies();
   }
 
   @Override
   public long getDateHeader(final String name) {
-    throw new UnsupportedOperationException();
+    return request.getDateHeader(name);
   }
 
   @Override
   public String getHeader(final String name) {
-    throw new UnsupportedOperationException();
+    return request.getHeader(name);
   }
 
   @Override
   public Enumeration<String> getHeaders(final String name) {
-    throw new UnsupportedOperationException();
+    return request.getHeaders(name);
   }
 
   @Override
   public Enumeration<String> getHeaderNames() {
-    throw new UnsupportedOperationException();
+    return request.getHeaderNames();
   }
 
   @Override
   public int getIntHeader(final String name) {
-    throw new UnsupportedOperationException();
+    return request.getIntHeader(name);
   }
 
   @Override
   public String getMethod() {
-    throw new UnsupportedOperationException();
+    return request.getMethod();
   }
 
   @Override
   public String getPathInfo() {
-    throw new UnsupportedOperationException();
+    return request.getPathInfo();
   }
 
   @Override
   public String getPathTranslated() {
-    throw new UnsupportedOperationException();
+    return request.getPathTranslated();
   }
 
   @Override
   public String getContextPath() {
-    throw new UnsupportedOperationException();
+    return request.getContextPath();
   }
 
   @Override
   public String getQueryString() {
-    throw new UnsupportedOperationException();
+    return request.getQueryString();
   }
 
   @Override
   public String getRemoteUser() {
-    throw new UnsupportedOperationException();
+    return request.getRemoteUser();
   }
 
   @Override
@@ -298,37 +305,37 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
   @Override
   public Principal getUserPrincipal() {
-    throw new UnsupportedOperationException();
+    return request.getUserPrincipal();
   }
 
   @Override
   public String getRequestedSessionId() {
-    throw new UnsupportedOperationException();
+    return request.getRequestedSessionId();
   }
 
   @Override
   public String getRequestURI() {
-    throw new UnsupportedOperationException();
+    return request.getRequestURI();
   }
 
   @Override
   public StringBuffer getRequestURL() {
-    throw new UnsupportedOperationException();
+    return request.getRequestURL();
   }
 
   @Override
   public String getServletPath() {
-    throw new UnsupportedOperationException();
+    return request.getServletPath();
   }
 
   @Override
   public HttpSession getSession(final boolean create) {
-    throw new UnsupportedOperationException();
+    return request.getSession();
   }
 
   @Override
   public HttpSession getSession() {
-    throw new UnsupportedOperationException();
+    return request.getSession();
   }
 
   @Override
@@ -373,12 +380,12 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
   @Override
   public Collection<Part> getParts() throws IOException, ServletException {
-    throw new UnsupportedOperationException();
+    return request.getParts();
   }
 
   @Override
   public Part getPart(final String name) throws IOException, ServletException {
-    throw new UnsupportedOperationException();
+    return request.getPart(name);
   }
 
   @Override

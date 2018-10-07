@@ -24,7 +24,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.fastjax.util.Collections;
+import org.fastjax.util.FastCollections;
 
 /**
  * Utility methods for management of cookies in {@link HttpServletRequest}s and
@@ -72,9 +72,10 @@ public final class Cookies {
 
   /**
    * Remove the cookie in the {@code response} with the provided {@code name}.
+   * <p>
+   * The cookie expiration interval is set to zero, resulting in the cookie
+   * being expired immediately.
    *
-   * @implSpec The cookie expiration interval is set to zero, resulting in the
-   *           cookie being expired immediately.
    * @param response The HttpServletResponse to be used.
    * @param name The cookie name of the cookie to be removed.
    */
@@ -92,7 +93,7 @@ public final class Cookies {
    *         {@code cookies}.
    */
   public static Map.Entry<String,String> createCookieHeader(final Collection<String> cookies) {
-    return new AbstractMap.SimpleEntry<>("Cookie", Collections.toString(cookies, ";"));
+    return new AbstractMap.SimpleEntry<>("Cookie", FastCollections.toString(cookies, ";"));
   }
 
   private Cookies() {

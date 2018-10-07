@@ -22,9 +22,9 @@ import java.net.URLEncoder;
 
 public final class URIComponent {
   /**
-   * Decodes the passed UTF-8 String using a specification that's compatible with
-   * JavaScript's <code>decodeURIComponent</code> function. Returns
-   * <code>null</code> if the String is <code>null</code>.
+   * Decodes the passed UTF-8 String using a specification that's compatible
+   * with JavaScript's {@code decodeURIComponent} function. Returns {@code null}
+   * if the String is {@code null}.
    *
    * @param uri The UTF-8 encoded String to be decoded
    * @return the decoded String
@@ -40,14 +40,14 @@ public final class URIComponent {
 
   /**
    * Decodes the passed String using a specification that's compatible with
-   * JavaScript's <code>decodeURIComponent</code> function. Returns
-   * <code>null</code> if the String is <code>null</code>.
+   * JavaScript's {@code decodeURIComponent} function. Returns {@code null} if
+   * the String is {@code null}.
    *
-   * @param uri The encoded String to be decoded
-   * @param encoding The name of a supported
-   *    <a href="../lang/package-summary.html#charenc">character
-   *    encoding</a>.
-   * @return the decoded String
+   * @param uri The encoded String to be decoded.
+   * @param encoding The name of a supported character encoding.
+   * @return The decoded String.
+   * @throws UnsupportedEncodingException If character encoding needs to be
+   *           consulted, but named character encoding is not supported.
    */
   public static String decode(final String uri, final String encoding) throws UnsupportedEncodingException {
     return uri != null ? URLDecoder.decode(uri, encoding) : null;
@@ -55,8 +55,8 @@ public final class URIComponent {
 
   /**
    * Encodes the passed String as UTF-8 using a specification that's compatible
-   * with JavaScript's <code>encodeURIComponent</code> function. Returns
-   * <code>null</code> if the String is <code>null</code>.
+   * with JavaScript's {@code encodeURIComponent} function. Returns {@code null}
+   * if the String is {@code null}.
    *
    * @param uri The String to be encoded
    * @return the encoded String
@@ -71,15 +71,15 @@ public final class URIComponent {
   }
 
   /**
-   * Encodes the passed String using a specification that's compatible
-   * with JavaScript's <code>encodeURIComponent</code> function. Returns
-   * <code>null</code> if the String is <code>null</code>.
+   * Encodes the passed String using a specification that's compatible with
+   * JavaScript's {@code encodeURIComponent} function. Returns {@code null} if
+   * the String is {@code null}.
    *
-   * @param uri The String to be encoded
-   * @param encoding The name of a supported
-   *    <a href="../lang/package-summary.html#charenc">character
-   *    encoding</a>.
-   * @return the encoded String
+   * @param uri The String to be encoded.
+   * @param encoding The name of a supported character encoding.
+   * @return The encoded String.
+   * @throws UnsupportedEncodingException If character encoding needs to be
+   *           consulted, but named character encoding is not supported.
    */
   public static String encode(final String uri, final String encoding) throws UnsupportedEncodingException {
     return uri != null ? URLEncoder.encode(uri, encoding).replace("+", "%20") : null; //.replace("%21", "!").replace("%27", "'").replace("%28", "(").replace("%29", ")").replace("%7E", "~") : null;

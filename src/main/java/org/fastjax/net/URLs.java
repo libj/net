@@ -205,13 +205,13 @@ public final class URLs {
 
   /**
    * Get last modified timestamp of the resource at the <code>url</code>
-   * location. This function works for urls that point to local files,
-   * resources in jars, and resources behind HTTP/HTTPS connections. For all
-   * other types of urls, this function returns -1.
+   * location. This function works for urls that point to local files, resources
+   * in jars, and resources behind HTTP/HTTPS connections. For all other types
+   * of urls, this function returns -1.
    *
    * @param url The location of the resource.
    * @return The last modified timestamp.
-   * @throws IOException If an IO connectivity exception occurs.
+   * @throws IOException If an I/O error has occurred.
    */
   public static long getLastModified(final URL url) throws IOException {
     if (URLs.isFile(url))
@@ -381,11 +381,13 @@ public final class URLs {
   }
 
   /**
-   * URL path segments may contain '+' symbols which should not be decoded into ' '
-   * This method replaces '+' with %2B and delegates to URLDecoder
+   * Returns the URL-decoded path string.
+   * <p>
+   * URL path segments may contain '+' symbols which should not be decoded into
+   * ' '. This method replaces '+' with %2B and delegates to URLDecoder.
    *
-   * @param value
-   *          The value to decode.
+   * @param value The value to decode.
+   * @return The URL-decoded path string.
    */
   public static String pathDecode(final String value) {
     return decode(value, StandardCharsets.UTF_8.name(), true);
