@@ -97,7 +97,8 @@ public final class Mail {
 
     /**
      * Default no-op implementation of failure callback.
-     * @param e The <code>MessagingException</code> that led to the failure.
+     *
+     * @param e The {@code MessagingException} that led to the failure.
      */
     public void failure(final MessagingException e) {
     }
@@ -213,9 +214,11 @@ public final class Mail {
       final Session session;
       if (credentials != null) {
         properties.put("mail." + protocolString + ".auth", "true");
-        // the following 2 lines were causing "Relaying denied. Proper authentication required." messages from sendmail
+        // the following 2 lines were causing "Relaying denied. Proper
+        // authentication required." messages from sendmail
         // properties.put("mail." + protocolString + ".ehlo", "false");
-        // properties.put("mail." + protocolString + ".user", credentials.getUsername());
+        // properties.put("mail." + protocolString + ".user",
+        // credentials.getUsername());
 
         session = Session.getInstance(properties, new Authenticator() {
           @Override

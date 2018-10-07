@@ -204,10 +204,10 @@ public final class URLs {
   }
 
   /**
-   * Get last modified timestamp of the resource at the <code>url</code>
-   * location. This function works for urls that point to local files, resources
-   * in jars, and resources behind HTTP/HTTPS connections. For all other types
-   * of urls, this function returns -1.
+   * Get last modified timestamp of the resource at the {@code url} location.
+   * This function works for urls that point to local files, resources in jars,
+   * and resources behind HTTP/HTTPS connections. For all other types of urls,
+   * this function returns -1.
    *
    * @param url The location of the resource.
    * @return The last modified timestamp.
