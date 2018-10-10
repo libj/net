@@ -37,6 +37,30 @@ import org.fastjax.util.Strings;
 public final class URLs {
   public static final String REGEX = "^([a-z][a-z0-9+\\-.]*):(\\/\\/([a-z0-9\\-._~%!$&amp;'()*+,;=]+@)?([a-z0-9\\-._~%]+|\\[[a-f0-9:.]+\\]|\\[v[a-f0-9][a-z0-9\\-._~%!$&amp;'()*+,;=:]+\\])(:[0-9]+)?(\\/[a-z0-9\\-._~%!$&amp;'()*+,;=:@]+)*\\/?|(\\/?[a-z0-9\\-._~%!$&amp;'()*+,;=:@]+(\\/[a-z0-9\\-._~%!$&amp;'()*+,;=:@]+)*\\/?)?)(\\?[a-z0-9\\-._~%!$&amp;'()*+,;=:@/?]*)?(#[a-z0-9\\-._~%!$&amp;'()*+,;=:@/?]*)?$";
 
+  /**
+   * Converts an array of {@code File} objects into an array of {@code URL}
+   * objects. {@code File} objects that are {@code null} will be {@code null} in
+   * the resulting {@code URL[]} array.
+   *
+   * @param files The array of {@code File} objects.
+   * @return An array of {@code URL} objects.
+   * @throws IllegalArgumentException If a protocol handler for the URL could
+   *           not be found, or if some other error occurred while constructing
+   *           the URL.
+   */
+  public static URL[] toURL(final File ... files) {
+    try {
+      final URL[] urls = new URL[files.length];
+      for (int i = 0; i < files.length; ++i)
+        urls[i] = files[i].toURI().toURL();
+
+      return urls;
+    }
+    catch (final MalformedURLException e) {
+      throw new IllegalArgumentException(e);
+    }
+  }
+
   private static String formatWindowsPath(final String absolutePath) {
     return absolutePath.replace('\\', '/');
   }
