@@ -16,19 +16,40 @@
 
 package org.fastjax.net.mail;
 
+/**
+ * The {@code MimeContent} represents message content with an associated mime
+ * type.
+ */
 public class MimeContent {
   private final String content;
   private final String type;
 
+  /**
+   * Creates a new {@code MimeContent} with the provided {@code content} and
+   * mime {@code type}.
+   *
+   * @param content The content string.
+   * @param type The mime type string.
+   */
   public MimeContent(final String content, final String type) {
     this.content = content;
     this.type = type;
   }
 
+  /**
+   * Returns the content string.
+   *
+   * @return The content string.
+   */
   public String getContent() {
     return content;
   }
 
+  /**
+   * Returns the type string.
+   *
+   * @return The type string.
+   */
   public String getType() {
     return type;
   }

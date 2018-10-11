@@ -17,8 +17,6 @@
 package org.fastjax.net.mail;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -35,21 +33,32 @@ import org.fastjax.security.Credentials;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class Mail {
+/**
+ * The {@code Mail} class is used to send email via a SMTP(S) server. This
+ * implementation supports a wide configuration requirement set as could be
+ * expected by SMPT(S) servers.
+ */
+public class Mail {
   private static final Logger logger = LoggerFactory.getLogger(Mail.class);
 
+  /**
+   * Enum representing the mail transfer protocol.
+   */
   public static enum Protocol {
     SMTP, SMTPS
   }
 
+  /**
+   * Class representing a email message.
+   */
   public static class Message {
-    private static InternetAddress[] toInternetAddress(final String ... emails) throws AddressException {
-      if (emails == null)
+    private static InternetAddress[] toInternetAddress(final String ... emailAddrs) throws AddressException {
+      if (emailAddrs == null)
         return null;
 
-      final InternetAddress[] addresses = new InternetAddress[emails.length];
-      for (int i = 0; i < emails.length; i++)
-        addresses[i] = new InternetAddress(emails[i]);
+      final InternetAddress[] addresses = new InternetAddress[emailAddrs.length];
+      for (int i = 0; i < emailAddrs.length; i++)
+        addresses[i] = new InternetAddress(emailAddrs[i]);
 
       return addresses;
     }
@@ -61,10 +70,38 @@ public final class Mail {
     public final InternetAddress[] cc;
     public final InternetAddress[] bcc;
 
+    /**
+     * Create a new {@code Message} with the supplied parameters.
+     *
+     * @param subject The subject of the message.
+     * @param content The {@link MimeContent} content.
+     * @param from The "from" {@link InternetAddress}.
+     * @param to A string array of "to" email addresses.
+     * @param cc A string array of "cc" email addresses.
+     * @param bcc A string array of "bcc" email addresses.
+     * @throws AddressException If the parse of an email address failed.
+     * @throws IllegalArgumentException If {@code subject}, {@code content},
+     *           {@code from}, or each of {@code to}, {@code cc}, and
+     *           {@code bcc} are null.
+     */
     public Message(final String subject, final MimeContent content, final InternetAddress from, final String[] to, final String[] cc, final String[] bcc) throws AddressException {
       this(subject, content, from, toInternetAddress(to), toInternetAddress(cc), toInternetAddress(bcc));
     }
 
+    /**
+     * Create a new {@code Message} with the supplied parameters.
+     *
+     * @param subject The subject of the message.
+     * @param content The {@link MimeContent} content.
+     * @param from The "from" {@link InternetAddress}.
+     * @param to A {@link InternetAddress} array of "to" addresses.
+     * @param cc A {@link InternetAddress} array of "cc" addresses.
+     * @param bcc A {@link InternetAddress} array of "bcc" addresses.
+     * @throws AddressException If the parse of an email address failed.
+     * @throws IllegalArgumentException If {@code subject}, {@code content},
+     *           {@code from}, or each of {@code to}, {@code cc}, and
+     *           {@code bcc} are null.
+     */
     public Message(final String subject, final MimeContent content, final InternetAddress from, final InternetAddress[] to, final InternetAddress[] cc, final InternetAddress[] bcc) {
       this.subject = subject;
       if (subject == null)
@@ -82,7 +119,7 @@ public final class Mail {
       this.cc = cc;
       this.bcc = bcc;
       if ((to == null || to.length == 0) && (cc == null || cc.length == 0) && (bcc == null || bcc.length == 0))
-        throw new IllegalArgumentException("(to == null || to.length == 0) && (cc == null || cc.length == 0) && (bcc == null || bcc.length == 0)");
+        throw new IllegalArgumentException("Either \"to\", \"cc\", or \"bcc\" must not be empty");
     }
 
     public Message(final String subject, final MimeContent content, final InternetAddress from, final String ... to) throws AddressException {
@@ -128,7 +165,10 @@ public final class Mail {
     }
   }
 
-  public static final class Sender {
+  /**
+   * Class representing the SMTP(S) sender.
+   */
+  public static class Sender {
     private static final boolean debug;
 
     static {
@@ -137,29 +177,21 @@ public final class Mail {
         System.setProperty("javax.net.debug", "ssl,handshake");
     }
 
-    private static final Map<Sender,Sender> instances = new HashMap<>();
-
-    public static Sender instance(final Protocol protocol, final String host, final int port) {
-      final Sender key = new Sender(protocol, host, port);
-      Sender instance = instances.get(key);
-      if (instance != null)
-        return instance;
-
-      synchronized (instances) {
-        if ((instance = instances.get(key)) != null)
-          return instance;
-
-        instances.put(key, instance = key);
-        return instance;
-      }
-    }
-
     private final Protocol protocol;
     private final String host;
     private final int port;
     private final Properties defaultProperties;
 
-    private Sender(final Protocol protocol, final String host, final int port) {
+    /**
+     * Creates a new {@code Sender} with the specified parameters.
+     *
+     * @param protocol The mail transport {@link Protocol}.
+     * @param host The transport server host.
+     * @param port The transport server port.
+     * @throws IllegalArgumentException If {@code protocol} or {@code host} are
+     *           null, or if {@code port} is outside the range (1, 65535).
+     */
+    public Sender(final Protocol protocol, final String host, final int port) {
       this.protocol = protocol;
       if (protocol == null)
         throw new IllegalArgumentException("protocol == null");
@@ -200,14 +232,43 @@ public final class Mail {
       }
     }
 
+    /**
+     * Send a message with the provided parameters.
+     *
+     * @param credentials The {@link Credentials} to the transport server.
+     * @param subject The subject of the message.
+     * @param content The {@link MimeContent} content.
+     * @param from The "from" {@link InternetAddress}.
+     * @param to A string array of "to" email addresses.
+     * @throws MessagingException If a transport error has occurred.
+     */
     public void send(final Credentials credentials, final String subject, final MimeContent content, final InternetAddress from, final String ... to) throws MessagingException {
       send(credentials, new Message(subject, content, from, to, null, null));
     }
 
+    /**
+     * Send a message with the provided parameters.
+     *
+     * @param credentials The {@link Credentials} to the transport server.
+     * @param subject The subject of the message.
+     * @param content The {@link MimeContent} content.
+     * @param from The "from" {@link InternetAddress}.
+     * @param to A string array of "to" email addresses.
+     * @param cc A string array of "cc" email addresses.
+     * @param bcc A string array of "bcc" email addresses.
+     * @throws MessagingException If a transport error has occurred.
+     */
     public void send(final Credentials credentials, final String subject, final MimeContent content, final InternetAddress from, final String[] to, final String[] cc, final String[] bcc) throws MessagingException {
       send(credentials, new Message(subject, content, from, to, cc, bcc));
     }
 
+    /**
+     * Send {@code messages} with the provided {@link Credentials}.
+     *
+     * @param credentials The {@link Credentials} to the transport server.
+     * @param messages The array of {@link Message} messages.
+     * @throws MessagingException If a transport error has occurred.
+     */
     public void send(final Credentials credentials, final Message ... messages) throws MessagingException {
       final String protocolString = protocol.toString().toLowerCase();
       final Properties properties = new Properties(defaultProperties);
@@ -236,7 +297,7 @@ public final class Mail {
       try {
         transport.connect(host, port, credentials.getUsername(), credentials.getPassword());
         for (final Message message : messages) {
-          logger.info("Sending Email:\n  subject: " + message.subject + "\n       to: " + Arrays.toString(message.to) + (message.cc != null ? "\n       cc: " + Arrays.toString(message.cc) : "") + (message.bcc != null ? "\n      bcc: " + Arrays.toString(message.bcc) : ""));
+          logger.debug("Sending Email:\n  subject: " + message.subject + "\n       to: " + Arrays.toString(message.to) + (message.cc != null ? "\n       cc: " + Arrays.toString(message.cc) : "") + (message.bcc != null ? "\n      bcc: " + Arrays.toString(message.bcc) : ""));
           session.getProperties().setProperty("mail." + protocolString + ".from", message.from.getAddress());
           final MimeMessage mimeMessage = new MimeMessage(session);
 
@@ -261,8 +322,8 @@ public final class Mail {
             message.success();
           }
           catch (final MessagingException e) {
-            logger.error(Mail.class.getName() + ":send()", e);
             message.failure(e);
+            throw e;
           }
         }
       }

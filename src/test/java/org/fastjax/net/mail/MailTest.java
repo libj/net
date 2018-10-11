@@ -20,12 +20,10 @@ import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
+import org.fastjax.security.Credentials;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.fastjax.net.mail.Mail;
-import org.fastjax.net.mail.MimeContent;
-import org.fastjax.security.Credentials;
 
 public class MailTest {
   private int successCount = 0;
@@ -50,7 +48,7 @@ public class MailTest {
   @Ignore
   public void testClient() throws Exception {
     final Credentials smtpCredentials = new Credentials("filehost", "FileH0st");
-    final Mail.Sender sender = Mail.Sender.instance(Mail.Protocol.SMTP, "smtp.safris.com", 465);
+    final Mail.Sender sender = new Mail.Sender(Mail.Protocol.SMTP, "smtp.safris.com", 465);
     final Mail.Message[] messages = new TestMessage[] {
       new TestMessage("test1", new MimeContent("test1", "text/html"), new InternetAddress("seva@safris.org", "org"), "seva.safris@gmail.com"),
       new TestMessage("test2", new MimeContent("test2", "text/html"), new InternetAddress("seva@safris.com", "com"), "safris@berkeley.edu"),
