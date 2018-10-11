@@ -97,7 +97,6 @@ public class Mail {
      * @param to A {@link InternetAddress} array of "to" addresses.
      * @param cc A {@link InternetAddress} array of "cc" addresses.
      * @param bcc A {@link InternetAddress} array of "bcc" addresses.
-     * @throws AddressException If the parse of an email address failed.
      * @throws IllegalArgumentException If {@code subject}, {@code content},
      *           {@code from}, or each of {@code to}, {@code cc}, and
      *           {@code bcc} are null.
