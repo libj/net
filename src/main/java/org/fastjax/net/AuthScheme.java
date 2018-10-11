@@ -21,13 +21,48 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.IdentityHashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * The {@code AuthScheme} class represents a strong type representation of the
+ * "Authorization" header schemes. This class allows an "Authorization" scheme
+ * to be parsed to an instance of {@code AuthScheme}.
+ *
+ * @see Basic
+ * @see Bearer
+ */
 public abstract class AuthScheme {
+  private static final Logger logger = LoggerFactory.getLogger(AuthScheme.class);
+
+  /**
+   * Returns an instance of a {@code AuthScheme} subclass specified in
+   * {@code schemes} that matches the spec of the {@code authorization} header
+   * string.
+   *
+   * @param authorization The "Authorization" header string to match.
+   * @param schemes The array of {@code AuthScheme} classes to attempt to match.
+   * @return An instance of a {@code AuthScheme} subclass specified in
+   *         {@code schemes} that matches the spec of the {@code authorization}
+   *         header string.
+   * @throws UnsupportedOperationException If a {@code AuthScheme} class in
+   *           {@code schemes} does not implement a protected default
+   *           constructor, or if the constructor throws an exception when
+   *           invoked.
+   */
   @SafeVarargs
   public static AuthScheme parse(final String authorization, final Class<? extends AuthScheme> ... schemes) {
     for (final Class<? extends AuthScheme> scheme : schemes) {
       final AuthScheme instance = getInstance(scheme);
-      if (instance.matches(authorization))
-        return instance.decode(authorization);
+      if (instance.matches(authorization)) {
+        try {
+          return instance.decode(authorization);
+        }
+        catch (final Exception e) {
+          logger.debug(e.getMessage(), e);
+          continue;
+        }
+      }
     }
 
     return null;
@@ -51,11 +86,27 @@ public abstract class AuthScheme {
     }
   }
 
+  /**
+   * Returns {@code true} if the {@code authorization} header string matches
+   * this {@code AuthScheme} subclass's implementation.
+   *
+   * @param authorization The "Authorization" header string.
+   * @return {@code true} if the {@code authorization} header string matches
+   *         this {@code AuthScheme} subclass's implementation.
+   */
   public final boolean matches(final String authorization) {
     return authorization != null && authorization.startsWith(name() + " ");
   }
 
-  public AuthScheme parse(final String authorization) {
+  /**
+   * Returns a {@code AuthScheme} instance by parsing the {@code authorization}
+   * header string.
+   *
+   * @param authorization The "Authorization" header string.
+   * @return A {@code AuthScheme} instance by parsing the {@code authorization}
+   *         header string.
+   */
+  public final AuthScheme parse(final String authorization) {
     if (authorization == null)
       return null;
 
@@ -65,6 +116,22 @@ public abstract class AuthScheme {
     return decode(authorization);
   }
 
+  /**
+   * Returns the name of this "Authorization" scheme. For example, "Basic" and
+   * "Bearer" are common "Authorization" header schemes.
+   *
+   * @return The name of this "Authorization" scheme.
+   */
   public abstract String name();
+
+  /**
+   * Returns a {@code AuthScheme} instance by decoding the {@code authorization}
+   * header string. This method is required to be overridden by subclasses
+   * implementing an "Authorization" scheme.
+   *
+   * @param authorization The "Authorization" header string.
+   * @return A {@code AuthScheme} instance by decoding the {@code authorization}
+   *         header string.
+   */
   protected abstract AuthScheme decode(final String authorization);
 }
