@@ -16,12 +16,13 @@
 
 package org.fastjax.net.mail;
 
+import static org.junit.Assert.*;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
 import org.fastjax.security.Credentials;
-import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -40,7 +41,7 @@ public class MailTest {
 
     @Override
     public void failure(final MessagingException e) {
-      Assert.fail(e.getMessage());
+      fail(e.getMessage());
     }
   }
 
@@ -57,6 +58,6 @@ public class MailTest {
 
     sender.send(smtpCredentials, messages);
 
-    Assert.assertEquals(messages.length, successCount);
+    assertEquals(messages.length, successCount);
   }
 }

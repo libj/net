@@ -16,10 +16,11 @@
 
 package org.fastjax.net;
 
+import static org.junit.Assert.*;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 public class URIsTest {
@@ -31,6 +32,6 @@ public class URIsTest {
 
     final URI c = URIs.relativize(a, b);
 
-    Assert.assertEquals("../images/subdir/image.png", c.toString());
+    assertEquals("../images/subdir/image.png", c.toString());
   }
 }
