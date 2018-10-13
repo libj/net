@@ -39,8 +39,8 @@ public final class URLs {
 
   /**
    * Converts an array of {@code File} objects into an array of {@code URL}
-   * objects. {@code File} objects that are {@code null} will be {@code null} in
-   * the resulting {@code URL[]} array.
+   * objects. {@code File} objects that are null will be null in the resulting
+   * {@code URL[]} array.
    *
    * @param files The array of {@code File} objects.
    * @return An array of {@code URL} objects.

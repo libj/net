@@ -23,8 +23,8 @@ import java.net.URLEncoder;
 public final class URIComponent {
   /**
    * Decodes the passed UTF-8 String using a specification that's compatible
-   * with JavaScript's {@code decodeURIComponent} function. Returns {@code null}
-   * if the String is {@code null}.
+   * with JavaScript's {@code decodeURIComponent} function. Returns null if the
+   * String is null.
    *
    * @param uri The UTF-8 encoded String to be decoded
    * @return the decoded String
@@ -40,8 +40,8 @@ public final class URIComponent {
 
   /**
    * Decodes the passed String using a specification that's compatible with
-   * JavaScript's {@code decodeURIComponent} function. Returns {@code null} if
-   * the String is {@code null}.
+   * JavaScript's {@code decodeURIComponent} function. Returns null if the
+   * String is null.
    *
    * @param uri The encoded String to be decoded.
    * @param encoding The name of a supported character encoding.
@@ -55,8 +55,8 @@ public final class URIComponent {
 
   /**
    * Encodes the passed String as UTF-8 using a specification that's compatible
-   * with JavaScript's {@code encodeURIComponent} function. Returns {@code null}
-   * if the String is {@code null}.
+   * with JavaScript's {@code encodeURIComponent} function. Returns null if the
+   * String is null.
    *
    * @param uri The String to be encoded
    * @return the encoded String
@@ -72,8 +72,8 @@ public final class URIComponent {
 
   /**
    * Encodes the passed String using a specification that's compatible with
-   * JavaScript's {@code encodeURIComponent} function. Returns {@code null} if
-   * the String is {@code null}.
+   * JavaScript's {@code encodeURIComponent} function. Returns null if the
+   * String is null.
    *
    * @param uri The String to be encoded.
    * @param encoding The name of a supported character encoding.
