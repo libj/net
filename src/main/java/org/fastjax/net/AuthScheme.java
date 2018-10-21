@@ -87,12 +87,13 @@ public abstract class AuthScheme {
   }
 
   /**
-   * Returns {@code true} if the {@code authorization} header string matches
-   * this {@code AuthScheme} subclass's implementation.
+   * Tests whether the {@code authorization} header string matches this
+   * {@code AuthScheme} subclass's implementation.
    *
    * @param authorization The "Authorization" header string.
    * @return {@code true} if the {@code authorization} header string matches
-   *         this {@code AuthScheme} subclass's implementation.
+   *         this {@code AuthScheme} subclass's implementation; otherwise
+   *         {@code false}.
    */
   public final boolean matches(final String authorization) {
     return authorization != null && authorization.startsWith(name() + " ");
