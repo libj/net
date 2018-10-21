@@ -19,10 +19,8 @@ package org.fastjax.net;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.junit.Test;
@@ -34,89 +32,54 @@ public class URLsTest {
     assertTrue(URLs.isLocal(new URL("file:///c:/path/to/the%20file.txt")));
     assertTrue(URLs.isLocal(new URL("file:///tmp.txt")));
     assertTrue(URLs.isLocal(new URL("jar:file:/root/app.jar!/repository")));
+    assertTrue(URLs.isLocal(new URL("file://localhost/etc/fstab")));
+    assertTrue(URLs.isLocal(new URL("file://localhost/c|/WINDOWS/clock.avi")));
+    assertTrue(URLs.isLocal(new URL("file://localhost/c:/WINDOWS/clock.avi")));
     assertFalse(URLs.isLocal(new URL("http://127.0.0.1:8080/a.properties")));
-    assertFalse(URLs.isLocal(new URL("file://localhost/etc/fstab")));
-    assertFalse(URLs.isLocal(new URL("file://localhost/c|/WINDOWS/clock.avi")));
     assertFalse(URLs.isLocal(new URL("file://hostname/path/to/the%20file.txt")));
     assertFalse(URLs.isLocal(new URL("ftp://user:password@server:80/path")));
     assertFalse(URLs.isLocal(new URL("https://mail.google.com/mail/u/0/?zx=gc46uk9snw66#inbox")));
     assertFalse(URLs.isLocal(new URL("jar:http://www.foo.com/bar/baz.jar!/COM/foo/Quux.class")));
   }
 
-  @Test
-  public void testIsAbsolute() throws Exception {
-    assertTrue(URLs.isAbsolute("c:\\Windows"));
-    assertTrue(URLs.isAbsolute("file:///c:/autoexec.bat"));
-    assertTrue(URLs.isAbsolute("/usr/share"));
-    assertTrue(URLs.isAbsolute("file:///etc/resolv.conf"));
-    assertTrue(URLs.isAbsolute("http://www.google.com/"));
+  public static void assertCanonicalURL(final URL expected, final String path) throws Exception {
+    assertEquals(expected, URLs.toCanonicalURL(path));
+  }
 
-    assertFalse(URLs.isAbsolute(".bashrc"));
-    assertFalse(URLs.isAbsolute("Thumbs.db"));
-
-    try {
-      URLs.isAbsolute(null);
-      fail("Expected a NullPointerException");
-    }
-    catch (final NullPointerException e) {
-    }
+  public static void assertCanonicalURL(final URL expected, final String dir, final String path) throws Exception {
+    assertEquals(expected, URLs.toCanonicalURL(dir, path));
+    assertEquals(expected, URLs.toCanonicalURL(URLs.toURL(dir), path));
   }
 
   @Test
-  public void testMakeCanonicalUrlFromPath() throws Exception {
-    final Map<URL,String> absolute = new LinkedHashMap<>();
-    final Map<URL,String[]> relative = new LinkedHashMap<>();
-    if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
-      absolute.put(new URL("file", "", "/c:/Windows"), "c:\\Windows");
-      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[] {"c:\\Windows", "system32"});
-      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[] {"c:\\Windows", "\\system32"});
-      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[] {"c:\\Windows\\", "system32"});
-      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[] {"c:\\Windows\\", "\\system32"});
-      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[] {"\\c:\\Windows", "system32"});
-      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[] {"\\c:\\Windows", "\\system32"});
-      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[] {"\\c:\\Windows\\", "system32"});
-      relative.put(new URL("file", "", "/c:/Windows/system32"), new String[] {"\\c:\\Windows\\", "\\system32"});
-    }
-    else {
-      absolute.put(new URL("file", "", "/etc/resolv.conf"), "/etc/resolv.conf");
-      absolute.put(new URL("file", "", "/initrd.img"), "initrd.img");
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"", "etc/resolv.conf"});
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"", "/etc/resolv.conf"});
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"etc/resolv.conf", ""});
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"/etc/resolv.conf", ""});
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"etc", "resolv.conf"});
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"etc", "/resolv.conf"});
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"etc/", "resolv.conf"});
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"etc/", "/resolv.conf"});
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"/etc", "resolv.conf"});
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"/etc", "/resolv.conf"});
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"/etc/", "resolv.conf"});
-      relative.put(new URL("file", "", "/etc/resolv.conf"), new String[] {"/etc/", "/resolv.conf"});
-    }
+  public void testToCanonicalURL() throws Exception {
+    assertCanonicalURL(new URL("file", "", "/c:/Windows"), "c:\\Windows");
+    assertCanonicalURL(new URL("file", "", "/c:/Windows/system32"), "c:\\Windows", "system32");
+    assertCanonicalURL(new URL("file", "", "/c:/Windows/system32"), "c:\\Windows", "\\foo\\..\\bar\\..\\system32");
+    assertCanonicalURL(new URL("file", "", "/c:/Windows/system32"), "c:\\Windows\\", "system32");
+    assertCanonicalURL(new URL("file", "", "/c:/Windows/system32"), "c:\\Windows\\", "\\bar\\..\\system32");
 
-    absolute.put(new URL("http://www.google.com/webhp"), "http://www.google.com/webhp");
-    relative.put(new URL("http://www.google.com/webhp"), new String[] {"", "http://www.google.com/webhp"});
-    relative.put(new URL("http://www.google.com/webhp"), new String[] {"http://www.google.com/webhp", ""});
-    relative.put(new URL("http://www.google.com/webhp"), new String[] {"http://www.google.com/", "webhp"});
-    relative.put(new URL("http://www.google.com/webhp"), new String[] {"http://www.google.com", "webhp"});
-    relative.put(new URL("http://www.google.com/webhp"), new String[] {"http://www.google.com", "/webhp"});
-    relative.put(new URL("http://www.google.com/webhp"), new String[] {"http://www.google.com/", "/webhp"});
-    for (final Map.Entry<URL,String> entry : absolute.entrySet())
-      assertEquals(entry.getKey(), URLs.makeCanonicalUrlFromPath(entry.getValue()));
+    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "/etc/resolv.conf");
+    assertCanonicalURL(new URL("file", "", "/initrd.img"), "/initrd.img");
+    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "", "etc/resolv.conf");
+    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "", "/etc/resolv.conf");
+    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "var/../etc/resolv.conf", "");
+    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "/etc/resolv.conf", "");
+    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "etc", "resolv.conf");
+    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "etc", "foo/../resolv.conf");
+    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "etc/", "resolv.conf");
+    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "etc/", "/bar/../foo/../resolv.conf");
+    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "/etc", "resolv.conf");
+    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "/etc", "/resolv.conf");
+    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "/etc/", "resolv.conf");
+    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "/etc/", "/resolv.conf");
 
-    for (final Map.Entry<URL,String[]> entry : relative.entrySet())
-      assertEquals(entry.getKey(), URLs.makeCanonicalUrlFromPath(entry.getValue()[0], entry.getValue()[1]));
-  }
-
-  @Test
-  public void testToExternalForm() throws Exception {
-    assertEquals(URLs.toExternalForm(new URL("http://www.google.com/webhp")), "http://www.google.com/webhp");
-    try {
-      URLs.toExternalForm(new URL("fbiy384ehd"));
-      fail("Expected a MalformedURLException");
-    }
-    catch (final MalformedURLException e) {
-    }
+    assertCanonicalURL(new URL("http://www.google.com/webhp"), "http://www.google.com/webhp");
+    assertCanonicalURL(new URL("http://www.google.com/webhp"), "http://www.google.com/webhp", "");
+    assertCanonicalURL(new URL("http://www.google.com/webhp"), "http://www.google.com/", "webhp");
+    assertCanonicalURL(new URL("http://www.google.com/webhp"), "http://www.google.com", "webhp");
+    assertCanonicalURL(new URL("http://www.google.com/webhp"), "http://www.google.com", "/foo/../bar/../webhp");
+    assertCanonicalURL(new URL("http://www.google.com/webhp"), "http://www.google.com/", "/foo/../webhp");
   }
 
   @Test
@@ -141,14 +104,22 @@ public class URLsTest {
     map.put(new URL("file:///var"), new URL("file:///usr/share/../share/../lib/../../var"));
 
     for (final Map.Entry<URL,URL> entry : map.entrySet())
-      assertEquals(entry.getKey(), URLs.canonicalizeURL(entry.getValue()));
+      assertEquals(entry.getKey(), URLs.canonicalize(entry.getValue()));
 
-    assertNull(URLs.canonicalizeURL(null));
+    assertNull(URLs.canonicalize(null));
+  }
+
+  @Test
+  public void testJarURL() throws Exception {
+    assertNull(URLs.getJarURL(new URL("http://www.google.com/webhp")));
+    assertEquals(new URL("file:///C:/proj/parser/jar/parser.jar"), URLs.getJarURL(new URL("jar:file:///C:/proj/parser/jar/parser.jar!/test.xml")));
+    assertEquals(new URL("file:/root/app.jar"), URLs.getJarURL(new URL("jar:file:/root/app.jar!/repository")));
+    assertEquals(new URL("http://www.foo.com/bar/baz.jar"), URLs.getJarURL(new URL("jar:http://www.foo.com/bar/baz.jar!/COM/foo/Quux.class")));
   }
 
   @Test
   public void testGetName() throws Exception {
-    assertNull(URLs.canonicalizeURL(null));
+    assertNull(URLs.canonicalize(null));
     assertEquals("share.txt", URLs.getName(new URL("file:///usr/share/../share.txt")));
     assertEquals("lib", URLs.getName(new URL("file:///usr/share/../share/../lib")));
     assertEquals("var", URLs.getName(new URL("file:///usr/share/../share/../lib/../../var")));
@@ -157,7 +128,7 @@ public class URLsTest {
 
   @Test
   public void testGetShortName() throws Exception {
-    assertNull(URLs.canonicalizeURL(null));
+    assertNull(URLs.canonicalize(null));
     assertEquals("share", URLs.getShortName(new URL("file:///usr/share/../share")));
     assertEquals("lib", URLs.getShortName(new URL("file:///usr/share/../share/../lib")));
     assertEquals("var", URLs.getShortName(new URL("file:///usr/share/../share/../lib/../../var")));
@@ -167,8 +138,10 @@ public class URLsTest {
   @Test
   public void testGetParent() throws Exception {
     assertNull(URLs.getCanonicalParent(null));
-    assertEquals(new URL("file:///usr/share/.."), URLs.getParent(new URL("file:///usr/share/../share")));
-    assertEquals(new URL("file:///usr/local/bin/../lib/.."), URLs.getParent(new URL("file:///usr/local/bin/../lib/../bin")));
+    assertNull(URLs.getParent(new URL("file:///")));
+    assertEquals(new URL("file:///"), URLs.getParent(new URL("file:///usr/")));
+    assertEquals(new URL("file:///usr/share/../"), URLs.getParent(new URL("file:///usr/share/../share")));
+    assertEquals(new URL("file:///usr/local/bin/../lib/../"), URLs.getParent(new URL("file:///usr/local/bin/../lib/../bin")));
   }
 
   @Test
@@ -193,11 +166,11 @@ public class URLsTest {
 
   @Test
   public void testUrlEncode() {
-    assertEquals("%2B+", URLs.urlEncode("+ "));
+    assertEquals("%2B+", URLs.encode("+ "));
   }
 
   @Test
-  public void testPathEncode() {
+  public void testEncodePath() {
     // rfc3986.txt 3.3
     // segment-nz = 1*pchar
     // pchar = unreserved / pct-encoded / sub-delims / ":" / "@"
@@ -207,18 +180,18 @@ public class URLsTest {
     // '&' has to be represented as &amp; in WADL
 
     final String pathChars = ":@!$&'()*+,;=-._~";
-    final String str = URLs.pathEncode(pathChars);
+    final String str = URLs.encodePath(pathChars);
     assertEquals(str, pathChars);
   }
 
   @Test
   public void testPathEncodeWithPlusAndSpace() {
-    assertEquals("+%20", URLs.pathEncode("+ "));
+    assertEquals("+%20", URLs.encodePath("+ "));
   }
 
   @Test
   public void testURLEncode() {
-    assertEquals("%2B+", URLs.urlEncode("+ "));
+    assertEquals("%2B+", URLs.encode("+ "));
   }
 
   @Test
@@ -227,7 +200,7 @@ public class URLsTest {
   }
 
   @Test
-  public void testPathDecode() {
-    assertEquals("+++", URLs.pathDecode("+%2B+"));
+  public void testDecodePath() {
+    assertEquals("+++", URLs.decodePath("+%2B+"));
   }
 }
