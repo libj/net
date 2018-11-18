@@ -26,8 +26,8 @@ public final class URIComponent {
    * with JavaScript's {@code decodeURIComponent} function. Returns null if the
    * String is null.
    *
-   * @param uri The UTF-8 encoded String to be decoded
-   * @return the decoded String
+   * @param uri The UTF-8 encoded String to be decoded.
+   * @return The decoded String.
    */
   public static String decode(final String uri) {
     try {
@@ -58,8 +58,8 @@ public final class URIComponent {
    * with JavaScript's {@code encodeURIComponent} function. Returns null if the
    * String is null.
    *
-   * @param uri The String to be encoded
-   * @return the encoded String
+   * @param uri The String to be encoded.
+   * @return The encoded String.
    */
   public static String encode(final String uri) {
     try {

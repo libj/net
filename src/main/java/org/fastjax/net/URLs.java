@@ -627,7 +627,7 @@ public final class URLs {
    * World Wide Web Consortium Recommendation</a> states that UTF-8 should be
    * used. Not doing so may introduce incompatibilities.</i>
    *
-   * @param s the {@code String} to decode
+   * @param s The {@code String} to decode.
    * @param charset The given {@link Charset}.
    * @return The decoded {@code String}.
    * @throws NullPointerException If {@code s} or {@code charset} are null.
@@ -647,7 +647,7 @@ public final class URLs {
    * that it will {@linkplain Charset#forName look up the charset} using the
    * given encoding name.
    *
-   * @param s the {@code String} to decode
+   * @param s The {@code String} to decode.
    * @param enc The name of a supported encoding.
    * @return The decoded {@code String}.
    * @throws NullPointerException If {@code s} or {@code charset} are null.
