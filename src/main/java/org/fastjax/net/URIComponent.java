@@ -20,14 +20,20 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
+/**
+ * Utility functions for encoding and decoding URI strings using a specification
+ * that is compatible with JavaScript's {@code decodeURIComponent} function.
+ */
 public final class URIComponent {
   /**
-   * Decodes the passed UTF-8 String using a specification that's compatible
-   * with JavaScript's {@code decodeURIComponent} function. Returns null if the
-   * String is null.
+   * Decodes the provided string encoded in UTF-8 using a specification that is
+   * compatible with JavaScript's {@code decodeURIComponent} function.
    *
-   * @param uri The UTF-8 encoded String to be decoded.
-   * @return The decoded String.
+   * @param uri The encoded {@code String} encoded in UTF-8 to be decoded.
+   * @return The decoded {@code String}, or {@code null} if the provided string
+   *         is null.
+   * @throws UnsupportedOperationException If character encoding needs to be
+   *           consulted, but named character encoding is not supported.
    */
   public static String decode(final String uri) {
     try {
@@ -39,13 +45,13 @@ public final class URIComponent {
   }
 
   /**
-   * Decodes the passed String using a specification that's compatible with
-   * JavaScript's {@code decodeURIComponent} function. Returns null if the
-   * String is null.
+   * Decodes the provided string using a specification that is compatible with
+   * JavaScript's {@code decodeURIComponent} function.
    *
-   * @param uri The encoded String to be decoded.
+   * @param uri The encoded {@code String} to be decoded.
    * @param encoding The name of a supported character encoding.
-   * @return The decoded String.
+   * @return The decoded {@code String}, or {@code null} if the provided string
+   *         is null.
    * @throws UnsupportedEncodingException If character encoding needs to be
    *           consulted, but named character encoding is not supported.
    */
@@ -54,12 +60,12 @@ public final class URIComponent {
   }
 
   /**
-   * Encodes the passed String as UTF-8 using a specification that's compatible
-   * with JavaScript's {@code encodeURIComponent} function. Returns null if the
-   * String is null.
+   * Encodes the provided string as UTF-8 using a specification that is
+   * compatible with JavaScript's {@code encodeURIComponent} function.
    *
-   * @param uri The String to be encoded.
-   * @return The encoded String.
+   * @param uri The {@code String} to be encoded.
+   * @return The encoded {@code String}, or {@code null} if the provided string
+   *         is null.
    */
   public static String encode(final String uri) {
     try {
@@ -71,18 +77,18 @@ public final class URIComponent {
   }
 
   /**
-   * Encodes the passed String using a specification that's compatible with
-   * JavaScript's {@code encodeURIComponent} function. Returns null if the
-   * String is null.
+   * Encodes the provided string using a specification that is compatible with
+   * JavaScript's {@code encodeURIComponent} function.
    *
-   * @param uri The String to be encoded.
-   * @param encoding The name of a supported character encoding.
-   * @return The encoded String.
+   * @param uri The {@code String} to be encoded.
+   * @param enc The name of a supported character encoding.
+   * @return The encoded {@code String}, or {@code null} if the provided string
+   *         is null.
    * @throws UnsupportedEncodingException If character encoding needs to be
    *           consulted, but named character encoding is not supported.
    */
-  public static String encode(final String uri, final String encoding) throws UnsupportedEncodingException {
-    return uri != null ? URLEncoder.encode(uri, encoding).replace("+", "%20") : null; //.replace("%21", "!").replace("%27", "'").replace("%28", "(").replace("%29", ")").replace("%7E", "~") : null;
+  public static String encode(final String uri, final String enc) throws UnsupportedEncodingException {
+    return uri == null ? null : URLEncoder.encode(uri, enc).replace("+", "%20"); //.replace("%21", "!").replace("%27", "'").replace("%28", "(").replace("%29", ")").replace("%7E", "~") : null;
   }
 
   private URIComponent() {
