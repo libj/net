@@ -40,10 +40,10 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.Part;
 
-public class FilteredHttpServletRequest implements HttpServletRequest {
+public class FilterHttpServletRequest implements HttpServletRequest {
   protected HttpServletRequest request;
 
-  public FilteredHttpServletRequest(final HttpServletRequest request) {
+  public FilterHttpServletRequest(final HttpServletRequest request) {
     this.request = request;
   }
 

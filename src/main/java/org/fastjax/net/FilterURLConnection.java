@@ -25,10 +25,10 @@ import java.security.Permission;
 import java.util.List;
 import java.util.Map;
 
-public class WrappedURLConnection extends URLConnection {
+public class FilterURLConnection extends URLConnection {
   protected final URLConnection connection;
 
-  public WrappedURLConnection(final URLConnection connection) {
+  public FilterURLConnection(final URLConnection connection) {
     super(connection.getURL());
     this.connection = connection;
   }
@@ -139,7 +139,8 @@ public class WrappedURLConnection extends URLConnection {
   }
 
   @Override
-  public Object getContent(final Class<?>[] classes) throws IOException {
+  @SuppressWarnings("rawtypes")
+  public Object getContent(final Class[] classes) throws IOException {
     return connection.getContent(classes);
   }
 
@@ -243,10 +244,10 @@ public class WrappedURLConnection extends URLConnection {
     if (obj == this)
       return true;
 
-    if (!(obj instanceof WrappedURLConnection))
+    if (!(obj instanceof FilterURLConnection))
       return false;
 
-    final WrappedURLConnection that = (WrappedURLConnection)obj;
+    final FilterURLConnection that = (FilterURLConnection)obj;
     return connection != null ? connection.equals(that.connection) : that.connection == null;
   }
 
