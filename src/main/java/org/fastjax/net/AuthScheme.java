@@ -60,7 +60,6 @@ public abstract class AuthScheme {
         }
         catch (final Exception e) {
           logger.debug(e.getMessage(), e);
-          continue;
         }
       }
     }

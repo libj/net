@@ -16,9 +16,6 @@
 
 package org.fastjax.net.mail;
 
-import java.util.Arrays;
-import java.util.Properties;
-
 import javax.mail.Authenticator;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -28,6 +25,8 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.net.ssl.SSLSocketFactory;
+import java.util.Arrays;
+import java.util.Properties;
 
 import org.fastjax.security.Credentials;
 import org.slf4j.Logger;
@@ -44,7 +43,7 @@ public class Mail {
   /**
    * Enum representing the mail transfer protocol.
    */
-  public static enum Protocol {
+  public enum Protocol {
     SMTP, SMTPS
   }
 
@@ -157,9 +156,9 @@ public class Mail {
       hashCode = 31 * hashCode + subject.hashCode();
       hashCode = 31 * hashCode + content.hashCode();
       hashCode = 31 * hashCode + from.hashCode();
-      hashCode = 31 * hashCode + (to == null ? 0 : to.hashCode());
-      hashCode = 31 * hashCode + (cc == null ? 0 : cc.hashCode());
-      hashCode = 31 * hashCode + (bcc == null ? 0 : bcc.hashCode());
+      hashCode = 31 * hashCode + (to == null ? 0 : Arrays.hashCode(to));
+      hashCode = 31 * hashCode + (cc == null ? 0 : Arrays.hashCode(cc));
+      hashCode = 31 * hashCode + (bcc == null ? 0 : Arrays.hashCode(bcc));
       return hashCode;
     }
   }

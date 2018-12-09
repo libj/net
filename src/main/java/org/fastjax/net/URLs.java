@@ -473,10 +473,10 @@ public final class URLs {
 
     final URLConnection urlConnection = url.openConnection();
     if (urlConnection instanceof HttpURLConnection)
-      return ((HttpURLConnection)urlConnection).getLastModified();
+      return urlConnection.getLastModified();
 
     if (urlConnection instanceof JarURLConnection)
-      return ((JarURLConnection)urlConnection).getLastModified();
+      return urlConnection.getLastModified();
 
     return -1;
   }

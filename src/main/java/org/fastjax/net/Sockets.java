@@ -51,7 +51,6 @@ public final class Sockets {
         return socket.getLocalPort();
       }
       catch (final IOException e) {
-        continue;
       }
     }
 
