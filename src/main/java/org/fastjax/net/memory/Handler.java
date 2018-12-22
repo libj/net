@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.fastjax.memory;
+package org.fastjax.net.memory;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

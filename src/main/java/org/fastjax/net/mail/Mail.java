@@ -16,6 +16,9 @@
 
 package org.fastjax.net.mail;
 
+import java.util.Arrays;
+import java.util.Properties;
+
 import javax.mail.Authenticator;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -25,8 +28,6 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.net.ssl.SSLSocketFactory;
-import java.util.Arrays;
-import java.util.Properties;
 
 import org.fastjax.security.Credentials;
 import org.slf4j.Logger;

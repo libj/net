@@ -31,8 +31,8 @@ public abstract class MemoryURLStreamHandler extends URLStreamHandler {
 
   static {
     final String pkgs = System.getProperty(PROPERTY);
-    if (pkgs == null || !pkgs.contains("org.fastjax.util"))
-      System.setProperty(PROPERTY, pkgs != null && pkgs.length() > 0 ? pkgs + "|" + "org.fastjax.util" : "org.fastjax.util");
+    if (pkgs == null || !pkgs.contains("org.fastjax.net"))
+      System.setProperty(PROPERTY, pkgs != null && pkgs.length() > 0 ? pkgs + "|" + "org.fastjax.net" : "org.fastjax.net");
   }
 
   protected static final HashMap<String,byte[]> idToData = new HashMap<>();

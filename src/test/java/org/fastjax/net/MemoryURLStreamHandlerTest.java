@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import org.fastjax.net.MemoryURLStreamHandler;
 import org.junit.Test;
 
 public class MemoryURLStreamHandlerTest {
