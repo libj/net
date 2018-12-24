@@ -45,8 +45,8 @@ public final class URLs {
 
   /**
    * Converts an array of {@code File} objects into an array of {@code URL}
-   * objects. {@code File} objects that are null will be null in the resulting
-   * {@code URL[]} array.
+   * objects. {@code File} objects that are {@code null} will be {@code null} in
+   * the resulting {@code URL[]} array.
    *
    * @param files The array of {@code File} objects.
    * @return An array of {@code URL} objects.
@@ -211,7 +211,7 @@ public final class URLs {
    * @throws MalformedURLException If a protocol is specified but is unknown, or
    *           the spec is null, or the parsed URL fails to comply with the
    *           specific syntax of the associated protocol.
-   * @throws NullPointerException If {@code basedir} or {@code path} are null.
+   * @throws NullPointerException If {@code basedir} or {@code path} is null.
    * @see URLs#toURL(String)
    * @see Paths#newPath(String,String)
    * @see Paths#isAbsoluteLocalWindows(String)
@@ -236,7 +236,7 @@ public final class URLs {
    * @throws MalformedURLException If a protocol is specified but is unknown, or
    *           the spec is null, or the parsed URL fails to comply with the
    *           specific syntax of the associated protocol.
-   * @throws NullPointerException If {@code basedir} or {@code path} are null.
+   * @throws NullPointerException If {@code basedir} or {@code path} is null.
    * @see URLs#toURL(String)
    * @see URLs#canonicalize(URL)
    * @see Paths#newPath(String,String)
@@ -263,7 +263,7 @@ public final class URLs {
    *           specific syntax of the associated protocol.
    * @throws IllegalArgumentException If the specified {@code baseURL} contains
    *           a query string.
-   * @throws NullPointerException If {@code baseURL} or {@code path} are null.
+   * @throws NullPointerException If {@code baseURL} or {@code path} is null.
    */
   public static URL toURL(final URL baseURL, String path) throws MalformedURLException {
     if (baseURL.getQuery() != null)
@@ -302,7 +302,7 @@ public final class URLs {
    *           specific syntax of the associated protocol.
    * @throws IllegalArgumentException If the specified {@code baseURL} contains
    *           a query string.
-   * @throws NullPointerException If {@code baseURL} or {@code path} are null.
+   * @throws NullPointerException If {@code baseURL} or {@code path} is null.
    */
   public static URL toCanonicalURL(final URL baseURL, final String path) throws MalformedURLException {
     return canonicalize(toURL(baseURL, path));
@@ -559,7 +559,7 @@ public final class URLs {
    * @return The translated {@code String}.
    * @throws UnsupportedOperationException If the named encoding is not
    *           supported.
-   * @throws NullPointerException If {@code s} or {@code enc} are null.
+   * @throws NullPointerException If {@code s} or {@code enc} is null.
    * @see URLs#decode(String,String)
    */
   public static String encode(final String s, final String enc) {
@@ -590,7 +590,7 @@ public final class URLs {
    * @return The translated {@code String}.
    * @throws UnsupportedOperationException If the named encoding is not
    *           supported.
-   * @throws NullPointerException If {@code s} or {@code charset} are null.
+   * @throws NullPointerException If {@code s} or {@code charset} is null.
    * @see URLs#decode(String,Charset)
    */
   public static String encode(final String s, final Charset charset) {
@@ -630,7 +630,7 @@ public final class URLs {
    * @param s The {@code String} to decode.
    * @param charset The given {@link Charset}.
    * @return The decoded {@code String}.
-   * @throws NullPointerException If {@code s} or {@code charset} are null.
+   * @throws NullPointerException If {@code s} or {@code charset} is null.
    * @throws IllegalArgumentException If the implementation encounters illegal
    *           characters.
    * @see URLs#encode(String,Charset)
@@ -650,7 +650,7 @@ public final class URLs {
    * @param s The {@code String} to decode.
    * @param enc The name of a supported encoding.
    * @return The decoded {@code String}.
-   * @throws NullPointerException If {@code s} or {@code charset} are null.
+   * @throws NullPointerException If {@code s} or {@code charset} is null.
    * @throws IllegalArgumentException If the implementation encounters illegal
    *           characters, or if the given charset name is null.
    * @throws IllegalCharsetNameException If the given charset name is illegal.
@@ -766,8 +766,8 @@ public final class URLs {
    * Returns the URL-decoded path string.
    * <p>
    * URL path segments may contain {@code '+'} symbols which should not be
-   * decoded into {@code ' '}. This method replaces {@code '+'} with {@code "%2B"}
-   * and delegates to URLDecoder.
+   * decoded into {@code ' '}. This method replaces {@code '+'} with
+   * {@code "%2B"} and delegates to URLDecoder.
    *
    * @param path The path to decode.
    * @return The URL-decoded path string.
