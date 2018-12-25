@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.servlet.AsyncContext;
 import javax.servlet.DispatcherType;
@@ -40,11 +41,33 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.Part;
 
+/**
+ * A {@code FilterHttpServletRequest} contains some other
+ * {@link HttpServletRequest}, which it uses as its basic source of data,
+ * possibly transforming the data along the way or providing additional
+ * functionality. The class {@code FilterHttpServletRequest} itself simply
+ * overrides all methods of {@link HttpServletRequest} with versions that pass
+ * all requests to the contained input stream. Subclasses of
+ * {@code FilterHttpServletRequest} may further override some of these methods
+ * and may also provide additional methods and fields.
+ */
 public class FilterHttpServletRequest implements HttpServletRequest {
   protected HttpServletRequest request;
 
+  /**
+   * Creates a new {@code FilterHttpServletRequest} with the specified request.
+   *
+   * @param request The request.
+   * @throws NullPointerException If {@code request} is null.
+   */
   public FilterHttpServletRequest(final HttpServletRequest request) {
-    this.request = request;
+    this.request = Objects.requireNonNull(request);
+  }
+
+  /**
+   * Creates a new {@code FilterHttpServletRequest} with a null request.
+   */
+  protected FilterHttpServletRequest() {
   }
 
   @Override
@@ -389,7 +412,7 @@ public class FilterHttpServletRequest implements HttpServletRequest {
   }
 
   @Override
-  public <T extends HttpUpgradeHandler> T upgrade(final Class<T> handlerClass) throws IOException, ServletException {
+  public <T extends HttpUpgradeHandler>T upgrade(final Class<T> handlerClass) throws IOException, ServletException {
     throw new UnsupportedOperationException();
   }
 }

@@ -17,19 +17,15 @@
 package org.fastjax.net;
 
 import java.util.Base64;
+import java.util.Objects;
 
 public class Basic extends AuthScheme {
   private final String username;
   private final String password;
 
   public Basic(final String username, final String password) {
-    this.username = username;
-    if (username == null)
-      throw new IllegalArgumentException("username == null");
-
-    this.password = password;
-    if (password == null)
-      throw new IllegalArgumentException("password == null");
+    this.username = Objects.requireNonNull(username);
+    this.password = Objects.requireNonNull(password);
   }
 
   protected Basic() {

@@ -26,6 +26,9 @@ import java.net.URLConnection;
 
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Utility functions for operations pertaining to file downloads.
+ */
 public final class Downloads {
   /**
    * Send the given file as a byte array to the servlet response. If attachment
@@ -39,10 +42,12 @@ public final class Downloads {
    * @param attachment If {@code true}, "Content-Disposition" will be
    *          "attachment"; otherwise, "inline".
    * @throws IOException If an I/O error has occurred.
+   * @throws NullPointerException If {@code response}, {@code bytes}, or
+   *           {@code fileName} is null.
    */
   public static void downloadFile(final HttpServletResponse response, final byte[] bytes, final String fileName, final boolean attachment) throws IOException {
-    try (final InputStream input = new ByteArrayInputStream(bytes)) {
-      downloadFile(response, input, fileName, attachment);
+    try (final InputStream in = new ByteArrayInputStream(bytes)) {
+      downloadFile(response, in, fileName, attachment);
     }
   }
 
@@ -57,6 +62,7 @@ public final class Downloads {
    * @param attachment If {@code true}, "Content-Disposition" will be
    *          "attachment"; otherwise, "inline".
    * @throws IOException If an I/O error has occurred.
+   * @throws NullPointerException If {@code response} or {@code file} is null.
    */
   public static void downloadFile(final HttpServletResponse response, final File file, final boolean attachment) throws IOException {
     try (final InputStream in = new FileInputStream(file)) {
@@ -71,18 +77,20 @@ public final class Downloads {
    * application.
    *
    * @param response The {@code HttpServletResponse}.
-   * @param input The file contents in an InputStream.
+   * @param in The file contents in an InputStream.
    * @param fileName The file name.
    * @param attachment If {@code true}, "Content-Disposition" will be
    *          "attachment"; otherwise, "inline".
    * @throws IOException If an I/O error has occurred.
+   * @throws NullPointerException If {@code response}, {@code in}, or
+   *           {@code fileName} is null.
    */
-  public static void downloadFile(final HttpServletResponse response, final InputStream input, final String fileName, final boolean attachment) throws IOException {
+  public static void downloadFile(final HttpServletResponse response, final InputStream in, final String fileName, final boolean attachment) throws IOException {
     String contentType = URLConnection.guessContentTypeFromName(fileName);
     if (contentType == null)
       contentType = "application/octet-stream";
 
-    int contentLength = input.available();
+    int contentLength = in.available();
 
     response.reset();
     response.setContentLength(contentLength);
@@ -90,7 +98,7 @@ public final class Downloads {
     response.setHeader("Content-disposition", (attachment ? "attachment" : "inline") + "; filename=\"" + fileName + "\"");
     try (final OutputStream out = response.getOutputStream()) {
       while (contentLength-- > 0)
-        out.write(input.read());
+        out.write(in.read());
 
       out.flush();
     }

@@ -20,6 +20,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Objects;
 
 /**
  * A {@link URLConnection} wrapping data in the form of a {@code byte} array.
@@ -33,9 +34,10 @@ public class MemoryURLConnection extends URLConnection {
    *
    * @param url The {@link URL}.
    * @param data The data.
+   * @throws NullPointerException If {@code url} is null.
    */
   public MemoryURLConnection(final URL url, final byte[] data) {
-    super(url);
+    super(Objects.requireNonNull(url));
     this.in = new ByteArrayInputStream(data);
   }
 

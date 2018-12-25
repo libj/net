@@ -29,6 +29,7 @@ public class InetAddresses {
    *
    * @param address The {@code InetAddress}.
    * @return The decimal representation of the IP of an {@code InetAddress}.
+   * @throws NullPointerException If {@code address} is null.
    */
   public static String toStringIP(final InetAddress address) {
     final byte[] bytes = address.getAddress();

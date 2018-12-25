@@ -25,12 +25,34 @@ import java.security.Permission;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A {@code FilterURLConnection} contains some other {@link URLConnection},
+ * which it uses as its basic source of data, possibly transforming the data
+ * along the way or providing additional functionality. The class
+ * {@code FilterURLConnection} itself simply overrides all methods of
+ * {@link URLConnection} with versions that pass all requests to the contained
+ * input stream. Subclasses of {@code FilterURLConnection} may further override
+ * some of these methods and may also provide additional methods and fields.
+ */
 public class FilterURLConnection extends URLConnection {
-  protected final URLConnection connection;
+  protected volatile URLConnection connection;
 
+  /**
+   * Creates a new {@code FilterURLConnection} with the specified connection.
+   *
+   * @param connection The connection.
+   * @throws NullPointerException If {@code connection} is null.
+   */
   public FilterURLConnection(final URLConnection connection) {
     super(connection.getURL());
     this.connection = connection;
+  }
+
+  /**
+   * Creates a new {@code FilterHttpServletRequest} with a null connection.
+   */
+  protected FilterURLConnection() {
+    super(null);
   }
 
   @Override

@@ -25,15 +25,34 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Properties;
 
+/**
+ * Utility functions operations pertaining to {@link URLConnection}.
+ */
 public final class URLConnections {
-  private static final int[] REDIRECT_CODES = new int[] {HttpURLConnection.HTTP_OK, HttpURLConnection.HTTP_MOVED_PERM, HttpURLConnection.HTTP_MOVED_TEMP, HttpURLConnection.HTTP_SEE_OTHER};
+  private static final int[] REDIRECT_CODES = {HttpURLConnection.HTTP_OK, HttpURLConnection.HTTP_MOVED_PERM, HttpURLConnection.HTTP_MOVED_TEMP, HttpURLConnection.HTTP_SEE_OTHER};
 
+  /**
+   * Sets the specified {@code Properties} in the provided
+   * {@code URLConnection}.
+   *
+   * @param urlConnection The {@code URLConnection}.
+   * @param properties The {@code Properties}.
+   */
   public static void setRequestProperties(final URLConnection urlConnection, final Properties properties) {
     for (final Map.Entry<Object,Object> entry : properties.entrySet())
       urlConnection.setRequestProperty((String)entry.getKey(), (String)entry.getValue());
   }
 
-  public static InputStream checkOpenRedirectStream(final URL url) throws IOException {
+  /**
+   * Returns an {@code InputStream} to the specified url that may or may not
+   * exist at a redirected location.
+   *
+   * @param url The {@code URL}.
+   * @return An {@code InputStream} to the specified url that may or may not
+   *         exist at a redirected location.
+   * @throws IOException If an I/O error has occurred.
+   */
+  public static InputStream tryOpenRedirectStream(final URL url) throws IOException {
     final URLConnection connection = url.openConnection();
     if (connection instanceof HttpURLConnection && Arrays.binarySearch(REDIRECT_CODES, ((HttpURLConnection)connection).getResponseCode()) > 0) {
       final String location = connection.getHeaderField("Location");

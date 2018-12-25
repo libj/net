@@ -17,14 +17,13 @@
 package org.fastjax.net;
 
 import java.util.Base64;
+import java.util.Objects;
 
 public class Bearer extends AuthScheme {
   private final String token;
 
   public Bearer(final String token) {
-    this.token = token;
-    if (token == null)
-      throw new IllegalArgumentException("token == null");
+    this.token = Objects.requireNonNull(token);
   }
 
   protected Bearer() {

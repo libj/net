@@ -19,6 +19,7 @@ package org.fastjax.net;
 import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +40,7 @@ public final class Cookies {
    * @param name The cookie name.
    * @return The cookie value associated with the given cookie name, or null if
    *         the cookie {@code name} is not found in the {@code request}.
+   * @throws NullPointerException If {@code request} or {@code name} is null.
    */
   public static String getCookieValue(final HttpServletRequest request, final String name) {
     final Cookie[] cookies = request.getCookies();
@@ -62,8 +64,13 @@ public final class Cookies {
    *          response.
    * @param maxAge The expiration interval in seconds. If this is set to 0, then
    *          the cookie will immediately expire.
+   * @throws NullPointerException If {@code response} is null.
+   * @throws IllegalArgumentException If the cookie name is null or empty or
+   *           contains any illegal characters (for example, a comma, space, or
+   *           semicolon) or matches a token reserved for use by the cookie
+   *           protocol.
    */
-  public static void setCookieValue(final HttpServletResponse response, final String name, String value, final int maxAge) {
+  public static void setCookieValue(final HttpServletResponse response, final String name, final String value, final int maxAge) {
     final Cookie cookie = new Cookie(name, value);
     cookie.setMaxAge(maxAge);
     response.addCookie(cookie);
@@ -77,6 +84,11 @@ public final class Cookies {
    *
    * @param response The HttpServletResponse to be used.
    * @param name The cookie name of the cookie to be removed.
+   * @throws NullPointerException If {@code response} is null.
+   * @throws IllegalArgumentException If the cookie name is null or empty or
+   *           contains any illegal characters (for example, a comma, space, or
+   *           semicolon) or matches a token reserved for use by the cookie
+   *           protocol.
    */
   public static void removeCookie(final HttpServletResponse response, final String name) {
     setCookieValue(response, name, null, 0);
@@ -90,9 +102,10 @@ public final class Cookies {
    * @return A {@code Map.Entry<String,String>} with key set to
    *         {@code "Cookie"}, and value set to semicolon-delimited
    *         {@code cookies}.
+   * @throws NullPointerException If {@code cookies} is null.
    */
   public static Map.Entry<String,String> createCookieHeader(final Collection<String> cookies) {
-    return new AbstractMap.SimpleEntry<>("Cookie", FastCollections.toString(cookies, ";"));
+    return new AbstractMap.SimpleEntry<>("Cookie", FastCollections.toString(Objects.requireNonNull(cookies), ";"));
   }
 
   private Cookies() {
