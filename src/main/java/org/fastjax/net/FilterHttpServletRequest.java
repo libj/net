@@ -52,7 +52,7 @@ import javax.servlet.http.Part;
  * and may also provide additional methods and fields.
  */
 public class FilterHttpServletRequest implements HttpServletRequest {
-  protected HttpServletRequest request;
+  protected volatile HttpServletRequest request;
 
   /**
    * Creates a new {@code FilterHttpServletRequest} with the specified request.
