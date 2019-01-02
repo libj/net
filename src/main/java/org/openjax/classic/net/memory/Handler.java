@@ -20,8 +20,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLStreamHandler;
-import java.net.spi.URLStreamHandlerProvider;
+import java.net.URLStreamHandlerFactory;
 
 import org.openjax.classic.net.MemoryURLConnection;
 import org.openjax.classic.net.MemoryURLStreamHandler;
@@ -32,9 +31,9 @@ import org.openjax.classic.net.MemoryURLStreamHandler;
  * property.
  */
 public class Handler extends MemoryURLStreamHandler {
-  public static class Provider extends URLStreamHandlerProvider {
+  public static class Provider implements URLStreamHandlerFactory { // FIXME: jdp9+ URLStreamHandlerProvider
     @Override
-    public URLStreamHandler createURLStreamHandler(final String protocol) {
+    public Handler createURLStreamHandler(final String protocol) {
       return "memory".equals(protocol) ? new Handler() : null;
     }
   }
