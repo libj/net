@@ -133,5 +133,5 @@ public abstract class AuthScheme {
    * @return A {@code AuthScheme} instance by decoding the {@code authorization}
    *         header string.
    */
-  protected abstract AuthScheme decode(final String authorization);
+  protected abstract AuthScheme decode(String authorization);
 }
