@@ -94,7 +94,7 @@ public class URLsTest {
 //      assertTrue(URLs.exists(new URL("http://www.google.com/")));
 
     assertFalse(URLs.exists(new URL("file", "", "/ngfodbbgfid")));
-    assertFalse(URLs.exists(new URL("http://fndos.grnoe.dfsn/")));
+    assertFalse(URLs.exists(new URL("http://fndos/")));
   }
 
   @Test
