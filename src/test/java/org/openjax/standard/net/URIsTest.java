@@ -22,7 +22,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.junit.Test;
-import org.openjax.standard.net.URIs;
 
 public class URIsTest {
   @Test

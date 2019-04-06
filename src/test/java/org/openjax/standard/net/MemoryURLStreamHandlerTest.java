@@ -24,7 +24,6 @@ import java.io.InputStream;
 import java.net.URL;
 
 import org.junit.Test;
-import org.openjax.standard.net.MemoryURLStreamHandler;
 
 public class MemoryURLStreamHandlerTest {
   private static byte random() {

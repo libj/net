@@ -25,8 +25,6 @@ import javax.mail.internet.InternetAddress;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openjax.standard.security.api.Credentials;
-import org.openjax.standard.net.mail.Mail;
-import org.openjax.standard.net.mail.MimeContent;
 
 public class MailTest {
   private int successCount = 0;

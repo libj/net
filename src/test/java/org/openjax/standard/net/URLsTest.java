@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.openjax.standard.net.URLs;
 
 public class URLsTest {
   @Test
