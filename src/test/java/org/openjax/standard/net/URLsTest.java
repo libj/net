@@ -153,8 +153,8 @@ public class URLsTest {
 
   @Test
   public void testGetLastModified() throws Exception {
-    assertTrue(URLs.getLastModified(Thread.currentThread().getContextClassLoader().getResource(Test.class.getName().replace('.', '/') + ".class")) > 0);
-    assertTrue(URLs.getLastModified(Thread.currentThread().getContextClassLoader().getResource(URLsTest.class.getName().replace('.', '/') + ".class")) > 0);
+    assertTrue(URLs.getLastModified(ClassLoader.getSystemClassLoader().getResource(Test.class.getName().replace('.', '/') + ".class")) > 0);
+    assertTrue(URLs.getLastModified(ClassLoader.getSystemClassLoader().getResource(URLsTest.class.getName().replace('.', '/') + ".class")) > 0);
     assertTrue(URLs.getLastModified(new File("").toURI().toURL()) > 0);
     assertTrue(URLs.getLastModified(new URL("http://www.dot.ca.gov/hq/roadinfo/Hourly")) > -1);
   }
