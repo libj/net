@@ -49,7 +49,7 @@ public class Basic extends AuthScheme {
   @Override
   protected Basic decode(final String authorization) {
     final String login = new String(Base64.getDecoder().decode(authorization.substring(6)));
-    final int index = login.indexOf(":");
+    final int index = login.indexOf(':');
     if (index == -1)
       throw new IllegalArgumentException("Authorization header is malformed: missing ':'");
 
