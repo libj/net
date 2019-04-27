@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.standard.net;
+package org.openjax.ext.net;
 
 import java.util.AbstractMap;
 import java.util.Collection;
@@ -25,7 +25,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.openjax.standard.util.FastCollections;
+import org.openjax.ext.util.FastCollections;
 
 /**
  * Utility methods for management of cookies in {@link HttpServletRequest}s and

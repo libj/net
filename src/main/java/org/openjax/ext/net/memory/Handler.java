@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.standard.net.memory;
+package org.openjax.ext.net.memory;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -22,8 +22,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandlerFactory;
 
-import org.openjax.standard.net.MemoryURLConnection;
-import org.openjax.standard.net.MemoryURLStreamHandler;
+import org.openjax.ext.net.MemoryURLConnection;
+import org.openjax.ext.net.MemoryURLStreamHandler;
 
 /**
  * Handler class extending {@link MemoryURLStreamHandler}. This class is used
