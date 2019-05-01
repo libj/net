@@ -26,7 +26,10 @@
   </parent>
   <artifactId>net</artifactId>
   <version>0.5.0-SNAPSHOT</version>
-  <name>${project.groupId}:${project.artifactId}</name>
+  <name>OpenJAX Extensions Net</name>
+  <description>
+    Provides supplementary utilities for classes that belong to java.net and javax.servlet packages.
+  </description>
   <dependencies>
     <dependency>
       <groupId>com.github.jnr</groupId>
