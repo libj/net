@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.ext.net;
+package org.openjax.net;
 
 import java.util.Base64;
 import java.util.Objects;

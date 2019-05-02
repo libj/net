@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.ext.net;
+package org.openjax.net;
 
 import java.io.IOException;
 import java.net.ServerSocket;

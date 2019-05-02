@@ -14,11 +14,11 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.ext.net;
+package org.openjax.net;
 
 import java.util.Collection;
 
-import org.openjax.ext.util.FastCollections;
+import org.openjax.util.FastCollections;
 
 public class Service {
   /** Official service name */

@@ -14,36 +14,24 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.ext.net;
+package org.openjax.net;
 
 import static org.junit.Assert.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import org.junit.Test;
 
-public class MemoryURLStreamHandlerTest {
-  private static byte random() {
-    return (byte)(Math.random() * 255);
-  }
-
+public class URIsTest {
   @Test
-  public void test() throws IOException {
-    for (int i = 0; i < 100; ++i) {
-      final byte[] data = {random(), random(), random(), random(), random()};
-      final URL url = MemoryURLStreamHandler.createURL(data);
-      final ByteArrayOutputStream out = new ByteArrayOutputStream();
-      try (final InputStream in = url.openStream()) {
-        final byte[] bytes = new byte[1024];
-        for (int len; (len = in.read(bytes)) != -1;)
-          if (len != 0)
-            out.write(bytes, 0, len);
-      }
+  public void testRelativize() throws URISyntaxException {
+    // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6226081
+    final URI a = new URI("file:/c:/abc/def/myDocument/doc.xml");
+    final URI b = new URI("file:/c:/abc/def/images/subdir/image.png");
 
-      assertArrayEquals(data, out.toByteArray());
-    }
+    final URI c = URIs.relativize(a, b);
+
+    assertEquals("../images/subdir/image.png", c.toString());
   }
 }

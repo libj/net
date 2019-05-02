@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.ext.net;
+package org.openjax.net;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

@@ -14,14 +14,14 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.ext.net;
+package org.openjax.net;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLStreamHandler;
 import java.util.HashMap;
 
-import org.openjax.ext.net.memory.Handler;
+import org.openjax.net.memory.Handler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

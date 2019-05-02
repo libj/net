@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.ext.net;
+package org.openjax.net;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,8 +33,8 @@ import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
 
-import org.openjax.ext.util.Paths;
-import org.openjax.ext.util.Strings;
+import org.openjax.util.Paths;
+import org.openjax.util.Strings;
 
 /**
  * Utility functions for operations pertaining to {@link URL}.
