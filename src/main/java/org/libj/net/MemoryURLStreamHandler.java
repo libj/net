@@ -1,4 +1,4 @@
-/* Copyright (c) 2018 OpenJAX
+/* Copyright (c) 2018 LibJ
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -14,14 +14,14 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.net;
+package org.libj.net;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLStreamHandler;
 import java.util.HashMap;
 
-import org.openjax.net.memory.Handler;
+import org.libj.net.memory.Handler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

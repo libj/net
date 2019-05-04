@@ -1,4 +1,4 @@
-/* Copyright (c) 2006 OpenJAX
+/* Copyright (c) 2006 LibJ
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.net;
+package org.libj.net;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,8 +33,8 @@ import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
 
-import org.openjax.util.Paths;
-import org.openjax.util.Strings;
+import org.libj.util.Paths;
+import org.libj.util.Strings;
 
 /**
  * Utility functions for operations pertaining to {@link URL}.

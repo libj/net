@@ -1,4 +1,4 @@
-/* Copyright (c) 2010 OpenJAX
+/* Copyright (c) 2010 LibJ
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.net;
+package org.libj.net;
 
 import java.util.AbstractMap;
 import java.util.Collection;
@@ -25,7 +25,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.openjax.util.FastCollections;
+import org.libj.util.FastCollections;
 
 /**
  * Utility methods for management of cookies in {@link HttpServletRequest}s and

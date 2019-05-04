@@ -1,4 +1,4 @@
-/* Copyright (c) 2018 OpenJAX
+/* Copyright (c) 2018 LibJ
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.net.memory;
+package org.libj.net.memory;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -22,8 +22,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandlerFactory;
 
-import org.openjax.net.MemoryURLConnection;
-import org.openjax.net.MemoryURLStreamHandler;
+import org.libj.net.MemoryURLConnection;
+import org.libj.net.MemoryURLStreamHandler;
 
 /**
  * Handler class extending {@link MemoryURLStreamHandler}. This class is used
