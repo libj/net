@@ -28,7 +28,7 @@
   <version>0.5.0-SNAPSHOT</version>
   <name>LibJ Net</name>
   <description>
-    Provides supplementary utilities for classes that belong to java.net and javax.servlet packages.
+    Supplementary utilities for classes that belong to java.net and javax.servlet packages.
   </description>
   <dependencies>
     <dependency>
