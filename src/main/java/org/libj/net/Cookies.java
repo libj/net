@@ -25,7 +25,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.libj.util.FastCollections;
+import org.libj.util.CollectionUtil;
 
 /**
  * Utility methods for management of cookies in {@link HttpServletRequest}s and
@@ -105,7 +105,7 @@ public final class Cookies {
    * @throws NullPointerException If {@code cookies} is null.
    */
   public static Map.Entry<String,String> createCookieHeader(final Collection<String> cookies) {
-    return new AbstractMap.SimpleEntry<>("Cookie", FastCollections.toString(Objects.requireNonNull(cookies), ";"));
+    return new AbstractMap.SimpleEntry<>("Cookie", CollectionUtil.toString(Objects.requireNonNull(cookies), ";"));
   }
 
   private Cookies() {

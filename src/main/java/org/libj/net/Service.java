@@ -18,7 +18,7 @@ package org.libj.net;
 
 import java.util.Collection;
 
-import org.libj.util.FastCollections;
+import org.libj.util.CollectionUtil;
 
 public class Service {
   /** Official service name */
@@ -49,7 +49,7 @@ public class Service {
 
   @Override
   public String toString() {
-    final String alias = FastCollections.toString(aliases, "\", \"");
+    final String alias = CollectionUtil.toString(aliases, "\", \"");
     return "{\n  name: \"" + serviceName + "\",\n  port: " + port + ",\n  aliases: [" + (alias.length() > 0 ? "\"" + alias + "\"" : "") + "]\n}";
   }
 }
