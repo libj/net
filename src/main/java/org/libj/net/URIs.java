@@ -18,7 +18,20 @@ package org.libj.net;
 
 import java.net.URI;
 
+/**
+ * Utility functions for operations pertaining to {@link URI}.
+ */
 public final class URIs {
+  /**
+   * Constructs a relative path between the specified {@code base} and provided
+   * {@code uri}.
+   *
+   * @param base The base {@code URI} from which to relativize.
+   * @param uri The {@code URI} to be relativized.
+   * @return The relativized {@code URI}, or {@code null} if either specified
+   *         URIs are opaque.
+   * @throws NullPointerException If {@code base} or {@code uri} is null.
+   */
   public static URI relativize(final URI base, final URI uri) {
     // quick bail-out
     if (!base.isAbsolute() || !uri.isAbsolute())
@@ -46,7 +59,7 @@ public final class URIs {
     if (baseRel.getPath().equals(uriRel.getPath()))
       return baseRel.relativize(uriRel);
 
-    // Direct siblings? (ie. in same folder)
+    // Direct siblings? (i.e. in same folder)
     URI commonBase = baseRel.resolve("./");
     if (commonBase.equals(uriRel.resolve("./")))
       return commonBase.relativize(uriRel);

@@ -20,6 +20,10 @@ import java.util.Collection;
 
 import org.libj.util.CollectionUtil;
 
+/**
+ * Class representing an IANA Network Service, as available in
+ * {@code /etc/services}.
+ */
 public class Service {
   /** Official service name */
   private final String serviceName;
@@ -35,14 +39,23 @@ public class Service {
     this.aliases = aliases;
   }
 
+  /**
+   * @return The name.
+   */
   public String getName() {
     return this.serviceName;
   }
 
+  /**
+   * @return The port.
+   */
   public int getPort() {
     return this.port;
   }
 
+  /**
+   * @return The aliases.
+   */
   public Collection<String> getAliases() {
     return this.aliases;
   }

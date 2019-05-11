@@ -19,24 +19,44 @@ package org.libj.net;
 import java.util.Base64;
 import java.util.Objects;
 
+/**
+ * The "Authorization: Basic" header schemes.
+ */
 public class Basic extends AuthScheme {
   private final String username;
   private final String password;
 
+  /**
+   * Creates a new {@code Basic} instance with the specified username and
+   * password.
+   *
+   * @param username The username.
+   * @param password The password.
+   * @throws NullPointerException If {@code username} of {@code password} is null.
+   */
   public Basic(final String username, final String password) {
     this.username = Objects.requireNonNull(username);
     this.password = Objects.requireNonNull(password);
   }
 
+  /**
+   * Creates a new {@code Bearer} instance with a null username and password..
+   */
   protected Basic() {
     this.username = null;
     this.password = null;
   }
 
+  /**
+   * @return The username.
+   */
   public String getUsername() {
     return this.username;
   }
 
+  /**
+   * @return The password.
+   */
   public String getPassword() {
     return this.password;
   }

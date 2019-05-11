@@ -19,17 +19,32 @@ package org.libj.net;
 import java.util.Base64;
 import java.util.Objects;
 
+/**
+ * The "Authorization: Bearer" header schemes.
+ */
 public class Bearer extends AuthScheme {
   private final String token;
 
+  /**
+   * Creates a new {@code Bearer} instance with the specified token.
+   *
+   * @param token The token.
+   * @throws NullPointerException If {@code token} is null.
+   */
   public Bearer(final String token) {
     this.token = Objects.requireNonNull(token);
   }
 
+  /**
+   * Creates a new {@code Bearer} instance with a null token.
+   */
   protected Bearer() {
     this.token = null;
   }
 
+  /**
+   * @return The token.
+   */
   public String getToken() {
     return this.token;
   }

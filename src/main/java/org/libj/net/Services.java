@@ -18,11 +18,23 @@ package org.libj.net;
 
 import java.net.URI;
 
+/**
+ * Class for obtaining IANA Network Service information, as available in
+ * {@code /etc/services}.
+ */
 public final class Services {
   private static Service makeService(final jnr.netdb.Service service) {
     return service == null ? null : new Service(service.getName(), service.getPort(), service.getAliases());
   }
 
+  /**
+   * Returns the {@code Service} definition for the specified TCP/UDP port, or
+   * {@code null} if a {@code Service} is not defined for the port.
+   *
+   * @param port The port.
+   * @return The {@code Service} definition for the specified TCP/UDP port, or
+   *         {@code null} if a {@code Service} is not defined for the port.
+   */
   public static Service getService(final int port) {
     final Service service = makeService(jnr.netdb.Service.getServiceByPort(port, "tcp"));
     if (service != null)
@@ -35,6 +47,14 @@ public final class Services {
     return getService(uri.getScheme());
   }
 
+  /**
+   * Returns the {@code Service} definition for the specified TCP/UDP scheme, or
+   * {@code null} if a {@code Service} is not defined for the scheme.
+   *
+   * @param scheme
+   * @return The {@code Service} definition for the specified TCP/UDP scheme, or
+   *         {@code null} if a {@code Service} is not defined for the scheme.
+   */
   public static Service getService(final String scheme) {
     final Service service = makeService(jnr.netdb.Service.getServiceByName(scheme, "tcp"));
     if (service != null)
