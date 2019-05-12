@@ -22,10 +22,10 @@
   <parent>
     <groupId>org.libj</groupId>
     <artifactId>libj</artifactId>
-    <version>0.9.5-SNAPSHOT</version>
+    <version>0.9.5</version>
   </parent>
   <artifactId>net</artifactId>
-  <version>0.5.0-SNAPSHOT</version>
+  <version>0.5.0</version>
   <name>LibJ Net</name>
   <description>
     Supplementary utilities for classes that belong to java.net and javax.servlet packages.
@@ -44,7 +44,7 @@
     <dependency>
       <groupId>org.libj</groupId>
       <artifactId>util</artifactId>
-      <version>0.7.9-SNAPSHOT</version>
+      <version>0.7.9</version>
     </dependency>
   </dependencies>
 </project>
