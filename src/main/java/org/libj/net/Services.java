@@ -51,7 +51,7 @@ public final class Services {
    * Returns the {@code Service} definition for the specified TCP/UDP scheme, or
    * {@code null} if a {@code Service} is not defined for the scheme.
    *
-   * @param scheme
+   * @param scheme The scheme.
    * @return The {@code Service} definition for the specified TCP/UDP scheme, or
    *         {@code null} if a {@code Service} is not defined for the scheme.
    */
