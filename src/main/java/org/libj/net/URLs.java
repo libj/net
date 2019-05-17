@@ -44,6 +44,39 @@ public final class URLs {
   public static final String REGEX = "^([a-z][a-z0-9+\\-.]*):(\\/\\/([a-z0-9\\-._~%!$&amp;'()*+,;=]+@)?([a-z0-9\\-._~%]+|\\[[a-f0-9:.]+\\]|\\[v[a-f0-9][a-z0-9\\-._~%!$&amp;'()*+,;=:]+\\])(:[0-9]+)?(\\/[a-z0-9\\-._~%!$&amp;'()*+,;=:@]+)*\\/?|(\\/?[a-z0-9\\-._~%!$&amp;'()*+,;=:@]+(\\/[a-z0-9\\-._~%!$&amp;'()*+,;=:@]+)*\\/?)?)(\\?[a-z0-9\\-._~%!$&amp;'()*+,;=:@/?]*)?(#[a-z0-9\\-._~%!$&amp;'()*+,;=:@/?]*)?$";
 
   /**
+   * Creates a URL by parsing the given string.
+   * <p>
+   * This convenience factory method works as if by invoking the
+   * {@link URL#URL(String)} constructor; any {@link MalformedURLException}
+   * thrown by the constructor is caught and wrapped in a new
+   * {@link IllegalArgumentException} object, which is then thrown.
+   * <p>
+   * This method is provided for use in situations where it is known that the
+   * given string is a legal URL, for example for URL constants declared within
+   * in a program, and so it would be considered a programming error for the
+   * string not to parse as such. The constructors, which throw
+   * {@link MalformedURLException} directly, should be used situations where a
+   * URL is being constructed from user input or from some other source that may
+   * be prone to errors.
+   * </p>
+   *
+   * @param str The string to be parsed into a URL.
+   * @return The new URL.
+   * @throws NullPointerException If {@code str} is {@code null}.
+   * @throws IllegalArgumentException If the given string declares a protocol
+   *           that could not be found in a specification string, or if the
+   *           string could not be parsed.
+   */
+  public static URL create(final String str) {
+    try {
+      return new URL(str);
+    }
+    catch (final MalformedURLException e) {
+      throw new IllegalArgumentException(e.getMessage(), e);
+    }
+  }
+
+  /**
    * Converts an array of {@code File} objects into an array of {@code URL}
    * objects. {@code File} objects that are {@code null} will be {@code null} in
    * the resulting {@code URL[]} array.
@@ -393,15 +426,7 @@ public final class URLs {
    * @throws NullPointerException If {@code url} is null.
    */
   public static URL getJarURL(final URL url) {
-    if (!isJar(url))
-      return null;
-
-    try {
-      return new URL(url.getFile().substring(0, url.getFile().indexOf('!')));
-    }
-    catch (final MalformedURLException e) {
-      throw new UnsupportedOperationException(e);
-    }
+    return isJar(url) ? URLs.create(url.getFile().substring(0, url.getFile().indexOf('!'))) : null;
   }
 
   /**
@@ -495,13 +520,8 @@ public final class URLs {
     if (url == null)
       return null;
 
-    try {
-      final String parentPath = Paths.getParent(url.toString());
-      return parentPath == null ? null : new URL(parentPath);
-    }
-    catch (final MalformedURLException e) {
-      throw new UnsupportedOperationException(e);
-    }
+    final String parentPath = Paths.getParent(url.toString());
+    return parentPath == null ? null : URLs.create(parentPath);
   }
 
   /**
@@ -519,15 +539,7 @@ public final class URLs {
    * @see Paths#getParent(String)
    */
   public static URL getCanonicalParent(final URL url) {
-    if (url == null)
-      return null;
-
-    try {
-      return new URL(Paths.getCanonicalParent(url.toString()));
-    }
-    catch (final MalformedURLException e) {
-      throw new UnsupportedOperationException(e);
-    }
+    return url == null ? null : URLs.create(Paths.getCanonicalParent(url.toString()));
   }
 
   /**
