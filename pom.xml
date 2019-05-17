@@ -25,7 +25,7 @@
     <version>0.9.5</version>
   </parent>
   <artifactId>net</artifactId>
-  <version>0.5.0</version>
+  <version>0.5.1-SNAPSHOT</version>
   <name>LibJ Net</name>
   <description>
     Supplementary utilities for classes that belong to java.net and javax.servlet packages.
