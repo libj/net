@@ -46,7 +46,7 @@ public final class HTTP {
    * @throws IOException If an I/O error has occurred.
    * @throws NullPointerException If {@code url} is null.
    */
-  public static InputStream doGet(final String url, final Map<String,String[]> parameters) throws MalformedURLException, IOException {
+  public static InputStream doGet(final String url, final Map<String,String[]> parameters) throws IOException {
     return doGet(url, parameters, "UTF-8");
   }
 
@@ -64,7 +64,7 @@ public final class HTTP {
    * @throws UnsupportedEncodingException If the provided charset is not supported.
    * @throws NullPointerException If {@code url} is null.
    */
-  public static InputStream doGet(final String url, final Map<String,String[]> parameters, final String charset) throws MalformedURLException, IOException, UnsupportedEncodingException {
+  public static InputStream doGet(final String url, final Map<String,String[]> parameters, final String charset) throws IOException, UnsupportedEncodingException {
     final String query = createQuery(parameters, charset);
     final URLConnection urlConnection = new URL(Objects.requireNonNull(url) + "?" + query).openConnection();
     urlConnection.setUseCaches(false);
@@ -83,7 +83,7 @@ public final class HTTP {
    * @throws IOException If an I/O error has occurred.
    * @throws NullPointerException If {@code url} is null.
    */
-  public static InputStream doPost(final URL url, final Map<String,String[]> parameters) throws MalformedURLException, IOException {
+  public static InputStream doPost(final URL url, final Map<String,String[]> parameters) throws IOException {
     return doPost(url, parameters, null);
   }
 
@@ -101,7 +101,7 @@ public final class HTTP {
    * @throws IOException If an I/O error has occurred.
    * @throws NullPointerException If {@code url} is null.
    */
-  public static InputStream doPost(final URL url, final Map<String,String[]> parameters, final Properties properties) throws MalformedURLException, IOException {
+  public static InputStream doPost(final URL url, final Map<String,String[]> parameters, final Properties properties) throws IOException {
     return doPost(url, parameters, properties, null);
   }
 
@@ -120,7 +120,7 @@ public final class HTTP {
    * @throws IOException If an I/O error has occurred.
    * @throws NullPointerException If {@code url} is null.
    */
-  public static InputStream doPost(final URL url, final Map<String,String[]> parameters, final Properties properties, final List<String> cookies) throws MalformedURLException, IOException {
+  public static InputStream doPost(final URL url, final Map<String,String[]> parameters, final Properties properties, final List<String> cookies) throws IOException {
     String charset = properties != null ? properties.getProperty("accept-charset") : null;
     if (charset == null)
       charset = "UTF-8";
