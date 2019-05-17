@@ -22,7 +22,7 @@
   <parent>
     <groupId>org.libj</groupId>
     <artifactId>libj</artifactId>
-    <version>0.9.5</version>
+    <version>0.9.6-SNAPSHOT</version>
   </parent>
   <artifactId>net</artifactId>
   <version>0.5.1-SNAPSHOT</version>
