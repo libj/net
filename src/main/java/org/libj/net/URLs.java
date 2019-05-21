@@ -26,6 +26,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.nio.Buffer;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
@@ -713,7 +714,7 @@ public final class URLs {
         }
       }
 
-      out.flip();
+      ((Buffer)out).flip();
       return charset.decode(out).toString();
     }
 
