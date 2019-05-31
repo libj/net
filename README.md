@@ -1,9 +1,9 @@
 # LibJ Net
 
-[![Build Status](https://travis-ci.org/libj/net.png)](https://travis-ci.org/libj/net)
-[![Coverage Status](https://coveralls.io/repos/github/libj/net/badge.svg)](https://coveralls.io/github/libj/net)
-[![Javadocs](https://www.javadoc.io/badge/org.libj/net.svg)](https://www.javadoc.io/doc/org.libj/net)
-[![Released Version](https://img.shields.io/maven-central/v/org.libj/net.svg)](https://mvnrepository.com/artifact/org.libj/net)
+[![Build Status](https://travis-ci.org/libj/net.svg?1)](https://travis-ci.org/libj/net)
+[![Coverage Status](https://coveralls.io/repos/github/libj/net/badge.svg?1)](https://coveralls.io/github/libj/net)
+[![Javadocs](https://www.javadoc.io/badge/org.libj/net.svg?1)](https://www.javadoc.io/doc/org.libj/net)
+[![Released Version](https://img.shields.io/maven-central/v/org.libj/net.svg?1)](https://mvnrepository.com/artifact/org.libj/net)
 
 ## Introduction
 
