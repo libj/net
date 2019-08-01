@@ -66,6 +66,8 @@ public final class URIComponent {
    * @param uri The {@code String} to be encoded.
    * @return The encoded {@code String}, or {@code null} if the provided string
    *         is null.
+   * @throws UnsupportedOperationException If character encoding needs to be
+   *           consulted, but named character encoding is not supported.
    */
   public static String encode(final String uri) {
     try {

@@ -97,7 +97,7 @@ public abstract class MemoryURLStreamHandler extends URLStreamHandler {
       return url;
     }
     catch (final MalformedURLException e) {
-      throw new UnsupportedOperationException(e);
+      throw new IllegalStateException(e);
     }
   }
 
