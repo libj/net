@@ -52,7 +52,7 @@ public final class Downloads {
     try {
       connection.setIfModifiedSince(file.lastModified());
       final int responseCode = connection.getResponseCode();
-      if (responseCode != HttpURLConnection.HTTP_NOT_MODIFIED && responseCode == HttpURLConnection.HTTP_OK) {
+      if (responseCode == HttpURLConnection.HTTP_OK) {
         try (
           final InputStream in = connection.getInputStream();
           final FileOutputStream out = new FileOutputStream(file);
