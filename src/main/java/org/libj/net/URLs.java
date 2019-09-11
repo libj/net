@@ -43,6 +43,7 @@ import org.libj.util.Strings;
 public final class URLs {
   /** A regular expression pattern that matches URL strings. */
   public static final String REGEX = "^([a-z][a-z0-9+\\-.]*):(\\/\\/([a-z0-9\\-._~%!$&amp;'()*+,;=]+@)?([a-z0-9\\-._~%]+|\\[[a-f0-9:.]+\\]|\\[v[a-f0-9][a-z0-9\\-._~%!$&amp;'()*+,;=:]+\\])(:[0-9]+)?(\\/[a-z0-9\\-._~%!$&amp;'()*+,;=:@]+)*\\/?|(\\/?[a-z0-9\\-._~%!$&amp;'()*+,;=:@]+(\\/[a-z0-9\\-._~%!$&amp;'()*+,;=:@]+)*\\/?)?)(\\?[a-z0-9\\-._~%!$&amp;'()*+,;=:@/?]*)?(#[a-z0-9\\-._~%!$&amp;'()*+,;=:@/?]*)?$";
+  private static final int DEFAULT_TIMEOUT = 1000;
 
   /**
    * Creates a URL by parsing the given string.
@@ -368,17 +369,21 @@ public final class URLs {
    * <li>If the protocol of the specified {@link URL} is {@code "file"}, this
    * method converts the {@link URL} to a {@link File} and delegates to
    * {@link File#exists()}.</li>
-   * <li>Otherwise, the method attempts to open a connection to the resource. If
-   * the connection is successful, the method returns {@code true}, and
-   * otherwise {@code false}.</li>
+   * <li>Otherwise, the method attempts to open a connection to the resource
+   * with the specified connection {@code timeout}. If the connection is
+   * successful, the method returns {@code true}, and otherwise
+   * {@code false}.</li>
    * </ol>
    *
    * @param url The {@link URL} to test.
+   * @param timeout The timeout to be used when attempting to open a connection
+   *          to the {@code url}.
    * @return {@code true} if the specified {@link URL} references a resource
    *         that exists; otherwise {@code false}.
    * @throws NullPointerException If {@code url} is null.
+   * @throws IllegalArgumentException If {@code timeout} is negative.
    */
-  public static boolean exists(final URL url) {
+  public static boolean exists(final URL url, final int timeout) {
     try {
       if ("file".equals(url.getProtocol()))
         return new File(url.toURI()).exists();
@@ -387,13 +392,37 @@ public final class URLs {
     }
 
     try {
-      url.openStream().close();
+      final URLConnection connection = url.openConnection();
+      connection.setConnectTimeout(timeout);
+      connection.getInputStream().close();
+      return true;
     }
     catch (final IOException e) {
       return false;
     }
+  }
 
-    return true;
+  /**
+   * Tests whether the specified {@link URL} references a resource that exists.
+   * <p>
+   * This method performs the following tests to check for the existence of the
+   * resource at the specified {@link URL}:
+   * <ol>
+   * <li>If the protocol of the specified {@link URL} is {@code "file"}, this
+   * method converts the {@link URL} to a {@link File} and delegates to
+   * {@link File#exists()}.</li>
+   * <li>Otherwise, the method attempts to open a connection to the resource
+   * with the {@link #DEFAULT_TIMEOUT}. If the connection is successful, the
+   * method returns {@code true}, and otherwise {@code false}.</li>
+   * </ol>
+   *
+   * @param url The {@link URL} to test.
+   * @return {@code true} if the specified {@link URL} references a resource
+   *         that exists; otherwise {@code false}.
+   * @throws NullPointerException If {@code url} is null.
+   */
+  public static boolean exists(final URL url) {
+    return exists(url, DEFAULT_TIMEOUT);
   }
 
   /**
