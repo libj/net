@@ -17,15 +17,20 @@
 package org.libj.net;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.JarURLConnection;
 import java.net.MalformedURLException;
+import java.net.Proxy;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.net.URLStreamHandler;
 import java.nio.Buffer;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
@@ -34,6 +39,7 @@ import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
 
+import org.libj.net.offline.OfflineURLStreamHandler;
 import org.libj.util.Paths;
 import org.libj.util.Strings;
 
@@ -79,6 +85,15 @@ public final class URLs {
   }
 
   /**
+   * Disables all {@code http} and {@code https} access from this JVM.
+   * <p>
+   * <i><b>Note</b>: Once called, this cannot be undone.</i>
+   */
+  public static void disableRemote() {
+    OfflineURLStreamHandler.register();
+  }
+
+  /**
    * Converts an array of {@code File} objects into an array of {@code URL}
    * objects. {@code File} objects that are {@code null} will be {@code null} in
    * the resulting {@code URL[]} array.
@@ -120,7 +135,7 @@ public final class URLs {
 
   /**
    * Tests whether the specified {@link URL} represents a location that is a
-   * local Jar file with protocol {@code "jar:file:"}.
+   * local JAR file with protocol {@code "jar:file:"}.
    * <p>
    * The compound protocol definition is unwrapped in order to determine if the
    * root resource locator in the URL is local. This method then uses
@@ -151,8 +166,8 @@ public final class URLs {
 
   /**
    * Tests whether the specified {@link URL} represents a location that is
-   * either a local file with protocol {@code "jar:file:"}, or a local Jar file
-   * with protocol {@code "jar:file:"}.
+   * either a local file with protocol {@code "file:"}, or a local JAR file with
+   * protocol {@code "jar:file:"}.
    * <p>
    * URLs with compound protocol definitions, such as {@code "jar:file:"} are
    * first unwrapped in order to digest the root resource locator in the URL.
@@ -161,8 +176,8 @@ public final class URLs {
    *
    * @param url The {@link URL} to test.
    * @return {@code true} if the specified {@link URL} represents a location
-   *         that is either a local file with protocol {@code "jar:file:"}, or a
-   *         local Jar file with protocol {@code "jar:file:"}; otherwise
+   *         that is either a local file with protocol {@code "file:"}, or a
+   *         local JAR file with protocol {@code "jar:file:"}; otherwise
    *         {@code false}.
    * @throws NullPointerException If {@code url} is null.
    */
@@ -816,6 +831,65 @@ public final class URLs {
    */
   public static String decodePath(final String path) {
     return decode(path, StandardCharsets.UTF_8, true);
+  }
+
+  /**
+   * Returns an {@link URL} with {@code http} and {@code https} protocols
+   * disabled.
+   * <p>
+   * If the specified {@link URL} is of a protocol that is {@code http} or
+   * {@code https}, a new {@link URL} is returned with the
+   * {@link URL#openConnection()} and {@link URL#openConnection(Proxy)} methods
+   * disabled (i.e. they will throw {@link FileNotFoundException} when the
+   * {@link InputStream#read()} or {@link OutputStream#write(int)} methods are
+   * invoked); otherwise, the specified {@link URL} is returned unmodified.
+   *
+   * @param url The {@link URL} for which {@code http} and {@code https}
+   *          protocols are to be disabled.
+   * @return An {@link URL} with {@code http} and {@code https} protocols
+   *         disabled.
+   * @throws NullPointerException If the specified {@link URL} is null.
+   */
+  public static URL disableHttp(final URL url) {
+    if (!url.getProtocol().startsWith("http"))
+      return url;
+
+    try {
+      return new URL(url, "", new URLStreamHandler() {
+        @Override
+        protected URLConnection openConnection(final URL u) throws IOException {
+          return openConnection(u, null);
+        }
+
+        @Override
+        protected URLConnection openConnection(final URL u, final Proxy proxy) throws IOException {
+          return new FilterURLConnection(proxy != null ? url.openConnection(proxy) : url.openConnection()) {
+            @Override
+            public InputStream getInputStream() {
+              return new InputStream() {
+                @Override
+                public int read() throws FileNotFoundException {
+                  throw new FileNotFoundException(u.toString());
+                }
+              };
+            }
+
+            @Override
+            public OutputStream getOutputStream() {
+              return new OutputStream() {
+                @Override
+                public void write(final int b) throws FileNotFoundException {
+                  throw new FileNotFoundException(u.toString());
+                }
+              };
+            }
+          };
+        }
+      });
+    }
+    catch (final MalformedURLException e) {
+      throw new IllegalArgumentException(e);
+    }
   }
 
   private URLs() {
