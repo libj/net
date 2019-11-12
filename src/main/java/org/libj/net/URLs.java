@@ -21,11 +21,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.JarURLConnection;
 import java.net.MalformedURLException;
 import java.net.Proxy;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -52,7 +54,7 @@ public final class URLs {
   private static final int DEFAULT_TIMEOUT = 1000;
 
   /**
-   * Creates a URL by parsing the given string.
+   * Creates a {@link URL} by parsing the given string.
    * <p>
    * This convenience factory method works as if by invoking the
    * {@link URL#URL(String)} constructor; any {@link MalformedURLException}
@@ -68,9 +70,9 @@ public final class URLs {
    * be prone to errors.
    * </p>
    *
-   * @param str The string to be parsed into a URL.
-   * @return The new URL.
-   * @throws NullPointerException If {@code str} is {@code null}.
+   * @param str The string to parse.
+   * @return The new {@link URL}.
+   * @throws NullPointerException If {@code str} is null.
    * @throws IllegalArgumentException If the given string declares a protocol
    *           that could not be found in a specification string, or if the
    *           string could not be parsed.
@@ -81,6 +83,100 @@ public final class URLs {
     }
     catch (final MalformedURLException e) {
       throw new IllegalArgumentException(e.getMessage(), e);
+    }
+  }
+
+  /**
+   * Creates a {@link URL} by parsing the given {@link URL} and spec string.
+   * <p>
+   * This convenience factory method works as if by invoking the
+   * {@link URL#URL(URL,String)} constructor; any {@link MalformedURLException}
+   * thrown by the constructor is caught and wrapped in a new
+   * {@link IllegalArgumentException} object, which is then thrown.
+   * <p>
+   * This method is provided for use in situations where it is known that the
+   * given string is a legal URL, for example for URL constants declared within
+   * in a program, and so it would be considered a programming error for the
+   * string not to parse as such. The constructors, which throw
+   * {@link MalformedURLException} directly, should be used situations where a
+   * URL is being constructed from user input or from some other source that may
+   * be prone to errors.
+   * </p>
+   *
+   * @param context The context in which to parse the specification.
+   * @param spec The {@code String} to parse.
+   * @return The new {@link URL}.
+   * @throws NullPointerException If {@code str} is null.
+   * @throws IllegalArgumentException If the given string declares a protocol
+   *           that could not be found in a specification string, or if the
+   *           string could not be parsed.
+   */
+  public static URL create(final URL context, final String spec) {
+    try {
+      return new URL(context, spec);
+    }
+    catch (final MalformedURLException e) {
+      throw new IllegalArgumentException(e.getMessage(), e);
+    }
+  }
+
+  /**
+   * Creates a {@link URL} by parsing the given protocol, host, and file strings.
+   * <p>
+   * This convenience factory method works as if by invoking the
+   * {@link URL#URL(String,String,String)} constructor; any
+   * {@link MalformedURLException} thrown by the constructor is caught and
+   * wrapped in a new {@link IllegalArgumentException} object, which is then
+   * thrown.
+   * <p>
+   * This method is provided for use in situations where it is known that the
+   * given string is a legal URL, for example for URL constants declared within
+   * in a program, and so it would be considered a programming error for the
+   * string not to parse as such. The constructors, which throw
+   * {@link MalformedURLException} directly, should be used situations where a
+   * URL is being constructed from user input or from some other source that may
+   * be prone to errors.
+   * </p>
+   *
+   * @param protocol The name of the protocol to use.
+   * @param host The name of the host.
+   * @param file The file on the host.
+   * @return The new {@link URL}.
+   * @throws NullPointerException If {@code str} is null.
+   * @throws IllegalArgumentException If the given string declares a protocol
+   *           that could not be found in a specification string, or if the
+   *           string could not be parsed.
+   */
+  public static URL create(final String protocol, final String host, final String file) {
+    try {
+      return new URL(protocol, host, file);
+    }
+    catch (final MalformedURLException e) {
+      throw new IllegalArgumentException(e.getMessage(), e);
+    }
+  }
+
+  /**
+   * Creates a {@link URL} from the specified {@link URI}.
+   * <p>
+   * This convenience method works as if invoking it were equivalent to
+   * evaluating the expression {@code new URL(this.toString())} after first
+   * checking that this URI is absolute.
+   * </p>
+   *
+   * @param uri The {@link URI} to convert to a {@link URL}.
+   * @return The new {@link URL}.
+   * @throws IllegalArgumentException If this {@link URL} is not absolute.
+   * @throws UncheckedIOException If a protocol handler for the {@link URL}
+   *           could not be found, or if some other error occurred while
+   *           constructing the {@link URL}.
+   */
+  public static URL fromURI(final URI uri) {
+    try {
+      return uri.toURL();
+    }
+    catch (final MalformedURLException e) {
+      throw new UncheckedIOException(e);
     }
   }
 

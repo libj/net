@@ -89,16 +89,10 @@ public abstract class MemoryURLStreamHandler extends URLStreamHandler {
    * @return A "memory" protocol {@link URL} for the specified {@code data}.
    */
   public static URL createURL(final byte[] data) {
-    try {
-      final String path = "/" + Integer.toHexString(System.identityHashCode(data));
-      final URL url = new URL("memory", null, path);
-
-      idToData.put(path, data);
-      return url;
-    }
-    catch (final MalformedURLException e) {
-      throw new IllegalStateException(e);
-    }
+    final String path = "/" + Integer.toHexString(System.identityHashCode(data));
+    final URL url = URLs.create("memory", null, path);
+    idToData.put(path, data);
+    return url;
   }
 
   /**
