@@ -16,10 +16,9 @@
 
 package org.libj.net;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLStreamHandler;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.libj.net.memory.Handler;
 import org.slf4j.Logger;
@@ -80,7 +79,7 @@ public abstract class MemoryURLStreamHandler extends URLStreamHandler {
 //    }
   }
 
-  protected static final HashMap<String,byte[]> idToData = new HashMap<>();
+  protected static final ConcurrentHashMap<String,byte[]> idToData = new ConcurrentHashMap<>();
 
   /**
    * Creates a "memory" protocol {@link URL} for the specified {@code data}.
