@@ -37,6 +37,8 @@ public final class URLConnections {
    *
    * @param urlConnection The {@code URLConnection}.
    * @param properties The {@code Properties}.
+   * @throws NullPointerException If the specified {@link URLConnection} or
+   *           {@link Properties} is null.
    */
   public static void setRequestProperties(final URLConnection urlConnection, final Properties properties) {
     for (final Map.Entry<Object,Object> entry : properties.entrySet())
@@ -51,6 +53,7 @@ public final class URLConnections {
    * @return An {@code InputStream} to the specified url that may or may not
    *         exist at a redirected location.
    * @throws IOException If an I/O error has occurred.
+   * @throws NullPointerException If the specified {@link URL} is null.
    */
   public static InputStream tryOpenRedirectStream(final URL url) throws IOException {
     final URLConnection connection = url.openConnection();

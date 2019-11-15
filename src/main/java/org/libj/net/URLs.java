@@ -72,7 +72,7 @@ public final class URLs {
    *
    * @param str The string to parse.
    * @return The new {@link URL}.
-   * @throws NullPointerException If {@code str} is null.
+   * @throws NullPointerException If the given string is null.
    * @throws IllegalArgumentException If the given string declares a protocol
    *           that could not be found in a specification string, or if the
    *           string could not be parsed.
@@ -106,7 +106,7 @@ public final class URLs {
    * @param context The context in which to parse the specification.
    * @param spec The {@code String} to parse.
    * @return The new {@link URL}.
-   * @throws NullPointerException If {@code str} is null.
+   * @throws NullPointerException If {@code spec} is null.
    * @throws IllegalArgumentException If the given string declares a protocol
    *           that could not be found in a specification string, or if the
    *           string could not be parsed.
@@ -142,7 +142,7 @@ public final class URLs {
    * @param host The name of the host.
    * @param file The file on the host.
    * @return The new {@link URL}.
-   * @throws NullPointerException If {@code str} is null.
+   * @throws NullPointerException If {@code file} is null.
    * @throws IllegalArgumentException If the given string declares a protocol
    *           that could not be found in a specification string, or if the
    *           string could not be parsed.
@@ -170,6 +170,7 @@ public final class URLs {
    * @throws UncheckedIOException If a protocol handler for the {@link URL}
    *           could not be found, or if some other error occurred while
    *           constructing the {@link URL}.
+   * @throws NullPointerException If the specified {@link URI} is null.
    */
   public static URL fromURI(final URI uri) {
     try {
@@ -959,7 +960,7 @@ public final class URLs {
 
         @Override
         protected URLConnection openConnection(final URL u, final Proxy proxy) throws IOException {
-          return new FilterURLConnection(proxy != null ? url.openConnection(proxy) : url.openConnection()) {
+          return new DelegateURLConnection(proxy != null ? url.openConnection(proxy) : url.openConnection()) {
             @Override
             public InputStream getInputStream() {
               return new InputStream() {

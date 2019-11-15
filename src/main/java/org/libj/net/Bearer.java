@@ -23,20 +23,22 @@ import java.util.Objects;
  * The "Authorization: Bearer" header schemes.
  */
 public class Bearer extends AuthScheme {
+  private static final long serialVersionUID = -1331849915362570916L;
+
   private final String token;
 
   /**
-   * Creates a new {@code Bearer} instance with the specified token.
+   * Creates a new {@link Bearer} instance with the specified token.
    *
    * @param token The token.
-   * @throws NullPointerException If {@code token} is null.
+   * @throws NullPointerException If the specified token is null.
    */
   public Bearer(final String token) {
     this.token = Objects.requireNonNull(token);
   }
 
   /**
-   * Creates a new {@code Bearer} instance with a null token.
+   * Creates a new {@link Bearer} instance with a null token.
    */
   protected Bearer() {
     this.token = null;
@@ -57,5 +59,22 @@ public class Bearer extends AuthScheme {
   @Override
   protected Bearer decode(final String authorization) {
     return new Bearer(new String(Base64.getDecoder().decode(authorization.substring(7))));
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj == this)
+      return true;
+
+    if (!(obj instanceof Bearer))
+      return false;
+
+    final Bearer that = (Bearer)obj;
+    return token != null ? that.token != null : token.equals(that.token);
+  }
+
+  @Override
+  public int hashCode() {
+    return token == null ? 3 : token.hashCode();
   }
 }

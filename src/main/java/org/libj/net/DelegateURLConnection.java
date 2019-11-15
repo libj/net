@@ -26,239 +26,240 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A {@code FilterURLConnection} contains some other {@link URLConnection},
+ * A {@link DelegateURLConnection} contains some other {@link URLConnection},
  * which it uses as its basic source of data, possibly transforming the data
  * along the way or providing additional functionality. The class
- * {@code FilterURLConnection} itself simply overrides all methods of
+ * {@link DelegateURLConnection} itself simply overrides all methods of
  * {@link URLConnection} with versions that pass all requests to the contained
- * input stream. Subclasses of {@code FilterURLConnection} may further override
- * some of these methods and may also provide additional methods and fields.
+ * input stream. Subclasses of {@link DelegateURLConnection} may further
+ * override some of these methods and may also provide additional methods and
+ * fields.
  */
-public class FilterURLConnection extends URLConnection {
-  protected volatile URLConnection connection;
+public class DelegateURLConnection extends URLConnection {
+  protected volatile URLConnection target;
 
   /**
-   * Creates a new {@code FilterURLConnection} with the specified connection.
+   * Creates a new {@link DelegateURLConnection} with the specified connection.
    *
-   * @param connection The connection.
-   * @throws NullPointerException If {@code connection} is null.
+   * @param target The connection.
+   * @throws NullPointerException If the specified connection is null.
    */
-  public FilterURLConnection(final URLConnection connection) {
-    super(connection.getURL());
-    this.connection = connection;
+  public DelegateURLConnection(final URLConnection target) {
+    super(target.getURL());
+    this.target = target;
   }
 
   /**
-   * Creates a new {@code FilterHttpServletRequest} with a null connection.
+   * Creates a new {@link DelegateURLConnection} with a null connection.
    */
-  protected FilterURLConnection() {
+  protected DelegateURLConnection() {
     super(null);
   }
 
   @Override
   public void connect() throws IOException {
-    connection.connect();
+    target.connect();
   }
 
   @Override
   public void setConnectTimeout(final int timeout) {
-    connection.setConnectTimeout(timeout);
+    target.setConnectTimeout(timeout);
   }
 
   @Override
   public int getConnectTimeout() {
-    return connection.getConnectTimeout();
+    return target.getConnectTimeout();
   }
 
   @Override
   public void setReadTimeout(final int timeout) {
-    connection.setReadTimeout(timeout);
+    target.setReadTimeout(timeout);
   }
 
   @Override
   public int getReadTimeout() {
-    return connection.getReadTimeout();
+    return target.getReadTimeout();
   }
 
   @Override
   public URL getURL() {
-    return connection.getURL();
+    return target.getURL();
   }
 
   @Override
   public int getContentLength() {
-    return connection.getContentLength();
+    return target.getContentLength();
   }
 
   @Override
   public long getContentLengthLong() {
-    return connection.getContentLengthLong();
+    return target.getContentLengthLong();
   }
 
   @Override
   public String getContentType() {
-    return connection.getContentType();
+    return target.getContentType();
   }
 
   @Override
   public String getContentEncoding() {
-    return connection.getContentEncoding();
+    return target.getContentEncoding();
   }
 
   @Override
   public long getExpiration() {
-    return connection.getExpiration();
+    return target.getExpiration();
   }
 
   @Override
   public long getDate() {
-    return connection.getDate();
+    return target.getDate();
   }
 
   @Override
   public long getLastModified() {
-    return connection.getLastModified();
+    return target.getLastModified();
   }
 
   @Override
   public String getHeaderField(final String name) {
-    return connection.getHeaderField(name);
+    return target.getHeaderField(name);
   }
 
   @Override
   public Map<String,List<String>> getHeaderFields() {
-    return connection.getHeaderFields();
+    return target.getHeaderFields();
   }
 
   @Override
   public int getHeaderFieldInt(final String name, final int Default) {
-    return connection.getHeaderFieldInt(name, Default);
+    return target.getHeaderFieldInt(name, Default);
   }
 
   @Override
   public long getHeaderFieldLong(final String name, final long Default) {
-    return connection.getHeaderFieldLong(name, Default);
+    return target.getHeaderFieldLong(name, Default);
   }
 
   @Override
   public long getHeaderFieldDate(final String name, final long Default) {
-    return connection.getHeaderFieldDate(name, Default);
+    return target.getHeaderFieldDate(name, Default);
   }
 
   @Override
   public String getHeaderFieldKey(final int n) {
-    return connection.getHeaderFieldKey(n);
+    return target.getHeaderFieldKey(n);
   }
 
   @Override
   public String getHeaderField(final int n) {
-    return connection.getHeaderField(n);
+    return target.getHeaderField(n);
   }
 
   @Override
   public Object getContent() throws IOException {
-    return connection.getContent();
+    return target.getContent();
   }
 
   @Override
   @SuppressWarnings("rawtypes")
   public Object getContent(final Class[] classes) throws IOException {
-    return connection.getContent(classes);
+    return target.getContent(classes);
   }
 
   @Override
   public Permission getPermission() throws IOException {
-    return connection.getPermission();
+    return target.getPermission();
   }
 
   @Override
   public InputStream getInputStream() throws IOException {
-    return connection.getInputStream();
+    return target.getInputStream();
   }
 
   @Override
   public OutputStream getOutputStream() throws IOException {
-    return connection.getOutputStream();
+    return target.getOutputStream();
   }
 
   @Override
   public void setDoInput(final boolean doinput) {
-    connection.setDoInput(doinput);
+    target.setDoInput(doinput);
   }
 
   @Override
   public boolean getDoInput() {
-    return connection.getDoInput();
+    return target.getDoInput();
   }
 
   @Override
   public void setDoOutput(final boolean dooutput) {
-    connection.setDoOutput(dooutput);
+    target.setDoOutput(dooutput);
   }
 
   @Override
   public boolean getDoOutput() {
-    return connection.getDoOutput();
+    return target.getDoOutput();
   }
 
   @Override
   public void setAllowUserInteraction(final boolean allowuserinteraction) {
-    connection.setAllowUserInteraction(allowuserinteraction);
+    target.setAllowUserInteraction(allowuserinteraction);
   }
 
   @Override
   public boolean getAllowUserInteraction() {
-    return connection.getAllowUserInteraction();
+    return target.getAllowUserInteraction();
   }
 
   @Override
   public void setUseCaches(final boolean usecaches) {
-    connection.setUseCaches(usecaches);
+    target.setUseCaches(usecaches);
   }
 
   @Override
   public boolean getUseCaches() {
-    return connection.getUseCaches();
+    return target.getUseCaches();
   }
 
   @Override
   public void setIfModifiedSince(final long ifmodifiedsince) {
-    connection.setIfModifiedSince(ifmodifiedsince);
+    target.setIfModifiedSince(ifmodifiedsince);
   }
 
   @Override
   public long getIfModifiedSince() {
-    return connection.getIfModifiedSince();
+    return target.getIfModifiedSince();
   }
 
   @Override
   public boolean getDefaultUseCaches() {
-    return connection.getDefaultUseCaches();
+    return target.getDefaultUseCaches();
   }
 
   @Override
   public void setDefaultUseCaches(final boolean defaultusecaches) {
-    connection.setDefaultUseCaches(defaultusecaches);
+    target.setDefaultUseCaches(defaultusecaches);
   }
 
   @Override
   public void setRequestProperty(final String key, final String value) {
-    connection.setRequestProperty(key, value);
+    target.setRequestProperty(key, value);
   }
 
   @Override
   public void addRequestProperty(final String key, final String value) {
-    connection.addRequestProperty(key, value);
+    target.addRequestProperty(key, value);
   }
 
   @Override
   public String getRequestProperty(final String key) {
-    return connection.getRequestProperty(key);
+    return target.getRequestProperty(key);
   }
 
   @Override
   public Map<String,List<String>> getRequestProperties() {
-    return connection.getRequestProperties();
+    return target.getRequestProperties();
   }
 
   @Override
@@ -266,20 +267,20 @@ public class FilterURLConnection extends URLConnection {
     if (obj == this)
       return true;
 
-    if (!(obj instanceof FilterURLConnection))
+    if (!(obj instanceof DelegateURLConnection))
       return false;
 
-    final FilterURLConnection that = (FilterURLConnection)obj;
-    return connection != null ? connection.equals(that.connection) : that.connection == null;
+    final DelegateURLConnection that = (DelegateURLConnection)obj;
+    return target != null ? target.equals(that.target) : that.target == null;
   }
 
   @Override
   public int hashCode() {
-    return connection.hashCode();
+    return target.hashCode();
   }
 
   @Override
   public String toString() {
-    return connection.toString();
+    return target.toString();
   }
 }

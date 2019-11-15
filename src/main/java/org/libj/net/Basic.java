@@ -23,16 +23,19 @@ import java.util.Objects;
  * The "Authorization: Basic" header schemes.
  */
 public class Basic extends AuthScheme {
+  private static final long serialVersionUID = 3306364066082327042L;
+
   private final String username;
   private final String password;
 
   /**
-   * Creates a new {@code Basic} instance with the specified username and
+   * Creates a new {@link Basic} instance with the specified username and
    * password.
    *
    * @param username The username.
    * @param password The password.
-   * @throws NullPointerException If {@code username} of {@code password} is null.
+   * @throws NullPointerException If the specified username and password is
+   *           null.
    */
   public Basic(final String username, final String password) {
     this.username = Objects.requireNonNull(username);
@@ -40,7 +43,7 @@ public class Basic extends AuthScheme {
   }
 
   /**
-   * Creates a new {@code Bearer} instance with a null username and password..
+   * Creates a new {@link Basic} instance with a null username and password..
    */
   protected Basic() {
     this.username = null;
@@ -74,5 +77,28 @@ public class Basic extends AuthScheme {
       throw new IllegalArgumentException("Authorization header is malformed: missing ':'");
 
     return new Basic(login.substring(0, index), login.substring(index + 1));
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj == this)
+      return true;
+
+    if (!(obj instanceof Basic))
+      return false;
+
+    final Basic that = (Basic)obj;
+    if (username != null ? that.username == null : !username.equals(that.username))
+      return false;
+
+    if (password != null ? that.password == null : !password.equals(that.password))
+      return false;
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    return (username == null ? 3 : username.hashCode()) * (password == null ? 7 : password.hashCode());
   }
 }

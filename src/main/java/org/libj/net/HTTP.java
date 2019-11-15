@@ -153,7 +153,9 @@ public final class HTTP {
    * @param parameters The parameter map to be processed as query parameters.
    * @param charset The encoding to be applied.
    * @return The parameter map as query string.
-   * @throws UnsupportedEncodingException If the provided charset is not supported.
+   * @throws UnsupportedEncodingException If the provided charset is not
+   *           supported.
+   * @throws NullPointerException If the provided charset is null.
    */
   public static String createQuery(final Map<String,String[]> parameters, final String charset) throws UnsupportedEncodingException {
     if (parameters == null)

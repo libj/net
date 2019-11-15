@@ -21,7 +21,7 @@ import java.net.InetAddress;
 /**
  * Utility methods for {@link InetAddress}.
  */
-public class InetAddresses {
+public final class InetAddresses {
   /**
    * Returns the decimal representation of the IP of an {@code InetAddress}
    * <p>

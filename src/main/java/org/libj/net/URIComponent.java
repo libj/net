@@ -49,14 +49,15 @@ public final class URIComponent {
    * JavaScript's {@code decodeURIComponent} function.
    *
    * @param uri The encoded {@code String} to be decoded.
-   * @param encoding The name of a supported character encoding.
+   * @param enc The name of a supported character encoding.
    * @return The decoded {@code String}, or {@code null} if the provided string
    *         is null.
    * @throws UnsupportedEncodingException If character encoding needs to be
    *           consulted, but named character encoding is not supported.
+   * @throws NullPointerException If the specified encoding is null.
    */
-  public static String decode(final String uri, final String encoding) throws UnsupportedEncodingException {
-    return uri != null ? URLDecoder.decode(uri, encoding) : null;
+  public static String decode(final String uri, final String enc) throws UnsupportedEncodingException {
+    return uri != null ? URLDecoder.decode(uri, enc) : null;
   }
 
   /**
@@ -88,6 +89,7 @@ public final class URIComponent {
    *         is null.
    * @throws UnsupportedEncodingException If character encoding needs to be
    *           consulted, but named character encoding is not supported.
+   * @throws NullPointerException If the specified encoding is null.
    */
   public static String encode(final String uri, final String enc) throws UnsupportedEncodingException {
     return uri == null ? null : URLEncoder.encode(uri, enc).replace("+", "%20"); //.replace("%21", "!").replace("%27", "'").replace("%28", "(").replace("%29", ")").replace("%7E", "~") : null;

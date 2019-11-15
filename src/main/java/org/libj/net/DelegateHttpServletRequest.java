@@ -42,132 +42,133 @@ import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.Part;
 
 /**
- * A {@code FilterHttpServletRequest} contains some other
+ * A {@link DelegateHttpServletRequest} contains some other
  * {@link HttpServletRequest}, which it uses as its basic source of data,
  * possibly transforming the data along the way or providing additional
- * functionality. The class {@code FilterHttpServletRequest} itself simply
+ * functionality. The class {@link DelegateHttpServletRequest} itself simply
  * overrides all methods of {@link HttpServletRequest} with versions that pass
  * all requests to the contained input stream. Subclasses of
- * {@code FilterHttpServletRequest} may further override some of these methods
+ * {@link DelegateHttpServletRequest} may further override some of these methods
  * and may also provide additional methods and fields.
  */
-public class FilterHttpServletRequest implements HttpServletRequest {
-  protected volatile HttpServletRequest request;
+public class DelegateHttpServletRequest implements HttpServletRequest {
+  protected volatile HttpServletRequest target;
 
   /**
-   * Creates a new {@code FilterHttpServletRequest} with the specified request.
+   * Creates a new {@link DelegateHttpServletRequest} with the specified
+   * request.
    *
-   * @param request The request.
-   * @throws NullPointerException If {@code request} is null.
+   * @param target The request.
+   * @throws NullPointerException If the specified request is null.
    */
-  public FilterHttpServletRequest(final HttpServletRequest request) {
-    this.request = Objects.requireNonNull(request);
+  public DelegateHttpServletRequest(final HttpServletRequest target) {
+    this.target = Objects.requireNonNull(target);
   }
 
   /**
-   * Creates a new {@code FilterHttpServletRequest} with a null request.
+   * Creates a new {@link DelegateHttpServletRequest} with a null request.
    */
-  protected FilterHttpServletRequest() {
+  protected DelegateHttpServletRequest() {
   }
 
   @Override
   public Object getAttribute(final String name) {
-    return request.getAttribute(name);
+    return target.getAttribute(name);
   }
 
   @Override
   public Enumeration<String> getAttributeNames() {
-    return request.getAttributeNames();
+    return target.getAttributeNames();
   }
 
   @Override
   public String getCharacterEncoding() {
-    return request.getCharacterEncoding();
+    return target.getCharacterEncoding();
   }
 
   @Override
   public void setCharacterEncoding(final String env) throws UnsupportedEncodingException {
-    request.setCharacterEncoding(env);
+    target.setCharacterEncoding(env);
   }
 
   @Override
   public int getContentLength() {
-    return request.getContentLength();
+    return target.getContentLength();
   }
 
   @Override
   public long getContentLengthLong() {
-    return request.getContentLengthLong();
+    return target.getContentLengthLong();
   }
 
   @Override
   public String getContentType() {
-    return request.getContentType();
+    return target.getContentType();
   }
 
   @Override
   public ServletInputStream getInputStream() throws IOException {
-    return request.getInputStream();
+    return target.getInputStream();
   }
 
   @Override
   public String getParameter(final String name) {
-    return request.getParameter(name);
+    return target.getParameter(name);
   }
 
   @Override
   public Enumeration<String> getParameterNames() {
-    return request.getParameterNames();
+    return target.getParameterNames();
   }
 
   @Override
   public String[] getParameterValues(final String name) {
-    return request.getParameterValues(name);
+    return target.getParameterValues(name);
   }
 
   @Override
   public Map<String,String[]> getParameterMap() {
-    return request.getParameterMap();
+    return target.getParameterMap();
   }
 
   @Override
   public String getProtocol() {
-    return request.getProtocol();
+    return target.getProtocol();
   }
 
   @Override
   public String getScheme() {
-    return request.getScheme();
+    return target.getScheme();
   }
 
   @Override
   public String getServerName() {
-    return request.getServerName();
+    return target.getServerName();
   }
 
   @Override
   public int getServerPort() {
-    return request.getServerPort();
+    return target.getServerPort();
   }
 
   @Override
   public BufferedReader getReader() throws IOException {
-    return request.getReader();
+    return target.getReader();
   }
 
   @Override
   public String getRemoteAddr() {
-    return request.getRemoteAddr();
+    return target.getRemoteAddr();
   }
 
   @Override
   public String getRemoteHost() {
-    return request.getRemoteHost();
+    return target.getRemoteHost();
   }
 
   @Override
   public void setAttribute(final String name, final Object o) {
-    request.setAttribute(name, o);
+    target.setAttribute(name, o);
   }
 
   @Override
@@ -177,12 +178,12 @@ public class FilterHttpServletRequest implements HttpServletRequest {
 
   @Override
   public Locale getLocale() {
-    return request.getLocale();
+    return target.getLocale();
   }
 
   @Override
   public Enumeration<Locale> getLocales() {
-    return request.getLocales();
+    return target.getLocales();
   }
 
   @Override
@@ -192,38 +193,38 @@ public class FilterHttpServletRequest implements HttpServletRequest {
 
   @Override
   public RequestDispatcher getRequestDispatcher(final String path) {
-    return request.getRequestDispatcher(path);
+    return target.getRequestDispatcher(path);
   }
 
   @Override
   @Deprecated
   public String getRealPath(final String path) {
-    return request.getRealPath(path);
+    return target.getRealPath(path);
   }
 
   @Override
   public int getRemotePort() {
-    return request.getRemotePort();
+    return target.getRemotePort();
   }
 
   @Override
   public String getLocalName() {
-    return request.getLocalName();
+    return target.getLocalName();
   }
 
   @Override
   public String getLocalAddr() {
-    return request.getLocalAddr();
+    return target.getLocalAddr();
   }
 
   @Override
   public int getLocalPort() {
-    return request.getLocalPort();
+    return target.getLocalPort();
   }
 
   @Override
   public ServletContext getServletContext() {
-    return request.getServletContext();
+    return target.getServletContext();
   }
 
   @Override
@@ -248,77 +249,77 @@ public class FilterHttpServletRequest implements HttpServletRequest {
 
   @Override
   public AsyncContext getAsyncContext() {
-    return request.getAsyncContext();
+    return target.getAsyncContext();
   }
 
   @Override
   public DispatcherType getDispatcherType() {
-    return request.getDispatcherType();
+    return target.getDispatcherType();
   }
 
   @Override
   public String getAuthType() {
-    return request.getAuthType();
+    return target.getAuthType();
   }
 
   @Override
   public Cookie[] getCookies() {
-    return request.getCookies();
+    return target.getCookies();
   }
 
   @Override
   public long getDateHeader(final String name) {
-    return request.getDateHeader(name);
+    return target.getDateHeader(name);
   }
 
   @Override
   public String getHeader(final String name) {
-    return request.getHeader(name);
+    return target.getHeader(name);
   }
 
   @Override
   public Enumeration<String> getHeaders(final String name) {
-    return request.getHeaders(name);
+    return target.getHeaders(name);
   }
 
   @Override
   public Enumeration<String> getHeaderNames() {
-    return request.getHeaderNames();
+    return target.getHeaderNames();
   }
 
   @Override
   public int getIntHeader(final String name) {
-    return request.getIntHeader(name);
+    return target.getIntHeader(name);
   }
 
   @Override
   public String getMethod() {
-    return request.getMethod();
+    return target.getMethod();
   }
 
   @Override
   public String getPathInfo() {
-    return request.getPathInfo();
+    return target.getPathInfo();
   }
 
   @Override
   public String getPathTranslated() {
-    return request.getPathTranslated();
+    return target.getPathTranslated();
   }
 
   @Override
   public String getContextPath() {
-    return request.getContextPath();
+    return target.getContextPath();
   }
 
   @Override
   public String getQueryString() {
-    return request.getQueryString();
+    return target.getQueryString();
   }
 
   @Override
   public String getRemoteUser() {
-    return request.getRemoteUser();
+    return target.getRemoteUser();
   }
 
   @Override
@@ -328,37 +329,37 @@ public class FilterHttpServletRequest implements HttpServletRequest {
 
   @Override
   public Principal getUserPrincipal() {
-    return request.getUserPrincipal();
+    return target.getUserPrincipal();
   }
 
   @Override
   public String getRequestedSessionId() {
-    return request.getRequestedSessionId();
+    return target.getRequestedSessionId();
   }
 
   @Override
   public String getRequestURI() {
-    return request.getRequestURI();
+    return target.getRequestURI();
   }
 
   @Override
   public StringBuffer getRequestURL() {
-    return request.getRequestURL();
+    return target.getRequestURL();
   }
 
   @Override
   public String getServletPath() {
-    return request.getServletPath();
+    return target.getServletPath();
   }
 
   @Override
   public HttpSession getSession(final boolean create) {
-    return request.getSession();
+    return target.getSession();
   }
 
   @Override
   public HttpSession getSession() {
-    return request.getSession();
+    return target.getSession();
   }
 
   @Override
@@ -403,16 +404,38 @@ public class FilterHttpServletRequest implements HttpServletRequest {
 
   @Override
   public Collection<Part> getParts() throws IOException, ServletException {
-    return request.getParts();
+    return target.getParts();
   }
 
   @Override
   public Part getPart(final String name) throws IOException, ServletException {
-    return request.getPart(name);
+    return target.getPart(name);
   }
 
   @Override
   public <T extends HttpUpgradeHandler>T upgrade(final Class<T> handlerClass) throws IOException, ServletException {
     throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj == this)
+      return true;
+
+    if (!(obj instanceof DelegateHttpServletRequest))
+      return false;
+
+    final DelegateHttpServletRequest that = (DelegateHttpServletRequest)obj;
+    return target != null ? target.equals(that.target) : that.target == null;
+  }
+
+  @Override
+  public int hashCode() {
+    return target.hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return target.toString();
   }
 }

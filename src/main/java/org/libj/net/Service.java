@@ -33,6 +33,14 @@ public class Service {
   /** All the aliases for this service */
   private final Collection<String> aliases;
 
+  /**
+   * Creates a new {@link Service} with the specified service name, port, and
+   * aliases.
+   *
+   * @param serviceName The service name.
+   * @param port The port.
+   * @param aliases The aliases.
+   */
   protected Service(final String serviceName, final int port, final Collection<String> aliases) {
     this.serviceName = serviceName;
     this.port = port;
@@ -58,6 +66,32 @@ public class Service {
    */
   public Collection<String> getAliases() {
     return this.aliases;
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj == this)
+      return true;
+
+    if (!(obj instanceof Service))
+      return false;
+
+    final Service that = (Service)obj;
+    if (port != that.port)
+      return false;
+
+    if (serviceName != null ? that.serviceName == null : !serviceName.equals(that.serviceName))
+      return false;
+
+    if (aliases != null ? that.aliases == null : !aliases.equals(that.aliases))
+      return false;
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    return port * (serviceName == null ? 3 : serviceName.hashCode()) * (aliases == null ? 7 : aliases.hashCode());
   }
 
   @Override

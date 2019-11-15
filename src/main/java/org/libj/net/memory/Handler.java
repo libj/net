@@ -46,6 +46,7 @@ public class Handler extends MemoryURLStreamHandler {
    *           {@code null} or empty.
    * @throws IOException If no data is registered for the provided {@code URL},
    *           or if an I/O error occurs while opening the connection.
+   * @throws NullPointerException If the specified {@link URL} is null.
    */
   @Override
   protected URLConnection openConnection(final URL url) throws IOException {

@@ -37,7 +37,7 @@ public final class Downloads {
 
   /**
    * Downloads a file from the specified {@code url} to the provided
-   * {@code file}. If the provided {@code file} exists, its lastModified
+   * {@link File}. If the provided {@code file} exists, its lastModified
    * timestamp is used to specify the {@code If-Modified-Since} header in the
    * GET request. Content is not downloaded if the file at the specified
    * {@code url} is not modified.
@@ -46,6 +46,7 @@ public final class Downloads {
    * @param file The destination {@code File}.
    * @return The HTTP response code.
    * @throws IOException If an I/O error has occurred.
+   * @throws NullPointerException If the provided url or {@link File} is null.
    */
   public static int downloadFile(final String url, final File file) throws IOException {
     final HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();

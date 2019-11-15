@@ -16,6 +16,7 @@
 
 package org.libj.net;
 
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.IdentityHashMap;
@@ -25,27 +26,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The {@code AuthScheme} class represents a strong type representation of the
+ * The {@link AuthScheme} class represents a strong type representation of the
  * "Authorization" header schemes. This class allows an "Authorization" scheme
- * to be parsed to an instance of {@code AuthScheme}.
+ * to be parsed to an instance of {@link AuthScheme}.
  *
  * @see Basic
  * @see Bearer
  */
-public abstract class AuthScheme {
+public abstract class AuthScheme implements Serializable {
+  private static final long serialVersionUID = -1473961705131874321L;
   private static final Logger logger = LoggerFactory.getLogger(AuthScheme.class);
 
   /**
-   * Returns an instance of a {@code AuthScheme} subclass specified in
+   * Returns an instance of a {@link AuthScheme} subclass specified in
    * {@code schemes} that matches the spec of the {@code authorization} header
    * string.
    *
    * @param authorization The "Authorization" header string to match.
-   * @param schemes The array of {@code AuthScheme} classes to attempt to match.
-   * @return An instance of a {@code AuthScheme} subclass specified in
+   * @param schemes The array of {@link AuthScheme} classes to attempt to match.
+   * @return An instance of a {@link AuthScheme} subclass specified in
    *         {@code schemes} that matches the spec of the {@code authorization}
    *         header string.
-   * @throws UnsupportedOperationException If a {@code AuthScheme} class in
+   * @throws UnsupportedOperationException If a {@link AuthScheme} class in
    *           {@code schemes} does not implement a protected default
    *           constructor, or if the constructor throws an exception when
    *           invoked.
@@ -87,11 +89,11 @@ public abstract class AuthScheme {
 
   /**
    * Tests whether the {@code authorization} header string matches this
-   * {@code AuthScheme} subclass's implementation.
+   * {@link AuthScheme} subclass's implementation.
    *
    * @param authorization The "Authorization" header string.
    * @return {@code true} if the {@code authorization} header string matches
-   *         this {@code AuthScheme} subclass's implementation; otherwise
+   *         this {@link AuthScheme} subclass's implementation; otherwise
    *         {@code false}.
    */
   public final boolean matches(final String authorization) {
@@ -99,11 +101,11 @@ public abstract class AuthScheme {
   }
 
   /**
-   * Returns a {@code AuthScheme} instance by parsing the {@code authorization}
+   * Returns a {@link AuthScheme} instance by parsing the {@code authorization}
    * header string.
    *
    * @param authorization The "Authorization" header string.
-   * @return A {@code AuthScheme} instance by parsing the {@code authorization}
+   * @return A {@link AuthScheme} instance by parsing the {@code authorization}
    *         header string.
    */
   public final AuthScheme parse(final String authorization) {
@@ -125,13 +127,14 @@ public abstract class AuthScheme {
   public abstract String name();
 
   /**
-   * Returns a {@code AuthScheme} instance by decoding the {@code authorization}
+   * Returns a {@link AuthScheme} instance by decoding the {@code authorization}
    * header string. This method is required to be overridden by subclasses
    * implementing an "Authorization" scheme.
    *
    * @param authorization The "Authorization" header string.
-   * @return A {@code AuthScheme} instance by decoding the {@code authorization}
+   * @return A {@link AuthScheme} instance by decoding the {@code authorization}
    *         header string.
+   * @throws NullPointerException If {@code authorization} is null.
    */
   protected abstract AuthScheme decode(String authorization);
 }
