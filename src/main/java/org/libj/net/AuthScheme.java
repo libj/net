@@ -51,6 +51,8 @@ public abstract class AuthScheme implements Serializable {
    *           {@code schemes} does not implement a protected default
    *           constructor, or if the constructor throws an exception when
    *           invoked.
+   * @throws NullPointerException If @{@code authorization} or {@code schemes}
+   *           is null.
    */
   @SafeVarargs
   public static AuthScheme parse(final String authorization, final Class<? extends AuthScheme> ... schemes) {
@@ -95,6 +97,7 @@ public abstract class AuthScheme implements Serializable {
    * @return {@code true} if the {@code authorization} header string matches
    *         this {@link AuthScheme} subclass's implementation; otherwise
    *         {@code false}.
+   * @throws NullPointerException If {@code authorization} is null.
    */
   public final boolean matches(final String authorization) {
     return authorization != null && authorization.startsWith(name() + " ");
@@ -102,7 +105,7 @@ public abstract class AuthScheme implements Serializable {
 
   /**
    * Returns a {@link AuthScheme} instance by parsing the {@code authorization}
-   * header string.
+   * header string, or {@code null} if the specified string is null.
    *
    * @param authorization The "Authorization" header string.
    * @return A {@link AuthScheme} instance by parsing the {@code authorization}
