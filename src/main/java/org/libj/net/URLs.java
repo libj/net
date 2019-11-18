@@ -104,7 +104,7 @@ public final class URLs {
    * </p>
    *
    * @param context The context in which to parse the specification.
-   * @param spec The {@code String} to parse.
+   * @param spec The {@link String} to parse.
    * @return The new {@link URL}.
    * @throws NullPointerException If {@code spec} is null.
    * @throws IllegalArgumentException If the given string declares a protocol
@@ -191,12 +191,12 @@ public final class URLs {
   }
 
   /**
-   * Converts an array of {@code File} objects into an array of {@code URL}
-   * objects. {@code File} objects that are {@code null} will be {@code null} in
+   * Converts an array of {@link File} objects into an array of {@link URL}
+   * objects. {@link File} objects that are {@code null} will be {@code null} in
    * the resulting {@code URL[]} array.
    *
-   * @param files The array of {@code File} objects.
-   * @return An array of {@code URL} objects.
+   * @param files The array of {@link File} objects.
+   * @return An array of {@link URL} objects.
    * @throws IllegalArgumentException If a protocol handler for the URL could
    *           not be found, or if some other error occurred while constructing
    *           the URL.
@@ -287,7 +287,7 @@ public final class URLs {
    * if the specified string is null.
    * <ul>
    * <li>If the specified path contains the string {@code ":/"}, the resulting
-   * {@code URL} is created with {@link URL#URL(String)}.</li>
+   * {@link URL} is created with {@link URL#URL(String)}.</li>
    * <li>Otherwise, if the specified path does not have a leading {@code '/'},
    * then it is prepended to the path.</li>
    * </ul>
@@ -323,7 +323,7 @@ public final class URLs {
    * {@code '/'} path separators are removed).
    * <ul>
    * <li>If the specified path contains the string {@code ":/"}, the resulting
-   * {@code URL} is created with {@link URL#URL(String)}.</li>
+   * {@link URL} is created with {@link URL#URL(String)}.</li>
    * <li>Otherwise, if the specified path does not have a leading {@code '/'},
    * then it is prepended to the path.</li>
    * </ul>
@@ -688,8 +688,8 @@ public final class URLs {
    * Translates a string into {@code application/x-www-form-urlencoded} format.
    * This method uses UTF-8 as the character encoding.
    *
-   * @param s {@code String} to be translated.
-   * @return The translated {@code String}.
+   * @param s {@link String} to be translated.
+   * @return The translated {@link String}.
    */
   public static String encode(final String s) {
     return encode(s, StandardCharsets.UTF_8.name());
@@ -708,9 +708,9 @@ public final class URLs {
    * {@link UnsupportedEncodingException} if using
    * {@link URLEncoder#encode(String,String)} directly.
    *
-   * @param s {@code String} to be translated.
+   * @param s {@link String} to be translated.
    * @param enc The name of a supported character encoding.
-   * @return The translated {@code String}.
+   * @return The translated {@link String}.
    * @throws UnsupportedOperationException If the named encoding is not
    *           supported.
    * @throws NullPointerException If {@code s} or {@code enc} is null.
@@ -739,9 +739,9 @@ public final class URLs {
    * {@link UnsupportedEncodingException} if using
    * {@link URLEncoder#encode(String,String)} directly.
    *
-   * @param s {@code String} to be translated.
+   * @param s {@link String} to be translated.
    * @param charset The given {@link Charset}.
-   * @return The translated {@code String}.
+   * @return The translated {@link String}.
    * @throws UnsupportedOperationException If the named encoding is not
    *           supported.
    * @throws NullPointerException If {@code s} or {@code charset} is null.
@@ -760,8 +760,8 @@ public final class URLs {
    * Decodes a {@code application/x-www-form-urlencoded} string. This method
    * uses UTF-8 as the character encoding.
    *
-   * @param s The {@code String} to decode.
-   * @return The decoded {@code String}.
+   * @param s The {@link String} to decode.
+   * @return The decoded {@link String}.
    * @throws IllegalArgumentException If the implementation encounters illegal
    *           path separators.
    * @throws NullPointerException If {@code s} is null.
@@ -781,9 +781,9 @@ public final class URLs {
    * World Wide Web Consortium Recommendation</a> states that UTF-8 should be
    * used. Not doing so may introduce incompatibilities.</i>
    *
-   * @param s The {@code String} to decode.
+   * @param s The {@link String} to decode.
    * @param charset The given {@link Charset}.
-   * @return The decoded {@code String}.
+   * @return The decoded {@link String}.
    * @throws NullPointerException If {@code s} or {@code charset} is null.
    * @throws IllegalArgumentException If the implementation encounters illegal
    *           characters.
@@ -801,9 +801,9 @@ public final class URLs {
    * that it will {@linkplain Charset#forName look up the charset} using the
    * given encoding name.
    *
-   * @param s The {@code String} to decode.
+   * @param s The {@link String} to decode.
    * @param enc The name of a supported encoding.
-   * @return The decoded {@code String}.
+   * @return The decoded {@link String}.
    * @throws NullPointerException If {@code s} or {@code charset} is null.
    * @throws IllegalArgumentException If the implementation encounters illegal
    *           characters, or if the given charset name is null.

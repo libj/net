@@ -42,8 +42,8 @@ public final class Downloads {
    * GET request. Content is not downloaded if the file at the specified
    * {@code url} is not modified.
    *
-   * @param url The {@code URL} from which to download.
-   * @param file The destination {@code File}.
+   * @param url The {@link URL} from which to download.
+   * @param file The destination {@link File}.
    * @return The HTTP response code.
    * @throws IOException If an I/O error has occurred.
    * @throws NullPointerException If the provided url or {@link File} is null.
@@ -76,7 +76,7 @@ public final class Downloads {
    * in the browser or let the operating system open it in the right
    * application.
    *
-   * @param response The {@code HttpServletResponse}.
+   * @param response The {@link HttpServletResponse}.
    * @param bytes The file contents in a byte array.
    * @param fileName The file name.
    * @param attachment If {@code true}, "Content-Disposition" will be
@@ -97,7 +97,7 @@ public final class Downloads {
    * in the browser or let the operating system open it in the right
    * application.
    *
-   * @param response The {@code HttpServletResponse}.
+   * @param response The {@link HttpServletResponse}.
    * @param file The file as a File object.
    * @param attachment If {@code true}, "Content-Disposition" will be
    *          "attachment"; otherwise, "inline".
@@ -116,7 +116,7 @@ public final class Downloads {
    * file inline in the browser or let the operating system open it in the right
    * application.
    *
-   * @param response The {@code HttpServletResponse}.
+   * @param response The {@link HttpServletResponse}.
    * @param in The file contents in an InputStream.
    * @param fileName The file name.
    * @param attachment If {@code true}, "Content-Disposition" will be

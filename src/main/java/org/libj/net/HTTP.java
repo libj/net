@@ -31,13 +31,13 @@ import java.util.Objects;
 import java.util.Properties;
 
 /**
- * Utility functions pertaining to the {@code HTTP} protocol.
+ * Utility functions pertaining to the {@link HTTP} protocol.
  */
 public final class HTTP {
   /**
    * Invoke a GET request on the specified URL with the provided parameter map which
    * will be encoded as UTF-8. It is highly recommended to close the obtained
-   * {@code InputStream} after processing.
+   * {@link InputStream} after processing.
    *
    * @param url The URL to be invoked.
    * @param parameters The parameters to be processed as query parameters.
@@ -53,7 +53,7 @@ public final class HTTP {
   /**
    * Invoke a GET request on the specified URL with the provided parameter map
    * and charset encoding. It is highly recommended to close the obtained
-   * {@code InputStream} after processing.
+   * {@link InputStream} after processing.
    *
    * @param url The URL to be invoked.
    * @param parameters The parameters to be processed as query parameters.
@@ -74,7 +74,7 @@ public final class HTTP {
   /**
    * Invoke a POST request on the specified URL with the provided parameter map which
    * will be encoded as UTF-8. It is highly recommended to close the obtained
-   * {@code InputStream} after processing.
+   * {@link InputStream} after processing.
    *
    * @param url The URL to be invoked.
    * @param parameters The parameters to be processed as query parameters.
@@ -90,7 +90,7 @@ public final class HTTP {
   /**
    * Invoke a POST request on the specified URL with the provided parameter map which
    * will be encoded as UTF-8. It is highly recommended to close the obtained
-   * {@code InputStream} after processing.
+   * {@link InputStream} after processing.
    *
    * @param url The URL to be invoked.
    * @param parameters The parameters to be processed as query parameters.
@@ -108,7 +108,7 @@ public final class HTTP {
   /**
    * Invoke a POST request on the specified URL with the provided parameter map which
    * will be encoded as UTF-8. It is highly recommended to close the obtained
-   * {@code InputStream} after processing.
+   * {@link InputStream} after processing.
    *
    * @param url The URL to be invoked.
    * @param parameters The parameters to be processed as query parameters.

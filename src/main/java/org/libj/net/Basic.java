@@ -51,6 +51,8 @@ public class Basic extends AuthScheme {
   }
 
   /**
+   * Returns the username.
+   *
    * @return The username.
    */
   public String getUsername() {
@@ -58,6 +60,8 @@ public class Basic extends AuthScheme {
   }
 
   /**
+   * Returns the password.
+   *
    * @return The password.
    */
   public String getPassword() {

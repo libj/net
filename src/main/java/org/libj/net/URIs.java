@@ -26,9 +26,9 @@ public final class URIs {
    * Constructs a relative path between the specified {@code base} and provided
    * {@code uri}.
    *
-   * @param base The base {@code URI} from which to relativize.
-   * @param uri The {@code URI} to be relativized.
-   * @return The relativized {@code URI}, or {@code null} if either specified
+   * @param base The base {@link URI} from which to relativize.
+   * @param uri The {@link URI} to be relativized.
+   * @return The relativized {@link URI}, or {@code null} if either specified
    *         URIs are opaque.
    * @throws NullPointerException If {@code base} or {@code uri} is null.
    */

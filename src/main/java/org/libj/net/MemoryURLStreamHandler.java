@@ -82,6 +82,8 @@ public abstract class MemoryURLStreamHandler extends URLStreamHandler {
   protected static final ConcurrentHashMap<String,byte[]> idToData = new ConcurrentHashMap<>();
 
   /**
+   * Returns a "memory" protocol {@link URL} for the specified {@code data}.
+   *
    * @param data The data {@code byte} array.
    * @return A "memory" protocol {@link URL} for the specified {@code data}.
    */
@@ -93,17 +95,17 @@ public abstract class MemoryURLStreamHandler extends URLStreamHandler {
   }
 
   /**
-   * Returns the data for the provided {@code URL}.
+   * Returns the data for the provided {@link URL}.
    * <p>
    * <i><b>Note</b>: This method only supports URLs with {@code "memory"}
    * protocol, and a {@code null} or empty host.</i>
    *
-   * @param url The {@code URL}.
-   * @return The data for the provided {@code URL}.
-   * @throws IllegalArgumentException If the provided {@code URL} specifies a
+   * @param url The {@link URL}.
+   * @return The data for the provided {@link URL}.
+   * @throws IllegalArgumentException If the provided {@link URL} specifies a
    *           protocol that is not {@code "memory"}, or a host that is not
    *           {@code null} or empty.
-   * @throws NullPointerException If the provided {@code URL} is null.
+   * @throws NullPointerException If the provided {@link URL} is null.
    */
   public static byte[] getData(final URL url) {
     if (!"memory".equals(url.getProtocol()))

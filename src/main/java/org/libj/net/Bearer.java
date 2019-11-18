@@ -45,6 +45,8 @@ public class Bearer extends AuthScheme {
   }
 
   /**
+   * Returns the token.
+   *
    * @return The token.
    */
   public String getToken() {

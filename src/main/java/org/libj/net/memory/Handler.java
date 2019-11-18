@@ -41,10 +41,10 @@ public class Handler extends MemoryURLStreamHandler {
   /**
    * {@inheritDoc}
    *
-   * @throws MalformedURLException If the provided {@code URL} specifies a
+   * @throws MalformedURLException If the provided {@link URL} specifies a
    *           protocol that is not {@code "memory"}, or a host that is not
    *           {@code null} or empty.
-   * @throws IOException If no data is registered for the provided {@code URL},
+   * @throws IOException If no data is registered for the provided {@link URL},
    *           or if an I/O error occurs while opening the connection.
    * @throws NullPointerException If the specified {@link URL} is null.
    */

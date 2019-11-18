@@ -29,8 +29,8 @@ public final class URIComponent {
    * Decodes the provided string encoded in UTF-8 using a specification that is
    * compatible with JavaScript's {@code decodeURIComponent} function.
    *
-   * @param uri The encoded {@code String} encoded in UTF-8 to be decoded.
-   * @return The decoded {@code String}, or {@code null} if the provided string
+   * @param uri The encoded {@link String} encoded in UTF-8 to be decoded.
+   * @return The decoded {@link String}, or {@code null} if the provided string
    *         is null.
    * @throws UnsupportedOperationException If character encoding needs to be
    *           consulted, but named character encoding is not supported.
@@ -48,9 +48,9 @@ public final class URIComponent {
    * Decodes the provided string using a specification that is compatible with
    * JavaScript's {@code decodeURIComponent} function.
    *
-   * @param uri The encoded {@code String} to be decoded.
+   * @param uri The encoded {@link String} to be decoded.
    * @param enc The name of a supported character encoding.
-   * @return The decoded {@code String}, or {@code null} if the provided string
+   * @return The decoded {@link String}, or {@code null} if the provided string
    *         is null.
    * @throws UnsupportedEncodingException If character encoding needs to be
    *           consulted, but named character encoding is not supported.
@@ -64,8 +64,8 @@ public final class URIComponent {
    * Encodes the provided string as UTF-8 using a specification that is
    * compatible with JavaScript's {@code encodeURIComponent} function.
    *
-   * @param uri The {@code String} to be encoded.
-   * @return The encoded {@code String}, or {@code null} if the provided string
+   * @param uri The {@link String} to be encoded.
+   * @return The encoded {@link String}, or {@code null} if the provided string
    *         is null.
    * @throws UnsupportedOperationException If character encoding needs to be
    *           consulted, but named character encoding is not supported.
@@ -83,9 +83,9 @@ public final class URIComponent {
    * Encodes the provided string using a specification that is compatible with
    * JavaScript's {@code encodeURIComponent} function.
    *
-   * @param uri The {@code String} to be encoded.
+   * @param uri The {@link String} to be encoded.
    * @param enc The name of a supported character encoding.
-   * @return The encoded {@code String}, or {@code null} if the provided string
+   * @return The encoded {@link String}, or {@code null} if the provided string
    *         is null.
    * @throws UnsupportedEncodingException If character encoding needs to be
    *           consulted, but named character encoding is not supported.

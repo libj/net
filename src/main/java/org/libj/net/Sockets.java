@@ -58,6 +58,8 @@ public final class Sockets {
   }
 
   /**
+   * Returns a random open port.
+   *
    * @return A random open port.
    */
   public static int findRandomOpenPort() {

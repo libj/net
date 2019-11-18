@@ -48,6 +48,8 @@ public class Service {
   }
 
   /**
+   * Returns the name.
+   *
    * @return The name.
    */
   public String getName() {
@@ -55,6 +57,8 @@ public class Service {
   }
 
   /**
+   * Returns the port.
+   *
    * @return The port.
    */
   public int getPort() {
@@ -62,6 +66,8 @@ public class Service {
   }
 
   /**
+   * Returns the aliases.
+   *
    * @return The aliases.
    */
   public Collection<String> getAliases() {

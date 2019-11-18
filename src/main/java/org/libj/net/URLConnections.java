@@ -32,11 +32,11 @@ public final class URLConnections {
   private static final int[] REDIRECT_CODES = {HttpURLConnection.HTTP_OK, HttpURLConnection.HTTP_MOVED_PERM, HttpURLConnection.HTTP_MOVED_TEMP, HttpURLConnection.HTTP_SEE_OTHER};
 
   /**
-   * Sets the specified {@code Properties} in the provided
-   * {@code URLConnection}.
+   * Sets the specified {@link Properties} in the provided
+   * {@link URLConnection}.
    *
-   * @param urlConnection The {@code URLConnection}.
-   * @param properties The {@code Properties}.
+   * @param urlConnection The {@link URLConnection}.
+   * @param properties The {@link Properties}.
    * @throws NullPointerException If the specified {@link URLConnection} or
    *           {@link Properties} is null.
    */
@@ -46,11 +46,11 @@ public final class URLConnections {
   }
 
   /**
-   * Returns an {@code InputStream} to the specified url that may or may not
+   * Returns an {@link InputStream} to the specified url that may or may not
    * exist at a redirected location.
    *
-   * @param url The {@code URL}.
-   * @return An {@code InputStream} to the specified url that may or may not
+   * @param url The {@link URL}.
+   * @return An {@link InputStream} to the specified url that may or may not
    *         exist at a redirected location.
    * @throws IOException If an I/O error has occurred.
    * @throws NullPointerException If the specified {@link URL} is null.

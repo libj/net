@@ -23,12 +23,12 @@ import java.net.InetAddress;
  */
 public final class InetAddresses {
   /**
-   * Returns the decimal representation of the IP of an {@code InetAddress}
+   * Returns the decimal representation of the IP of an {@link InetAddress}
    * <p>
    * (i.e. where each number is specified as a value in the range 0-255)
    *
-   * @param address The {@code InetAddress}.
-   * @return The decimal representation of the IP of an {@code InetAddress}.
+   * @param address The {@link InetAddress}.
+   * @return The decimal representation of the IP of an {@link InetAddress}.
    * @throws NullPointerException If {@code address} is null.
    */
   public static String toStringIP(final InetAddress address) {
