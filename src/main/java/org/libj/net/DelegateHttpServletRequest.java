@@ -51,7 +51,7 @@ import javax.servlet.http.Part;
  * {@link DelegateHttpServletRequest} may further override some of these methods
  * and may also provide additional methods and fields.
  */
-public class DelegateHttpServletRequest implements HttpServletRequest {
+public abstract class DelegateHttpServletRequest implements HttpServletRequest {
   protected volatile HttpServletRequest target;
 
   /**
@@ -431,11 +431,11 @@ public class DelegateHttpServletRequest implements HttpServletRequest {
 
   @Override
   public int hashCode() {
-    return target.hashCode();
+    return target == null ? 733 : target.hashCode();
   }
 
   @Override
   public String toString() {
-    return target.toString();
+    return String.valueOf(target);
   }
 }

@@ -35,7 +35,7 @@ import java.util.Map;
  * override some of these methods and may also provide additional methods and
  * fields.
  */
-public class DelegateURLConnection extends URLConnection {
+public abstract class DelegateURLConnection extends URLConnection {
   protected volatile URLConnection target;
 
   /**
@@ -276,11 +276,11 @@ public class DelegateURLConnection extends URLConnection {
 
   @Override
   public int hashCode() {
-    return target.hashCode();
+    return target == null ? 733 : target.hashCode();
   }
 
   @Override
   public String toString() {
-    return target.toString();
+    return String.valueOf(target);
   }
 }
