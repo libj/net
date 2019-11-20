@@ -36,13 +36,15 @@ import java.util.Map;
  * fields.
  */
 public abstract class DelegateURLConnection extends URLConnection {
+  /** The target {@link URLConnection}. */
   protected volatile URLConnection target;
 
   /**
-   * Creates a new {@link DelegateURLConnection} with the specified connection.
+   * Creates a new {@link DelegateURLConnection} with the specified target
+   * {@link URLConnection}.
    *
-   * @param target The connection.
-   * @throws NullPointerException If the specified connection is null.
+   * @param target The target {@link URLConnection}.
+   * @throws NullPointerException If the target {@link URLConnection} is null.
    */
   public DelegateURLConnection(final URLConnection target) {
     super(target.getURL());
@@ -50,7 +52,7 @@ public abstract class DelegateURLConnection extends URLConnection {
   }
 
   /**
-   * Creates a new {@link DelegateURLConnection} with a null connection.
+   * Creates a new {@link DelegateURLConnection} with a null target.
    */
   protected DelegateURLConnection() {
     super(null);

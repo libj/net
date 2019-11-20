@@ -52,21 +52,23 @@ import javax.servlet.http.Part;
  * and may also provide additional methods and fields.
  */
 public abstract class DelegateHttpServletRequest implements HttpServletRequest {
+  /** The target {@link HttpServletRequest}. */
   protected volatile HttpServletRequest target;
 
   /**
-   * Creates a new {@link DelegateHttpServletRequest} with the specified
-   * request.
+   * Creates a new {@link DelegateHttpServletRequest} with the specified target
+   * {@link HttpServletRequest}.
    *
-   * @param target The request.
-   * @throws NullPointerException If the specified request is null.
+   * @param target The target {@link HttpServletRequest}.
+   * @throws NullPointerException If the specified {@link HttpServletRequest} is
+   *           null.
    */
   public DelegateHttpServletRequest(final HttpServletRequest target) {
     this.target = Objects.requireNonNull(target);
   }
 
   /**
-   * Creates a new {@link DelegateHttpServletRequest} with a null request.
+   * Creates a new {@link DelegateHttpServletRequest} with a null target.
    */
   protected DelegateHttpServletRequest() {
   }
