@@ -23,8 +23,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.JarURLConnection;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URI;
@@ -618,34 +616,6 @@ public final class URLs {
    */
   public static String getShortName(final URL url) {
     return Paths.getShortName(url.toString());
-  }
-
-  /**
-   * Returns the last modified timestamp of the resource at the specified
-   * {@link URL}. This function works for URLs that point to local files,
-   * resources in jars, and resources behind HTTP/HTTPS connections. For all
-   * other types of URLs, this function throws {@link IllegalArgumentException}.
-   *
-   * @param url The {@link URL}.
-   * @return The last modified timestamp of the resource at the specified
-   *         {@link URL}.
-   * @throws IllegalArgumentException If {@code url} does not specify the
-   *           {@code "file"}, {@code "http"}, or {@code "https"} protocols.
-   * @throws IOException If an I/O error has occurred.
-   * @throws NullPointerException If {@code url} is null.
-   */
-  public static long getLastModified(final URL url) throws IOException {
-    if (isLocalFile(url))
-      return new File(url.getFile()).lastModified();
-
-    final URLConnection urlConnection = url.openConnection();
-    if (urlConnection instanceof HttpURLConnection)
-      return urlConnection.getLastModified();
-
-    if (urlConnection instanceof JarURLConnection)
-      return urlConnection.getLastModified();
-
-    return -1;
   }
 
   /**

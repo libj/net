@@ -18,7 +18,6 @@ package org.libj.net;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -149,14 +148,6 @@ public class URLsTest {
     assertNull(URLs.getCanonicalParent(null));
     assertEquals(new URL("file:///usr"), URLs.getCanonicalParent(new URL("file:///usr/share/../share")));
     assertEquals(new URL("file:///usr/local"), URLs.getCanonicalParent(new URL("file:///usr/local/bin/../lib/../bin")));
-  }
-
-  @Test
-  public void testGetLastModified() throws Exception {
-    assertTrue(URLs.getLastModified(ClassLoader.getSystemClassLoader().getResource(Test.class.getName().replace('.', '/') + ".class")) > 0);
-    assertTrue(URLs.getLastModified(ClassLoader.getSystemClassLoader().getResource(URLsTest.class.getName().replace('.', '/') + ".class")) > 0);
-    assertTrue(URLs.getLastModified(new File("").toURI().toURL()) > 0);
-    assertTrue(URLs.getLastModified(new URL("http://www.dot.ca.gov/hq/roadinfo/Hourly")) > -1);
   }
 
   @Test
