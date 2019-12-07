@@ -909,13 +909,13 @@ public final class URLs {
    * {@link URL#openConnection()} and {@link URL#openConnection(Proxy)} methods
    * disabled (i.e. they will throw {@link FileNotFoundException} when the
    * {@link InputStream#read()} or {@link OutputStream#write(int)} methods are
-   * invoked); otherwise, the specified {@link URL} is returned unmodified.
+   * invoked); otherwise the specified {@link URL} is returned unmodified.
    *
    * @param url The {@link URL} for which {@code http} and {@code https}
    *          protocols are to be disabled.
    * @return An {@link URL} with {@code http} and {@code https} protocols
    *         disabled.
-   * @throws NullPointerException If the specified {@link URL} is null.
+   * @throws NullPointerException If the specified {@link URL url} is null.
    */
   public static URL disableHttp(final URL url) {
     if (!url.getProtocol().startsWith("http"))

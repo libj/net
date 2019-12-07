@@ -38,8 +38,9 @@ public final class Cookies {
    *
    * @param request The request.
    * @param name The cookie name.
-   * @return The cookie value associated with the given cookie name, or null if
-   *         the cookie {@code name} is not found in the {@code request}.
+   * @return The cookie value associated with the given cookie name, or
+   *         {@code null} if the cookie {@code name} is not found in the
+   *         {@code request}.
    * @throws NullPointerException If {@code request} or {@code name} is null.
    */
   public static String getCookieValue(final HttpServletRequest request, final String name) {

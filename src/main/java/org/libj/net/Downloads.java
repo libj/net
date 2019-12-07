@@ -80,7 +80,7 @@ public final class Downloads {
    * @param bytes The file contents in a byte array.
    * @param fileName The file name.
    * @param attachment If {@code true}, "Content-Disposition" will be
-   *          "attachment"; otherwise, "inline".
+   *          "attachment", otherwise "inline".
    * @throws IOException If an I/O error has occurred.
    * @throws NullPointerException If {@code response}, {@code bytes}, or
    *           {@code fileName} is null.
@@ -100,7 +100,7 @@ public final class Downloads {
    * @param response The {@link HttpServletResponse}.
    * @param file The file as a File object.
    * @param attachment If {@code true}, "Content-Disposition" will be
-   *          "attachment"; otherwise, "inline".
+   *          "attachment", otherwise "inline".
    * @throws IOException If an I/O error has occurred.
    * @throws NullPointerException If {@code response} or {@code file} is null.
    */
@@ -120,7 +120,7 @@ public final class Downloads {
    * @param in The file contents in an InputStream.
    * @param fileName The file name.
    * @param attachment If {@code true}, "Content-Disposition" will be
-   *          "attachment"; otherwise, "inline".
+   *          "attachment", otherwise "inline".
    * @throws IOException If an I/O error has occurred.
    * @throws NullPointerException If {@code response}, {@code in}, or
    *           {@code fileName} is null.
