@@ -182,7 +182,7 @@ public final class URLs {
   /**
    * Disables all {@code http} and {@code https} access from this JVM.
    * <p>
-   * <i><b>Note</b>: Once called, this cannot be undone.</i>
+   * <b>Note</b>: Once called, this cannot be undone.
    */
   public static void disableRemote() {
     OfflineURLStreamHandler.register();
@@ -744,12 +744,12 @@ public final class URLs {
    * Decodes an {@code application/x-www-form-urlencoded} string using a
    * specific {@link Charset}. The supplied charset is used to determine what
    * characters are represented by any consecutive sequences of the form
-   * "<i>{@code %xy}</i>".
+   * "{@code %xy}".
    * <p>
-   * <i><b>Note:</b> The
+   * <b>Note:</b> The
    * <a href= "http://www.w3.org/TR/html40/appendix/notes.html#non-ascii-chars">
    * World Wide Web Consortium Recommendation</a> states that UTF-8 should be
-   * used. Not doing so may introduce incompatibilities.</i>
+   * used. Not doing so may introduce incompatibilities.
    *
    * @param s The {@link String} to decode.
    * @param charset The given {@link Charset}.
