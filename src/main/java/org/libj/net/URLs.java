@@ -39,9 +39,9 @@ import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
 
+import org.libj.lang.Strings;
 import org.libj.net.offline.OfflineURLStreamHandler;
 import org.libj.util.Paths;
-import org.libj.util.Strings;
 
 /**
  * Utility functions for operations pertaining to {@link URL}.
