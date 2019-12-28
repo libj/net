@@ -428,7 +428,7 @@ public abstract class DelegateHttpServletRequest implements HttpServletRequest {
       return false;
 
     final DelegateHttpServletRequest that = (DelegateHttpServletRequest)obj;
-    return target != null ? target.equals(that.target) : that.target == null;
+    return Objects.equals(target, that.target);
   }
 
   @Override

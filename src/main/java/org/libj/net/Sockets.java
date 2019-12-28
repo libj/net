@@ -50,7 +50,7 @@ public final class Sockets {
       try (final ServerSocket socket = new ServerSocket(port)) {
         return socket.getLocalPort();
       }
-      catch (final IOException e) {
+      catch (final IOException ignored) {
       }
     }
 
@@ -67,7 +67,7 @@ public final class Sockets {
       try (final ServerSocket socket = new ServerSocket(1 + (int)(Math.random() * 65535))) {
         return socket.getLocalPort();
       }
-      catch (final IOException e) {
+      catch (final IOException ignored) {
       }
     }
   }

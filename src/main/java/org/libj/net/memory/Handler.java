@@ -39,8 +39,6 @@ public class Handler extends MemoryURLStreamHandler {
   }
 
   /**
-   * {@inheritDoc}
-   *
    * @throws MalformedURLException If the provided {@link URL} specifies a
    *           protocol that is not {@code "memory"}, or a host that is not
    *           {@code null} or empty.

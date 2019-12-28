@@ -71,8 +71,7 @@ public class Bearer extends AuthScheme {
     if (!(obj instanceof Bearer))
       return false;
 
-    final Bearer that = (Bearer)obj;
-    return token != null ? that.token != null : token.equals(that.token);
+    return Objects.equals(token, ((Bearer)obj).token);
   }
 
   @Override

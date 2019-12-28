@@ -305,7 +305,7 @@ public final class URLs {
     if (absolutePath == null)
       return null;
 
-    if (absolutePath.contains(":/") && absolutePath.length() > 0 && absolutePath.charAt(0) != '/')
+    if (absolutePath.contains(":/") && absolutePath.charAt(0) != '/')
       return new URL(absolutePath);
 
     if (Paths.isAbsoluteLocalWindows(absolutePath))
@@ -498,7 +498,7 @@ public final class URLs {
       if ("file".equals(url.getProtocol()))
         return new File(url.toURI()).exists();
     }
-    catch (final URISyntaxException e) {
+    catch (final URISyntaxException ignored) {
     }
 
     try {
@@ -865,7 +865,7 @@ public final class URLs {
     return builder;
   }
 
-  private static final String PATH_RESERVED_CHARACTERS = "=@/:!$&\'(),;~";
+  private static final String PATH_RESERVED_CHARACTERS = "=@/:!$&'(),;~";
 
   /**
    * Returns the URL-encoded path string.

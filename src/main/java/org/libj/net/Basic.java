@@ -92,10 +92,10 @@ public class Basic extends AuthScheme {
       return false;
 
     final Basic that = (Basic)obj;
-    if (username != null ? that.username == null : !username.equals(that.username))
+    if (!Objects.equals(username, that.username))
       return false;
 
-    if (password != null ? that.password == null : !password.equals(that.password))
+    if (!Objects.equals(password, that.password))
       return false;
 
     return true;

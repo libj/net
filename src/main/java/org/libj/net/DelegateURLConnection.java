@@ -24,6 +24,7 @@ import java.net.URLConnection;
 import java.security.Permission;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * A {@link DelegateURLConnection} contains some other {@link URLConnection},
@@ -273,7 +274,7 @@ public abstract class DelegateURLConnection extends URLConnection {
       return false;
 
     final DelegateURLConnection that = (DelegateURLConnection)obj;
-    return target != null ? target.equals(that.target) : that.target == null;
+    return Objects.equals(target, that.target);
   }
 
   @Override

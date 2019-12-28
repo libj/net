@@ -158,19 +158,19 @@ public final class HTTP {
    * @throws NullPointerException If the provided charset is null.
    */
   public static String createQuery(final Map<String,String[]> parameters, final String charset) throws UnsupportedEncodingException {
-    if (parameters == null)
+    if (parameters == null || parameters.size() == 0)
       return "";
 
-    final StringBuilder query = new StringBuilder();
+    final StringBuilder builder = new StringBuilder();
     final Iterator<Map.Entry<String,String[]>> iterator = parameters.entrySet().iterator();
+    final StringBuilder temp = new StringBuilder();
     for (int i = 0; iterator.hasNext(); ++i) {
       final Map.Entry<String,String[]> entry = iterator.next();
       final String name = entry.getKey();
       final String[] values = entry.getValue();
       if (i > 0)
-        query.append('&');
+        builder.append('&');
 
-      final StringBuilder temp = new StringBuilder();
       for (int j = 0; j < values.length; ++j) {
         if (j > 0)
           temp.append('&');
@@ -180,10 +180,11 @@ public final class HTTP {
         temp.append(URLEncoder.encode(values[j], charset));
       }
 
-      query.append(temp.toString());
+      builder.append(temp);
+      temp.setLength(0);
     }
 
-    return query.toString();
+    return builder.toString();
   }
 
   private HTTP() {

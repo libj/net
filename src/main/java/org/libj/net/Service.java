@@ -17,6 +17,7 @@
 package org.libj.net;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import org.libj.util.CollectionUtil;
 
@@ -86,10 +87,10 @@ public class Service {
     if (port != that.port)
       return false;
 
-    if (serviceName != null ? that.serviceName == null : !serviceName.equals(that.serviceName))
+    if (!Objects.equals(serviceName, that.serviceName))
       return false;
 
-    if (aliases != null ? that.aliases == null : !aliases.equals(that.aliases))
+    if (!Objects.equals(aliases, that.aliases))
       return false;
 
     return true;
