@@ -186,8 +186,8 @@ public abstract class DelegateURLConnection extends URLConnection {
   }
 
   @Override
-  public void setDoInput(final boolean doinput) {
-    target.setDoInput(doinput);
+  public void setDoInput(final boolean doInput) {
+    target.setDoInput(doInput);
   }
 
   @Override
@@ -196,8 +196,8 @@ public abstract class DelegateURLConnection extends URLConnection {
   }
 
   @Override
-  public void setDoOutput(final boolean dooutput) {
-    target.setDoOutput(dooutput);
+  public void setDoOutput(final boolean doOutput) {
+    target.setDoOutput(doOutput);
   }
 
   @Override
@@ -206,8 +206,8 @@ public abstract class DelegateURLConnection extends URLConnection {
   }
 
   @Override
-  public void setAllowUserInteraction(final boolean allowuserinteraction) {
-    target.setAllowUserInteraction(allowuserinteraction);
+  public void setAllowUserInteraction(final boolean allowUserInteraction) {
+    target.setAllowUserInteraction(allowUserInteraction);
   }
 
   @Override
@@ -216,8 +216,8 @@ public abstract class DelegateURLConnection extends URLConnection {
   }
 
   @Override
-  public void setUseCaches(final boolean usecaches) {
-    target.setUseCaches(usecaches);
+  public void setUseCaches(final boolean useCaches) {
+    target.setUseCaches(useCaches);
   }
 
   @Override
@@ -226,8 +226,8 @@ public abstract class DelegateURLConnection extends URLConnection {
   }
 
   @Override
-  public void setIfModifiedSince(final long ifmodifiedsince) {
-    target.setIfModifiedSince(ifmodifiedsince);
+  public void setIfModifiedSince(final long ifModifiedSince) {
+    target.setIfModifiedSince(ifModifiedSince);
   }
 
   @Override
@@ -241,8 +241,8 @@ public abstract class DelegateURLConnection extends URLConnection {
   }
 
   @Override
-  public void setDefaultUseCaches(final boolean defaultusecaches) {
-    target.setDefaultUseCaches(defaultusecaches);
+  public void setDefaultUseCaches(final boolean defaultUseCaches) {
+    target.setDefaultUseCaches(defaultUseCaches);
   }
 
   @Override
