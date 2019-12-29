@@ -18,6 +18,7 @@ package org.libj.net;
 
 import static org.junit.Assert.*;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +33,6 @@ public class URLsTest {
     assertTrue(URLs.isLocal(new URL("file:///tmp.txt")));
     assertTrue(URLs.isLocal(new URL("jar:file:/root/app.jar!/repository")));
     assertTrue(URLs.isLocal(new URL("file://localhost/etc/fstab")));
-    assertTrue(URLs.isLocal(new URL("file://localhost/c|/WINDOWS/clock.avi")));
     assertTrue(URLs.isLocal(new URL("file://localhost/c:/WINDOWS/clock.avi")));
     assertFalse(URLs.isLocal(new URL("http://127.0.0.1:8080/a.properties")));
     assertFalse(URLs.isLocal(new URL("file://hostname/path/to/the%20file.txt")));
@@ -41,57 +41,46 @@ public class URLsTest {
     assertFalse(URLs.isLocal(new URL("jar:http://www.foo.com/bar/baz.jar!/COM/foo/Quux.class")));
   }
 
-  public static void assertCanonicalURL(final URL expected, final String path) throws Exception {
-    assertEquals(expected, URLs.toCanonicalURL(path));
-  }
-
-  public static void assertCanonicalURL(final URL expected, final String dir, final String path) throws Exception {
-    assertEquals(expected, URLs.toCanonicalURL(dir, path));
-    assertEquals(expected, URLs.toCanonicalURL(URLs.toURL(dir), path));
-  }
-
   @Test
   public void testToCanonicalURL() throws Exception {
-    assertCanonicalURL(new URL("file", "", "/c:/Windows"), "c:\\Windows");
-    assertCanonicalURL(new URL("file", "", "/c:/Windows/system32"), "c:\\Windows", "system32");
-    assertCanonicalURL(new URL("file", "", "/c:/Windows/system32"), "c:\\Windows", "\\foo\\..\\bar\\..\\system32");
-    assertCanonicalURL(new URL("file", "", "/c:/Windows/system32"), "c:\\Windows\\", "system32");
-    assertCanonicalURL(new URL("file", "", "/c:/Windows/system32"), "c:\\Windows\\", "\\bar\\..\\system32");
+    assertEquals(new URL("file", "", "/c:/Windows"), URLs.toCanonicalURL("c:\\Windows"));
+    assertEquals(new URL("file", "", "/c:/Windows/system32"), URLs.toCanonicalURL("c:\\Windows\\", "system32"));
+    assertEquals(new URL("file", "", "/c:/Windows/system32"), URLs.toCanonicalURL("c:\\Windows\\", "foo/../bar/../system32"));
+    assertEquals(new URL("file", "", "/c:/Windows/system32"), URLs.toCanonicalURL("c:\\Windows\\", "system32"));
+    assertEquals(new URL("file", "", "/c:/Windows/system32"), URLs.toCanonicalURL("c:\\Windows\\", "bar/../system32"));
 
-    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "/etc/resolv.conf");
-    assertCanonicalURL(new URL("file", "", "/initrd.img"), "/initrd.img");
-    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "", "etc/resolv.conf");
-    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "", "/etc/resolv.conf");
-    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "var/../etc/resolv.conf", "");
-    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "/etc/resolv.conf", "");
-    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "etc", "resolv.conf");
-    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "etc", "foo/../resolv.conf");
-    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "etc/", "resolv.conf");
-    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "etc/", "/bar/../foo/../resolv.conf");
-    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "/etc", "resolv.conf");
-    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "/etc", "/resolv.conf");
-    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "/etc/", "resolv.conf");
-    assertCanonicalURL(new URL("file", "", "/etc/resolv.conf"), "/etc/", "/resolv.conf");
+    assertEquals(new URL("file", "", "/etc/resolv.conf"), URLs.toCanonicalURL("/etc/resolv.conf"));
+    assertEquals(new URL("file", "", "/initrd.img"), URLs.toCanonicalURL("/initrd.img"));
+    assertEquals(new URL("file", "", "etc/resolv.conf"), URLs.toCanonicalURL("", "etc/resolv.conf"));
+    assertEquals(new URL("file", "", "/etc/resolv.conf"), URLs.toCanonicalURL("", "/etc/resolv.conf"));
+    assertEquals(new URL("file", "", "etc/resolv.conf"), URLs.toCanonicalURL("var/../etc/resolv.conf", ""));
+    assertEquals(new URL("file", "", "/etc/resolv.conf"), URLs.toCanonicalURL("/etc/resolv.conf", ""));
+    assertEquals(new URL("file", "", "/etc/resolv.conf"), URLs.toCanonicalURL("/etc/", "resolv.conf"));
+    assertEquals(new URL("file", "", "etc/resolv.conf"), URLs.toCanonicalURL("etc/", "foo/../resolv.conf"));
+    assertEquals(new URL("file", "", "etc/resolv.conf"), URLs.toCanonicalURL("etc/", "resolv.conf"));
+    assertEquals(new URL("file", "", "etc/resolv.conf"), URLs.toCanonicalURL("etc/", "bar/../foo/../resolv.conf"));
+    assertEquals(new URL("file", "", "/resolv.conf"), URLs.toCanonicalURL("/etc", "resolv.conf"));
+    assertEquals(new URL("file", "", "/resolv.conf"), URLs.toCanonicalURL("/etc", "/resolv.conf"));
+    assertEquals(new URL("file", "", "/etc/resolv.conf"), URLs.toCanonicalURL("/etc/", "resolv.conf"));
 
-    assertCanonicalURL(new URL("http://www.google.com/webhp"), "http://www.google.com/webhp");
-    assertCanonicalURL(new URL("http://www.google.com/webhp"), "http://www.google.com/webhp", "");
-    assertCanonicalURL(new URL("http://www.google.com/webhp"), "http://www.google.com/", "webhp");
-    assertCanonicalURL(new URL("http://www.google.com/webhp"), "http://www.google.com", "webhp");
-    assertCanonicalURL(new URL("http://www.google.com/webhp"), "http://www.google.com", "/foo/../bar/../webhp");
-    assertCanonicalURL(new URL("http://www.google.com/webhp"), "http://www.google.com/", "/foo/../webhp");
+    assertEquals(new URL("http://www.google.com/webhp"), URLs.toCanonicalURL("http://www.google.com/webhp"));
+    assertEquals(new URL("http://www.google.com/webhp"), URLs.toCanonicalURL("http://www.google.com/webhp", ""));
+    assertEquals(new URL("http://www.google.com/webhp"), URLs.toCanonicalURL("http://www.google.com/", "webhp"));
+    assertEquals(new URL("http://www.google.com/webhp"), URLs.toCanonicalURL("http://www.google.com/", "/foo/../bar/../webhp"));
+    assertEquals(new URL("http://www.google.com/webhp"), URLs.toCanonicalURL("http://www.google.com/", "/foo/../webhp"));
   }
 
   @Test
   public void testExists() throws Exception {
-//    if (System.getProperty("os.name").toUpperCase().contains("WINDOWS"))
-//      assertTrue(URLs.exists(new URL("file", "", "/c:/")));
-//    else
-//      assertTrue(URLs.exists(new URL("file", "", "/usr")));
-//
-//    // FIXME: Some machines may not be connected to the web!
-////      assertTrue(URLs.exists(new URL("http://www.google.com/")));
-//
-//    assertFalse(URLs.exists(new URL("file", "", "/ngfodbbgfid")));
+    // if (System.getProperty("os.name").toUpperCase().contains("WINDOWS"))
+    // assertTrue(URLs.exists(new URL("file", "", "/c:/")));
+    // else
+    // assertTrue(URLs.exists(new URL("file", "", "/usr")));
+    //
+    // // FIXME: Some machines may not be connected to the web!
+    //// assertTrue(URLs.exists(new URL("http://www.google.com/")));
+    //
+    // assertFalse(URLs.exists(new URL("file", "", "/ngfodbbgfid")));
     assertFalse(URLs.exists(new URL("http://fndos:9876/")));
   }
 
@@ -146,8 +135,8 @@ public class URLsTest {
   @Test
   public void testGetCanonicalParent() throws Exception {
     assertNull(URLs.getCanonicalParent(null));
-    assertEquals(new URL("file:///usr"), URLs.getCanonicalParent(new URL("file:///usr/share/../share")));
-    assertEquals(new URL("file:///usr/local"), URLs.getCanonicalParent(new URL("file:///usr/local/bin/../lib/../bin")));
+    assertEquals(new URL("file:///usr/"), URLs.getCanonicalParent(new URL("file:///usr/share/../share")));
+    assertEquals(new URL("file:///usr/local/"), URLs.getCanonicalParent(new URL("file:///usr/local/bin/../lib/../bin")));
   }
 
   @Test
@@ -165,7 +154,8 @@ public class URLsTest {
     // rfc3986.txt 3.3
     // segment-nz = 1*pchar
     // pchar = unreserved / pct-encoded / sub-delims / ":" / "@"
-    // sub-delims = "!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" / "="
+    // sub-delims = "!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" /
+    // "="
     // unreserved = ALPHA / DIGIT / "-" / "." / "_" / "~"
 
     // '&' has to be represented as &amp; in WADL
@@ -193,5 +183,11 @@ public class URLsTest {
   @Test
   public void testDecodePath() {
     assertEquals("+++", URLs.decodePath("+%2B+"));
+  }
+
+  @Test
+  public void testWithLiteralHost() throws MalformedURLException {
+    assertNotEquals(URLs.withLiteralHost("http://localhost"), URLs.withLiteralHost("http://127.0.0.1"));
+    assertEquals(new URL("http://localhost"), new URL("http://127.0.0.1"));
   }
 }

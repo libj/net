@@ -25,13 +25,59 @@ import org.junit.Test;
 
 public class URIsTest {
   @Test
-  public void testRelativize() throws URISyntaxException {
+  public void testRelativePath() throws URISyntaxException {
     // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6226081
     final URI a = new URI("file:/c:/abc/def/myDocument/doc.xml");
     final URI b = new URI("file:/c:/abc/def/images/subdir/image.png");
 
-    final URI c = URIs.relativize(a, b);
+    final URI c = URIs.relativePath(a, b);
 
     assertEquals("../images/subdir/image.png", c.toString());
+  }
+
+  @Test
+  public void testIsLocal() throws Exception {
+    assertTrue(URIs.isLocal(new URI("jar:file:///C:/proj/parser/jar/parser.jar!/test.xml")));
+    assertTrue(URIs.isLocal(new URI("file:///c:/path/to/the%20file.txt")));
+    assertTrue(URIs.isLocal(new URI("file:///tmp.txt")));
+    assertTrue(URIs.isLocal(new URI("jar:file:/root/app.jar!/repository")));
+    assertTrue(URIs.isLocal(new URI("file://localhost/etc/fstab")));
+    assertTrue(URIs.isLocal(new URI("file://localhost/c:/WINDOWS/clock.avi")));
+    assertFalse(URIs.isLocal(new URI("http://127.0.0.1:8080/a.properties")));
+    assertFalse(URIs.isLocal(new URI("file://hostname/path/to/the%20file.txt")));
+    assertFalse(URIs.isLocal(new URI("ftp://user:password@server:80/path")));
+    assertFalse(URIs.isLocal(new URI("https://mail.google.com/mail/u/0/?zx=gc46uk9snw66#inbox")));
+    assertFalse(URIs.isLocal(new URI("jar:http://www.foo.com/bar/baz.jar!/COM/foo/Quux.class")));
+  }
+
+  @Test
+  public void testGetName() throws Exception {
+    assertEquals("share.txt", URIs.getName(new URI("file:///usr/share/../share.txt")));
+    assertEquals("lib", URIs.getName(new URI("file:///usr/share/../share/../lib")));
+    assertEquals("var", URIs.getName(new URI("file:///usr/share/../share/../lib/../../var")));
+    assertEquals("resolv.conf", URIs.getName(new URI("file:///etc/resolv.conf")));
+  }
+
+  @Test
+  public void testGetShortName() throws Exception {
+    assertEquals("share", URIs.getShortName(new URI("file:///usr/share/../share")));
+    assertEquals("lib", URIs.getShortName(new URI("file:///usr/share/../share/../lib")));
+    assertEquals("var", URIs.getShortName(new URI("file:///usr/share/../share/../lib/../../var")));
+    assertEquals("resolv", URIs.getShortName(new URI("file:///etc/resolv.conf")));
+  }
+
+  @Test
+  public void testGetParent() throws Exception {
+    assertNull(URIs.getCanonicalParent(null));
+    assertEquals(new URI("file:///"), URIs.getParent(new URI("file:///usr/")));
+    assertEquals(new URI("file:///usr/share/../"), URIs.getParent(new URI("file:///usr/share/../share")));
+    assertEquals(new URI("file:///usr/local/bin/../lib/../"), URIs.getParent(new URI("file:///usr/local/bin/../lib/../bin")));
+  }
+
+  @Test
+  public void testGetCanonicalParent() throws Exception {
+    assertNull(URIs.getCanonicalParent(null));
+    assertEquals(new URI("file:///usr/"), URIs.getCanonicalParent(new URI("file:///usr/share/../share")));
+    assertEquals(new URI("file:///usr/local/"), URIs.getCanonicalParent(new URI("file:///usr/local/bin/../lib/../bin")));
   }
 }

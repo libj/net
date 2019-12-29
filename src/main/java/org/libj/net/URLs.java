@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URI;
@@ -41,7 +42,7 @@ import java.nio.charset.UnsupportedCharsetException;
 
 import org.libj.lang.Strings;
 import org.libj.net.offline.OfflineURLStreamHandler;
-import org.libj.util.Paths;
+import org.libj.util.StringPaths;
 
 /**
  * Utility functions for operations pertaining to {@link URL}.
@@ -66,7 +67,6 @@ public final class URLs {
    * {@link MalformedURLException} directly, should be used situations where a
    * URL is being constructed from user input or from some other source that may
    * be prone to errors.
-   * </p>
    *
    * @param str The string to parse.
    * @return The new {@link URL}.
@@ -99,7 +99,6 @@ public final class URLs {
    * {@link MalformedURLException} directly, should be used situations where a
    * URL is being constructed from user input or from some other source that may
    * be prone to errors.
-   * </p>
    *
    * @param context The context in which to parse the specification.
    * @param spec The {@link String} to parse.
@@ -110,8 +109,37 @@ public final class URLs {
    *           string could not be parsed.
    */
   public static URL create(final URL context, final String spec) {
+    return create(context, spec, null);
+  }
+
+  /**
+   * Creates a {@link URL} by parsing the given {@link URL} and spec string.
+   * <p>
+   * This convenience factory method works as if by invoking the
+   * {@link URL#URL(URL,String)} constructor; any {@link MalformedURLException}
+   * thrown by the constructor is caught and wrapped in a new
+   * {@link IllegalArgumentException} object, which is then thrown.
+   * <p>
+   * This method is provided for use in situations where it is known that the
+   * given string is a legal URL, for example for URL constants declared within
+   * in a program, and so it would be considered a programming error for the
+   * string not to parse as such. The constructors, which throw
+   * {@link MalformedURLException} directly, should be used situations where a
+   * URL is being constructed from user input or from some other source that may
+   * be prone to errors.
+   *
+   * @param context The context in which to parse the specification.
+   * @param spec The {@link String} to parse.
+   * @param handler The stream handler for the URL.
+   * @return The new {@link URL}.
+   * @throws NullPointerException If {@code spec} is null.
+   * @throws IllegalArgumentException If the given string declares a protocol
+   *           that could not be found in a specification string, or if the
+   *           string could not be parsed.
+   */
+  public static URL create(final URL context, final String spec, final URLStreamHandler handler) {
     try {
-      return new URL(context, spec);
+      return new URL(context, spec, handler);
     }
     catch (final MalformedURLException e) {
       throw new IllegalArgumentException(e.getMessage(), e);
@@ -119,7 +147,8 @@ public final class URLs {
   }
 
   /**
-   * Creates a {@link URL} by parsing the given protocol, host, and file strings.
+   * Creates a {@link URL} by parsing the given protocol, host, and file
+   * strings.
    * <p>
    * This convenience factory method works as if by invoking the
    * {@link URL#URL(String,String,String)} constructor; any
@@ -134,7 +163,6 @@ public final class URLs {
    * {@link MalformedURLException} directly, should be used situations where a
    * URL is being constructed from user input or from some other source that may
    * be prone to errors.
-   * </p>
    *
    * @param protocol The name of the protocol to use.
    * @param host The name of the host.
@@ -146,8 +174,73 @@ public final class URLs {
    *           string could not be parsed.
    */
   public static URL create(final String protocol, final String host, final String file) {
+    return create(protocol, host, -1, file, null);
+  }
+
+  /**
+   * Creates a {@link URL} by parsing the given protocol, host, port, and file
+   * strings.
+   * <p>
+   * This convenience factory method works as if by invoking the
+   * {@link URL#URL(String,String,String)} constructor; any
+   * {@link MalformedURLException} thrown by the constructor is caught and
+   * wrapped in a new {@link IllegalArgumentException} object, which is then
+   * thrown.
+   * <p>
+   * This method is provided for use in situations where it is known that the
+   * given string is a legal URL, for example for URL constants declared within
+   * in a program, and so it would be considered a programming error for the
+   * string not to parse as such. The constructors, which throw
+   * {@link MalformedURLException} directly, should be used situations where a
+   * URL is being constructed from user input or from some other source that may
+   * be prone to errors.
+   *
+   * @param protocol The name of the protocol to use.
+   * @param host The name of the host.
+   * @param port The port number on the host.
+   * @param file The file on the host.
+   * @return The new {@link URL}.
+   * @throws NullPointerException If {@code file} is null.
+   * @throws IllegalArgumentException If the given string declares a protocol
+   *           that could not be found in a specification string, or if the
+   *           string could not be parsed.
+   */
+  public static URL create(final String protocol, final String host, int port, final String file) {
+    return create(protocol, host, port, file, null);
+  }
+
+  /**
+   * Creates a {@link URL} by parsing the given protocol, host, port, and file
+   * strings.
+   * <p>
+   * This convenience factory method works as if by invoking the
+   * {@link URL#URL(String,String,String)} constructor; any
+   * {@link MalformedURLException} thrown by the constructor is caught and
+   * wrapped in a new {@link IllegalArgumentException} object, which is then
+   * thrown.
+   * <p>
+   * This method is provided for use in situations where it is known that the
+   * given string is a legal URL, for example for URL constants declared within
+   * in a program, and so it would be considered a programming error for the
+   * string not to parse as such. The constructors, which throw
+   * {@link MalformedURLException} directly, should be used situations where a
+   * URL is being constructed from user input or from some other source that may
+   * be prone to errors.
+   *
+   * @param protocol The name of the protocol to use.
+   * @param host The name of the host.
+   * @param port The port number on the host.
+   * @param file The file on the host.
+   * @param handler The stream handler for the URL.
+   * @return The new {@link URL}.
+   * @throws NullPointerException If {@code file} is null.
+   * @throws IllegalArgumentException If the given string declares a protocol
+   *           that could not be found in a specification string, or if the
+   *           string could not be parsed.
+   */
+  public static URL create(final String protocol, final String host, int port, final String file, final URLStreamHandler handler) {
     try {
-      return new URL(protocol, host, file);
+      return new URL(protocol, host, -1, file, handler);
     }
     catch (final MalformedURLException e) {
       throw new IllegalArgumentException(e.getMessage(), e);
@@ -155,12 +248,67 @@ public final class URLs {
   }
 
   /**
+   * Creates a {@link URL} from the specified {@code basedir} parent directory,
+   * and {@code path} child path.
+   *
+   * @param basedir The base directory of the path in the resulting {@link URL}.
+   * @param path The child path off of {@code basedir} in the resulting
+   *          {@link URL}.
+   * @return A {@link URL} created from the specified {@code basedir} parent
+   *         directory, and {@code path} child path.
+   * @throws IllegalArgumentException If a protocol is specified but is unknown,
+   *           or the spec is null, or the parsed URL fails to comply with the
+   *           specific syntax of the associated protocol.
+   * @throws NullPointerException If {@code basedir} or {@code path} is null.
+   * @see URLs#fromStringPath(String)
+   * @see StringPaths#newPath(String,String)
+   * @see StringPaths#isAbsoluteLocalWindows(String)
+   */
+  public static URL create(final String basedir, final String path) {
+    return fromStringPath(StringPaths.newPath(basedir, path));
+  }
+
+  /**
+   * Returns a {@link URL} created from the specified string, or {@code null} if
+   * the specified string path is null.
+   * <ul>
+   * <li>If the specified string path contains the string {@code ":/"}, the
+   * resulting {@link URL} is created with {@link URL#URL(String)}.</li>
+   * <li>Otherwise, if the specified path does not have a leading {@code '/'},
+   * then it is prepended to the path.</li>
+   * </ul>
+   * <p>
+   * This method assumes the specified string path is an absolute path, and
+   * detects Windows paths using
+   * {@link StringPaths#isAbsoluteLocalWindows(String)}.
+   *
+   * @param stringPath The string path from which to create a {@link URL}.
+   * @return A {@link URL} created from the specified string, or {@code null} if
+   *         the specified string is null.
+   * @throws IllegalArgumentException If a protocol is specified but is unknown,
+   *           or the spec is null, or the parsed URL fails to comply with the
+   *           specific syntax of the associated protocol.
+   * @see StringPaths#isAbsoluteLocalWindows(String)
+   */
+  public static URL fromStringPath(String stringPath) {
+    if (stringPath == null)
+      return null;
+
+    if (stringPath.contains(":/") && stringPath.charAt(0) != '/')
+      return create(stringPath);
+
+    if (StringPaths.isAbsoluteLocalWindows(stringPath))
+      stringPath = "/" + stringPath.replace('\\', '/');
+
+    return create("file", "", stringPath);
+  }
+
+  /**
    * Creates a {@link URL} from the specified {@link URI}.
    * <p>
    * This convenience method works as if invoking it were equivalent to
-   * evaluating the expression {@code new URL(this.toString())} after first
+   * evaluating the expression {@code new URL(uri.toString())} after first
    * checking that this URI is absolute.
-   * </p>
    *
    * @param uri The {@link URI} to convert to a {@link URL}.
    * @return The new {@link URL}.
@@ -168,7 +316,7 @@ public final class URLs {
    * @throws UncheckedIOException If a protocol handler for the {@link URL}
    *           could not be found, or if some other error occurred while
    *           constructing the {@link URL}.
-   * @throws NullPointerException If the specified {@link URI} is null.
+   * @throws NullPointerException If the specified {@link URI uri} is null.
    */
   public static URL fromURI(final URI uri) {
     try {
@@ -180,12 +328,73 @@ public final class URLs {
   }
 
   /**
-   * Disables all {@code http} and {@code https} access from this JVM.
+   * Returns a canonical {@link URL} created from the specified string, or
+   * {@code null} if the specified string is null ({@code ".."} and {@code "."}
+   * path names are dereferenced in a canonical {@link URL}, and redundant
+   * {@code '/'} path separators are removed).
+   * <ul>
+   * <li>If the specified path contains the string {@code ":/"}, the resulting
+   * {@link URL} is created with {@link URL#URL(String)}.</li>
+   * <li>Otherwise, if the specified path does not have a leading {@code '/'},
+   * then it is prepended to the path.</li>
+   * </ul>
    * <p>
-   * <b>Note</b>: Once called, this cannot be undone.
+   * This method assumes the specified string is an absolute path, and detects
+   * Windows paths using {@link StringPaths#isAbsoluteLocalWindows(String)}.
+   *
+   * @param stringPath The string from which to create a {@link URL}.
+   * @return A canonical {@link URL} created from the specified string, or
+   *         {@code null} if the specified string is null ({@code ".."} and
+   *         {@code "."} path names are dereferenced in a canonical {@link URL},
+   *         and redundant {@code '/'} path separators are removed).
+   * @throws IllegalArgumentException If a protocol is specified but is unknown,
+   *           or the spec is null, or the parsed URL fails to comply with the
+   *           specific syntax of the associated protocol.
+   * @see URLs#canonicalize(URL)
+   * @see StringPaths#isAbsoluteLocalWindows(String)
    */
-  public static void disableRemote() {
-    OfflineURLStreamHandler.register();
+  public static URL toCanonicalURL(String stringPath) {
+    if (StringPaths.isAbsoluteLocalWindows(stringPath))
+      stringPath = "/" + stringPath.replace('\\', '/');
+
+    return toCanonicalURL0(stringPath);
+  }
+
+  /**
+   * Returns a canonical {@link URL} created from the specified {@code basedir}
+   * parent directory, and {@code path} child path ({@code ".."} and {@code "."}
+   * path names are dereferenced in a canonical {@link URL}, and redundant
+   * {@code '/'} path separators are removed).
+   *
+   * @param basedir The base directory of the path in the resulting {@link URL}.
+   * @param path The child path off of {@code basedir} in the resulting
+   *          {@link URL}.
+   * @return A canonical {@link URL} created from the specified {@code basedir}
+   *         parent directory, and {@code path} child path ({@code ".."} and
+   *         {@code "."} path names are dereferenced in a canonical {@link URL},
+   *         and redundant {@code '/'} path separators are removed).
+   * @throws IllegalArgumentException If a protocol is specified but is unknown,
+   *           or the spec is null, or the parsed URL fails to comply with the
+   *           specific syntax of the associated protocol.
+   * @throws NullPointerException If {@code basedir} or {@code path} is null.
+   * @see URLs#fromStringPath(String)
+   * @see URLs#canonicalize(URL)
+   * @see StringPaths#newPath(String,String)
+   * @see StringPaths#isAbsoluteLocalWindows(String)
+   */
+  public static URL toCanonicalURL(String basedir, final String path) {
+    if (StringPaths.isAbsoluteLocalWindows(basedir))
+      basedir = "/" + basedir.replace('\\', '/');
+
+    return toCanonicalURL0(StringPaths.newPath(basedir, path));
+  }
+
+  private static URL toCanonicalURL0(String stringPath) {
+    final String canonicalPath = StringPaths.canonicalize(stringPath);
+    if (canonicalPath.charAt(0) == '/' || !canonicalPath.contains(":/") && !canonicalPath.startsWith("file:") && !canonicalPath.startsWith("jar:file:"))
+      return create("file", "", canonicalPath);
+
+    return create(canonicalPath);
   }
 
   /**
@@ -214,246 +423,6 @@ public final class URLs {
   }
 
   /**
-   * Tests whether the specified {@link URL} represents a file path. An URL is
-   * considered a file if its protocol is "file" (case-insensitive), and its
-   * host value is empty or equal to {@code "localhost"}.
-   *
-   * @param url The {@link URL}.
-   * @return {@code true} if the specified {@link URL} represents a file path;
-   *         otherwise {@code false}.
-   * @throws NullPointerException If {@code url} is null.
-   */
-  public static boolean isLocalFile(final URL url) {
-    final String host = url.getHost();
-    return "file".equalsIgnoreCase(url.getProtocol()) && (host == null || host.length() == 0 || "localhost".equals(host));
-  }
-
-  /**
-   * Tests whether the specified {@link URL} represents a location that is a
-   * local JAR file with protocol {@code "jar:file:"}.
-   * <p>
-   * The compound protocol definition is unwrapped in order to determine if the
-   * root resource locator in the URL is local. This method then uses
-   * {@link URLs#isLocalFile(URL)} to check whether {@code url} is local.
-   *
-   * @param url The {@link URL} to test.
-   * @return {@code true} if the specified {@link URL} represents a location
-   *         that is local; otherwise {@code false}.
-   * @throws NullPointerException If {@code url} is null.
-   */
-  public static boolean isLocalJarFile(URL url) {
-    do {
-      if (!"jar".equalsIgnoreCase(url.getProtocol()))
-        return false;
-
-      final String path = url.getPath();
-      final int bang = path.lastIndexOf('!');
-      try {
-        if (isLocalFile(url = new URL(bang == -1 ? path : path.substring(0, bang))))
-          return true;
-      }
-      catch (final MalformedURLException e) {
-        return false;
-      }
-    }
-    while (true);
-  }
-
-  /**
-   * Tests whether the specified {@link URL} represents a location that is
-   * either a local file with protocol {@code "file:"}, or a local JAR file with
-   * protocol {@code "jar:file:"}.
-   * <p>
-   * URLs with compound protocol definitions, such as {@code "jar:file:"} are
-   * first unwrapped in order to digest the root resource locator in the URL.
-   * This method then uses {@link URLs#isLocalFile(URL)} to check whether
-   * {@code url} is local.
-   *
-   * @param url The {@link URL} to test.
-   * @return {@code true} if the specified {@link URL} represents a location
-   *         that is either a local file with protocol {@code "file:"}, or a
-   *         local JAR file with protocol {@code "jar:file:"}; otherwise
-   *         {@code false}.
-   * @throws NullPointerException If {@code url} is null.
-   */
-  public static boolean isLocal(final URL url) {
-    return isLocalFile(url) || isLocalJarFile(url);
-  }
-
-  /**
-   * Returns an {@link URL} created from the specified string, or {@code null}
-   * if the specified string is null.
-   * <ul>
-   * <li>If the specified path contains the string {@code ":/"}, the resulting
-   * {@link URL} is created with {@link URL#URL(String)}.</li>
-   * <li>Otherwise, if the specified path does not have a leading {@code '/'},
-   * then it is prepended to the path.</li>
-   * </ul>
-   * <p>
-   * This method assumes the specified string is an absolute path, and detects
-   * Windows paths using {@link Paths#isAbsoluteLocalWindows(String)}.
-   *
-   * @param absolutePath The string from which to create an {@link URL}.
-   * @return An {@link URL} created from the specified string, or {@code null}
-   *         if the specified string is null.
-   * @throws MalformedURLException If a protocol is specified but is unknown, or
-   *           the spec is null, or the parsed URL fails to comply with the
-   *           specific syntax of the associated protocol.
-   * @see Paths#isAbsoluteLocalWindows(String)
-   */
-  public static URL toURL(String absolutePath) throws MalformedURLException {
-    if (absolutePath == null)
-      return null;
-
-    if (absolutePath.contains(":/") && absolutePath.charAt(0) != '/')
-      return new URL(absolutePath);
-
-    if (Paths.isAbsoluteLocalWindows(absolutePath))
-      absolutePath = "/" + absolutePath.replace('\\', '/');
-
-    return new URL("file", "", absolutePath.length() > 0 && absolutePath.charAt(0) != '/' ? "/" + absolutePath : absolutePath);
-  }
-
-  /**
-   * Returns a canonical {@link URL} created from the specified string, or
-   * {@code null} if the specified string is null ({@code ".."} and {@code "."}
-   * path names are dereferenced in a canonical {@link URL}, and redundant
-   * {@code '/'} path separators are removed).
-   * <ul>
-   * <li>If the specified path contains the string {@code ":/"}, the resulting
-   * {@link URL} is created with {@link URL#URL(String)}.</li>
-   * <li>Otherwise, if the specified path does not have a leading {@code '/'},
-   * then it is prepended to the path.</li>
-   * </ul>
-   * <p>
-   * This method assumes the specified string is an absolute path, and detects
-   * Windows paths using {@link Paths#isAbsoluteLocalWindows(String)}.
-   *
-   * @param absolutePath The string from which to create an {@link URL}.
-   * @return A canonical {@link URL} created from the specified string, or
-   *         {@code null} if the specified string is null ({@code ".."} and
-   *         {@code "."} path names are dereferenced in a canonical {@link URL},
-   *         and redundant {@code '/'} path separators are removed).
-   * @throws MalformedURLException If a protocol is specified but is unknown, or
-   *           the spec is null, or the parsed URL fails to comply with the
-   *           specific syntax of the associated protocol.
-   * @see URLs#canonicalize(URL)
-   * @see Paths#isAbsoluteLocalWindows(String)
-   */
-  public static URL toCanonicalURL(final String absolutePath) throws MalformedURLException {
-    return canonicalize(toURL(absolutePath));
-  }
-
-  /**
-   * Returns an {@link URL} created from the specified {@code basedir} parent
-   * directory, and {@code path} child path.
-   *
-   * @param basedir The base directory of the path in the resulting {@link URL}.
-   * @param path The child path off of {@code basedir} in the resulting
-   *          {@link URL}.
-   * @return An {@link URL} created from the specified {@code basedir} parent
-   *         directory, and {@code path} child path.
-   * @throws MalformedURLException If a protocol is specified but is unknown, or
-   *           the spec is null, or the parsed URL fails to comply with the
-   *           specific syntax of the associated protocol.
-   * @throws NullPointerException If {@code basedir} or {@code path} is null.
-   * @see URLs#toURL(String)
-   * @see Paths#newPath(String,String)
-   * @see Paths#isAbsoluteLocalWindows(String)
-   */
-  public static URL toURL(final String basedir, final String path) throws MalformedURLException {
-    return toURL(Paths.newPath(basedir, path));
-  }
-
-  /**
-   * Returns a canonical {@link URL} created from the specified {@code basedir}
-   * parent directory, and {@code path} child path ({@code ".."} and {@code "."}
-   * path names are dereferenced in a canonical {@link URL}, and redundant
-   * {@code '/'} path separators are removed).
-   *
-   * @param basedir The base directory of the path in the resulting {@link URL}.
-   * @param path The child path off of {@code basedir} in the resulting
-   *          {@link URL}.
-   * @return A canonical {@link URL} created from the specified {@code basedir}
-   *         parent directory, and {@code path} child path ({@code ".."} and
-   *         {@code "."} path names are dereferenced in a canonical {@link URL},
-   *         and redundant {@code '/'} path separators are removed).
-   * @throws MalformedURLException If a protocol is specified but is unknown, or
-   *           the spec is null, or the parsed URL fails to comply with the
-   *           specific syntax of the associated protocol.
-   * @throws NullPointerException If {@code basedir} or {@code path} is null.
-   * @see URLs#toURL(String)
-   * @see URLs#canonicalize(URL)
-   * @see Paths#newPath(String,String)
-   * @see Paths#isAbsoluteLocalWindows(String)
-   */
-  public static URL toCanonicalURL(final String basedir, final String path) throws MalformedURLException {
-    return toCanonicalURL(Paths.newPath(basedir, path));
-  }
-
-  /**
-   * Returns an {@link URL} created from the specified {@code baseURL} parent
-   * URL, and {@code path} child path.
-   * <p>
-   * If the specified {@code baseURL} contains a query string, this method will
-   * throw a {@link IllegalArgumentException}.
-   *
-   * @param baseURL The base URL of the path in the resulting {@link URL}.
-   * @param path The child path off of {@code baseURL} in the resulting
-   *          {@link URL}.
-   * @return An {@link URL} created from the specified {@code baseURL} parent
-   *         directory, and {@code path} child path.
-   * @throws MalformedURLException If a protocol is specified but is unknown, or
-   *           the spec is null, or the parsed URL fails to comply with the
-   *           specific syntax of the associated protocol.
-   * @throws IllegalArgumentException If the specified {@code baseURL} contains
-   *           a query string.
-   * @throws NullPointerException If {@code baseURL} or {@code path} is null.
-   */
-  public static URL toURL(final URL baseURL, String path) throws MalformedURLException {
-    if (baseURL.getQuery() != null)
-      throw new IllegalArgumentException("Base URL with query string is not allowed");
-
-    path = path.replace('\\', '/');
-    if (baseURL.getPath().length() > 0 && baseURL.getPath().charAt(baseURL.getPath().length() - 1) == '/') {
-      if (path.length() > 0 && path.charAt(0) == '/')
-        path = path.substring(1);
-    }
-    else if (path.length() > 0 && path.charAt(0) != '/') {
-      path = "/" + path;
-    }
-
-    return new URL(baseURL.getProtocol(), baseURL.getHost(), baseURL.getPort(), baseURL.getPath() + path);
-  }
-
-  /**
-   * Returns a canonical {@link URL} created from the specified {@code baseURL}
-   * parent URL, and {@code path} child path ({@code ".."} and {@code "."} path
-   * names are dereferenced in a canonical {@link URL}, and redundant
-   * {@code '/'} path separators are removed).
-   * <p>
-   * If the specified {@code baseURL} contains a query string, this method will
-   * throw a {@link IllegalArgumentException}.
-   *
-   * @param baseURL The base URL of the path in the resulting {@link URL}.
-   * @param path The child path off of {@code baseURL} in the resulting
-   *          {@link URL}.
-   * @return A canonical {@link URL} created from the specified {@code baseURL}
-   *         parent directory, and {@code path} child path ({@code ".."} and
-   *         {@code "."} path names are dereferenced in a canonical {@link URL},
-   *         and redundant {@code '/'} path separators are removed).
-   * @throws MalformedURLException If a protocol is specified but is unknown, or
-   *           the spec is null, or the parsed URL fails to comply with the
-   *           specific syntax of the associated protocol.
-   * @throws IllegalArgumentException If the specified {@code baseURL} contains
-   *           a query string.
-   * @throws NullPointerException If {@code baseURL} or {@code path} is null.
-   */
-  public static URL toCanonicalURL(final URL baseURL, final String path) throws MalformedURLException {
-    return canonicalize(toURL(baseURL, path));
-  }
-
-  /**
    * Returns the canonical version of the specified {@link URL}, where redundant
    * names such as {@code "."} and {@code ".."} are dereferenced and removed
    * from the path.
@@ -462,12 +431,12 @@ public final class URLs {
    * @return The canonical version of the specified {@link URL}, where redundant
    *         names such as {@code "."} and {@code ".."} are dereferenced and
    *         removed from the path.
-   * @throws MalformedURLException If a protocol is specified but is unknown, or
-   *           the spec is null, or the parsed URL fails to comply with the
+   * @throws IllegalArgumentException If a protocol is specified but is unknown,
+   *           or the spec is null, or the parsed URL fails to comply with the
    *           specific syntax of the associated protocol.
    */
-  public static URL canonicalize(final URL url) throws MalformedURLException {
-    return url == null ? null : new URL(Paths.canonicalize(url.toString()));
+  public static URL canonicalize(final URL url) {
+    return url == null ? null : create(url.getProtocol(), url.getHost(), url.getPort(), StringPaths.canonicalize(url.getPath().toString()));
   }
 
   /**
@@ -536,6 +505,73 @@ public final class URLs {
   }
 
   /**
+   * Tests whether the specified {@link URL} represents a file path. An URL is
+   * considered a file if its protocol is "file" (case-insensitive), and its
+   * host value is empty or equal to {@code "localhost"}.
+   *
+   * @param url The {@link URL}.
+   * @return {@code true} if the specified {@link URL} represents a file path;
+   *         otherwise {@code false}.
+   * @throws NullPointerException If {@code url} is null.
+   */
+  public static boolean isLocalFile(final URL url) {
+    final String host = url.getHost();
+    return "file".equalsIgnoreCase(url.getProtocol()) && (host == null || host.length() == 0 || "localhost".equals(host));
+  }
+
+  /**
+   * Tests whether the specified {@link URL} represents a location that is a
+   * local JAR file with protocol {@code "jar:file:"}.
+   * <p>
+   * The compound protocol definition is unwrapped in order to determine if the
+   * root resource locator in the URL is local. This method then uses
+   * {@link URLs#isLocalFile(URL)} to check whether {@code url} is local.
+   *
+   * @param url The {@link URL} to test.
+   * @return {@code true} if the specified {@link URL} represents a location
+   *         that is local; otherwise {@code false}.
+   * @throws NullPointerException If {@code url} is null.
+   */
+  public static boolean isLocalJarFile(URL url) {
+    do {
+      if (!url.toString().startsWith("jar:"))
+        return false;
+
+      final String path = url.toString().substring(4);
+      final int bang = path.lastIndexOf('!');
+      try {
+        if (isLocalFile(url = new URL(bang == -1 ? path : path.substring(0, bang))))
+          return true;
+      }
+      catch (final MalformedURLException e) {
+        return false;
+      }
+    }
+    while (true);
+  }
+
+  /**
+   * Tests whether the specified {@link URL} represents a location that is
+   * either a local file with protocol {@code "file:"}, or a local JAR file with
+   * protocol {@code "jar:file:"}.
+   * <p>
+   * URLs with compound protocol definitions, such as {@code "jar:file:"} are
+   * first unwrapped in order to digest the root resource locator in the URL.
+   * This method then uses {@link URLs#isLocalFile(URL)} to check whether
+   * {@code url} is local.
+   *
+   * @param url The {@link URL} to test.
+   * @return {@code true} if the specified {@link URL} represents a location
+   *         that is either a local file with protocol {@code "file:"}, or a
+   *         local JAR file with protocol {@code "jar:file:"}; otherwise
+   *         {@code false}.
+   * @throws NullPointerException If {@code url} is null.
+   */
+  public static boolean isLocal(final URL url) {
+    return isLocalFile(url) || isLocalJarFile(url);
+  }
+
+  /**
    * Tests whether the specified {@link URL} references a Jar resource,
    * otherwise {@code false}.
    *
@@ -554,19 +590,19 @@ public final class URLs {
   }
 
   /**
-   * Returns an {@link URL} representing the location of the Jar in {@code url},
+   * Returns a {@link URL} representing the location of the Jar in {@code url},
    * if {@code url} is "Jar URL" resembling the {@code "jar:<url>...!..."}
    * semantics; or {@code null} if {@code url} is not a "Jar URL".
    *
    * @param url The {@link URL}.
-   * @return An {@link URL} representing the location of the Jar in {@code url},
+   * @return A {@link URL} representing the location of the Jar in {@code url},
    *         if {@code url} is "Jar URL" resembling the
    *         {@code "jar:<url>...!..."} semantics; or {@code null} if
    *         {@code url} is not a "Jar URL".
    * @throws NullPointerException If {@code url} is null.
    */
   public static URL getJarURL(final URL url) {
-    return isJar(url) ? URLs.create(url.getFile().substring(0, url.getFile().indexOf('!'))) : null;
+    return isJar(url) ? create(url.getFile().substring(0, url.getFile().indexOf('!'))) : null;
   }
 
   /**
@@ -599,7 +635,7 @@ public final class URLs {
    * @throws NullPointerException If {@code url} is null.
    */
   public static String getName(final URL url) {
-    return Paths.getName(url.toString());
+    return StringPaths.getName(url.toString());
   }
 
   /**
@@ -615,7 +651,7 @@ public final class URLs {
    * @throws NullPointerException If {@code url} is null.
    */
   public static String getShortName(final URL url) {
-    return Paths.getShortName(url.toString());
+    return StringPaths.getShortName(url.toString());
   }
 
   /**
@@ -624,16 +660,13 @@ public final class URLs {
    *
    * @param url The {@link URL}.
    * @return The URL representing the parent of the specified {@link URL}, or
-   *         {@code null} if {@code url} is null or does not name a parent
-   *         directory.
-   * @see Paths#getParent(String)
+   *         {@code null} if {@code url} does not name a parent directory.
+   * @throws NullPointerException If {@code url} is null.
+   * @see StringPaths#getParent(String)
    */
   public static URL getParent(final URL url) {
-    if (url == null)
-      return null;
-
-    final String parentPath = Paths.getParent(url.toString());
-    return parentPath == null ? null : URLs.create(parentPath);
+    final String parentPath = StringPaths.getParent(url.toString());
+    return parentPath == null ? null : create(parentPath);
   }
 
   /**
@@ -648,10 +681,10 @@ public final class URLs {
    *         directory ({@code ".."} and {@code "."} path names are dereferenced
    *         in a canonical {@link URL}, and redundant {@code '/'} path
    *         separators are removed).
-   * @see Paths#getParent(String)
+   * @see StringPaths#getParent(String)
    */
   public static URL getCanonicalParent(final URL url) {
-    return url == null ? null : URLs.create(Paths.getCanonicalParent(url.toString()));
+    return url == null ? null : create(StringPaths.getCanonicalParent(url.toString()));
   }
 
   /**
@@ -901,7 +934,7 @@ public final class URLs {
   }
 
   /**
-   * Returns an {@link URL} with {@code http} and {@code https} protocols
+   * Returns a {@link URL} with {@code http} and {@code https} protocols
    * disabled.
    * <p>
    * If the specified {@link URL} is of a protocol that is {@code http} or
@@ -913,7 +946,7 @@ public final class URLs {
    *
    * @param url The {@link URL} for which {@code http} and {@code https}
    *          protocols are to be disabled.
-   * @return An {@link URL} with {@code http} and {@code https} protocols
+   * @return A {@link URL} with {@code http} and {@code https} protocols
    *         disabled.
    * @throws NullPointerException If the specified {@link URL url} is null.
    */
@@ -923,6 +956,12 @@ public final class URLs {
 
     try {
       return new URL(url, "", new URLStreamHandler() {
+        @Override
+        @SuppressWarnings("sync-override")
+        protected InetAddress getHostAddress(final URL u) {
+          return null;
+        }
+
         @Override
         protected URLConnection openConnection(final URL u) throws IOException {
           return openConnection(u, null);
@@ -957,6 +996,57 @@ public final class URLs {
     catch (final MalformedURLException e) {
       throw new IllegalArgumentException(e);
     }
+  }
+
+  /**
+   * Disables all {@code http} and {@code https} access from this JVM.
+   * <p>
+   * <b>Note</b>: Once called, this cannot be undone.
+   */
+  public static void disableRemote() {
+    OfflineURLStreamHandler.register();
+  }
+
+  private static class LiteralHostStreamHandler extends URLStreamHandler {
+    private URL url;
+
+    private URL full(final URL url) throws MalformedURLException {
+      return this.url == null ? this.url = new URL(url, "") : this.url;
+    }
+
+    @Override
+    protected synchronized InetAddress getHostAddress(final URL u) {
+      return null;
+    }
+
+    @Override
+    protected URLConnection openConnection(final URL u) throws IOException {
+      return full(u).openConnection();
+    }
+
+    @Override
+    protected URLConnection openConnection(final URL u, final Proxy proxy) throws IOException {
+      return full(u).openConnection(proxy);
+    }
+  }
+
+  /**
+   * Returns a {@link URL} for which the {@linkplain URL#getHost() host} is
+   * treated as a literal string (as opposed to its resolved IP address, as is
+   * dereferenced by default during the {@link URL#equals(Object)} and
+   * {@link URL#hashCode()} operations).
+   *
+   * @param spec The String to parse as a URL.
+   * @return A {@link URL} for which the {@linkplain URL#getHost() host} is
+   *         treated as a literal string.
+   * @throws IllegalArgumentException If no protocol is specified, or an unknown
+   *           protocol is found, or spec is null, or the parsed URL fails to
+   *           comply with the specific syntax of the associated protocol.
+   * @throws SecurityException If a security manager exists and its
+   *           checkPermission method doesn't allow specifying a stream handler.
+   */
+  public static URL withLiteralHost(final String spec) {
+    return create(null, spec, new LiteralHostStreamHandler());
   }
 
   private URLs() {
