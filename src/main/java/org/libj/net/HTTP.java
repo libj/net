@@ -126,7 +126,7 @@ public final class HTTP {
       charset = "UTF-8";
 
     final String query = createQuery(parameters, charset);
-    final URLConnection urlConnection = new URL(url.toExternalForm()).openConnection();
+    final URLConnection urlConnection = url.openConnection();
     urlConnection.setUseCaches(false);
     urlConnection.setDoOutput(true); // Triggers POST
     // urlConnection.setRequestProperty("content-type", "application/x-www-form-urlencoded");
