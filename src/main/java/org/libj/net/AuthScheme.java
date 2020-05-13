@@ -84,8 +84,14 @@ public abstract class AuthScheme implements Serializable {
       instances.put(scheme, instance = constructor.newInstance());
       return instance;
     }
-    catch (final IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
-      throw new UnsupportedOperationException(e);
+    catch (final IllegalAccessException | InstantiationException | NoSuchMethodException e) {
+      throw new RuntimeException(e);
+    }
+    catch (final InvocationTargetException e) {
+      if (e.getCause() instanceof RuntimeException)
+        throw (RuntimeException)e.getCause();
+
+      throw new RuntimeException(e);
     }
   }
 
