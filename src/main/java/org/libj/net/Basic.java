@@ -104,8 +104,12 @@ public class Basic extends AuthScheme {
   @Override
   public int hashCode() {
     int hashCode = 1;
-    hashCode = 31 * hashCode + (username == null ? 0 : username.hashCode());
-    hashCode = 31 * hashCode + (password == null ? 0 : password.hashCode());
+    if (username != null)
+      hashCode = 31 * hashCode + username.hashCode();
+
+    if (password != null)
+      hashCode = 31 * hashCode + password.hashCode();
+
     return hashCode;
   }
 }

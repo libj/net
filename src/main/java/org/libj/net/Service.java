@@ -98,9 +98,13 @@ public class Service {
 
   @Override
   public int hashCode() {
-    int hashCode = port;
-    hashCode = 31 * hashCode + (serviceName == null ? 0 : serviceName.hashCode());
-    hashCode = 31 * hashCode + (aliases == null ? 0 : aliases.hashCode());
+    int hashCode = 1;
+    if (serviceName != null)
+      hashCode = 31 * hashCode + serviceName.hashCode();
+
+    if (aliases != null)
+      hashCode = 31 * hashCode + aliases.hashCode();
+
     return hashCode;
   }
 

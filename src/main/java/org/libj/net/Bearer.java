@@ -76,6 +76,10 @@ public class Bearer extends AuthScheme {
 
   @Override
   public int hashCode() {
-    return 31 + (token == null ? 0 : token.hashCode());
+    int hashCode = 1;
+    if (token != null)
+      hashCode = 31 * hashCode + token.hashCode();
+
+    return hashCode;
   }
 }
