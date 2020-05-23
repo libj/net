@@ -1,6 +1,8 @@
 # Changes by Version
 
-## [v0.5.2](https://github.com/libj/net/compare/3136a63796aec4121b60e2328f5ec2b5093b9eaa..HEAD) (2020-05-23)
+## [v0.5.3-SNAPSHOT](https://github.com/libj/net/compare/01c48784915d7e10e0f7b207f5408309494d9e5e..HEAD)
+
+## [v0.5.2](https://github.com/libj/net/compare/3136a63796aec4121b60e2328f5ec2b5093b9eaa..01c48784915d7e10e0f7b207f5408309494d9e5e) (2020-05-23)
 * Improve handling of `InvocationTargetException`.
 * Add `equals` and `hashCode` to `Basic` and `Bearer`.
 * Remove `Not Modified` check in `Downloads.downloadFile(String,File)`.
