@@ -4,6 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/libj/net/badge.svg?1)](https://coveralls.io/github/libj/net)
 [![Javadocs](https://www.javadoc.io/badge/org.libj/net.svg?1)](https://www.javadoc.io/doc/org.libj/net)
 [![Released Version](https://img.shields.io/maven-central/v/org.libj/net.svg?1)](https://mvnrepository.com/artifact/org.libj/net)
+![Snapshot Version](https://img.shields.io/nexus/s/org.libj/net?label=maven-snapshot&server=https%3A%2F%2Foss.sonatype.org)
 
 ## Introduction
 
