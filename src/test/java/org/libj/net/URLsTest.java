@@ -77,9 +77,6 @@ public class URLsTest {
     else
       assertTrue(URLs.exists(new URL("file", "", "/usr")));
 
-    // FIXME: Some machines may not be connected to the web!
-    // assertTrue(URLs.exists(new URL("http://www.google.com/")));
-
     assertFalse(URLs.exists(new URL("file", "", "/ngfodbbgfid")));
     assertFalse(URLs.exists(new URL("http://fndos:9876/")));
   }
