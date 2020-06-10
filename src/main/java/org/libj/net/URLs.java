@@ -639,19 +639,19 @@ public final class URLs {
   }
 
   /**
-   * Returns the short name of the file or directory denoted by the specified
+   * Returns the simple name of the file or directory denoted by the specified
    * {@link URL}. This is just the last name in the name sequence of
    * {@code url}, with its dot-extension removed if present. If the name
    * sequence of {@code url} is empty, then the empty string is returned.
    *
    * @param url The {@link URL}.
-   * @return The short name of the file or directory denoted by the specified
+   * @return The simple name of the file or directory denoted by the specified
    *         {@link URL}, or the empty string if the name sequence of
    *         {@code url} is empty.
    * @throws NullPointerException If {@code url} is null.
    */
-  public static String getShortName(final URL url) {
-    return StringPaths.getShortName(url.toString());
+  public static String getSimpleName(final URL url) {
+    return StringPaths.getSimpleName(url.toString());
   }
 
   /**

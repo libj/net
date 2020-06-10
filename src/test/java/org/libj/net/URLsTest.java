@@ -114,10 +114,10 @@ public class URLsTest {
   @Test
   public void testGetShortName() throws Exception {
     assertNull(URLs.canonicalize(null));
-    assertEquals("share", URLs.getShortName(new URL("file:///usr/share/../share")));
-    assertEquals("lib", URLs.getShortName(new URL("file:///usr/share/../share/../lib")));
-    assertEquals("var", URLs.getShortName(new URL("file:///usr/share/../share/../lib/../../var")));
-    assertEquals("resolv", URLs.getShortName(new URL("file:///etc/resolv.conf")));
+    assertEquals("share", URLs.getSimpleName(new URL("file:///usr/share/../share")));
+    assertEquals("lib", URLs.getSimpleName(new URL("file:///usr/share/../share/../lib")));
+    assertEquals("var", URLs.getSimpleName(new URL("file:///usr/share/../share/../lib/../../var")));
+    assertEquals("resolv", URLs.getSimpleName(new URL("file:///etc/resolv.conf")));
   }
 
   @Test

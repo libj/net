@@ -60,10 +60,10 @@ public class URIsTest {
 
   @Test
   public void testGetShortName() throws Exception {
-    assertEquals("share", URIs.getShortName(new URI("file:///usr/share/../share")));
-    assertEquals("lib", URIs.getShortName(new URI("file:///usr/share/../share/../lib")));
-    assertEquals("var", URIs.getShortName(new URI("file:///usr/share/../share/../lib/../../var")));
-    assertEquals("resolv", URIs.getShortName(new URI("file:///etc/resolv.conf")));
+    assertEquals("share", URIs.getSimpleName(new URI("file:///usr/share/../share")));
+    assertEquals("lib", URIs.getSimpleName(new URI("file:///usr/share/../share/../lib")));
+    assertEquals("var", URIs.getSimpleName(new URI("file:///usr/share/../share/../lib/../../var")));
+    assertEquals("resolv", URIs.getSimpleName(new URI("file:///etc/resolv.conf")));
   }
 
   @Test

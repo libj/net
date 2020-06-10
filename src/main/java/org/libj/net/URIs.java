@@ -189,19 +189,19 @@ public final class URIs {
   }
 
   /**
-   * Returns the short name of the file or directory denoted by the specified
+   * Returns the simple name of the file or directory denoted by the specified
    * {@link URI}. This is just the last name in the name sequence of
    * {@code uri}, with its dot-extension removed if present. If the name
    * sequence of {@code uri} is empty, then the empty string is returned.
    *
    * @param uri The {@link URI}.
-   * @return The short name of the file or directory denoted by the specified
+   * @return The simple name of the file or directory denoted by the specified
    *         {@link URI}, or the empty string if the name sequence of
    *         {@code uri} is empty.
    * @throws NullPointerException If {@code uri} is null.
    */
-  public static String getShortName(final URI uri) {
-    return StringPaths.getShortName(uri.toString());
+  public static String getSimpleName(final URI uri) {
+    return StringPaths.getSimpleName(uri.toString());
   }
 
   /**
