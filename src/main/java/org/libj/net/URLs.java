@@ -1001,7 +1001,7 @@ public final class URLs {
   /**
    * Disables all {@code http} and {@code https} access from this JVM.
    * <p>
-   * <b>Note</b>: Once called, this cannot be undone.
+   * <b>Note:</b> Once called, this cannot be undone.
    */
   public static void disableRemote() {
     OfflineURLStreamHandler.register();
