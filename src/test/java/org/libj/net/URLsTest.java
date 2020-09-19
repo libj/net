@@ -112,7 +112,7 @@ public class URLsTest {
   }
 
   @Test
-  public void testGetShortName() throws Exception {
+  public void testGetSimpleName() throws Exception {
     assertNull(URLs.canonicalize(null));
     assertEquals("share", URLs.getSimpleName(new URL("file:///usr/share/../share")));
     assertEquals("lib", URLs.getSimpleName(new URL("file:///usr/share/../share/../lib")));

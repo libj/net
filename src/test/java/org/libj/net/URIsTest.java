@@ -59,7 +59,7 @@ public class URIsTest {
   }
 
   @Test
-  public void testGetShortName() throws Exception {
+  public void testGetSimpleName() throws Exception {
     assertEquals("share", URIs.getSimpleName(new URI("file:///usr/share/../share")));
     assertEquals("lib", URIs.getSimpleName(new URI("file:///usr/share/../share/../lib")));
     assertEquals("var", URIs.getSimpleName(new URI("file:///usr/share/../share/../lib/../../var")));
