@@ -35,92 +35,148 @@ import java.util.Properties;
  */
 public final class HTTP {
   /**
-   * Invoke a GET request on the specified URL with the provided parameter map which
-   * will be encoded as UTF-8. It is highly recommended to close the obtained
-   * {@link InputStream} after processing.
+   * Create an {@link URL} for the specified {@code url} with the provided
+   * parameter map which will be encoded as UTF-8. It is highly recommended to
+   * close the obtained {@link InputStream} after processing.
    *
-   * @param url The URL to be invoked.
+   * @param url The {@code url} to be invoked.
    * @param parameters The parameters to be processed as query parameters.
    * @return The result of the GET request as an InputStream.
-   * @throws MalformedURLException If the specified URL is invalid.
+   * @throws MalformedURLException If the specified {@code url} is invalid.
    * @throws IOException If an I/O error has occurred.
    * @throws NullPointerException If {@code url} is null.
    */
-  public static InputStream doGet(final String url, final Map<String,String[]> parameters) throws IOException {
-    return doGet(url, parameters, "UTF-8");
+  public static URL get(final String url, final Map<String,String[]> parameters) throws IOException {
+    return get(url, parameters, "UTF-8");
   }
 
   /**
-   * Invoke a GET request on the specified URL with the provided parameter map
-   * and charset encoding. It is highly recommended to close the obtained
-   * {@link InputStream} after processing.
+   * Invoke a GET request on the specified {@code url} with the provided
+   * parameter map which will be encoded as UTF-8. It is highly recommended to
+   * close the obtained {@link InputStream} after processing.
    *
-   * @param url The URL to be invoked.
+   * @param url The {@code url} to be invoked.
+   * @param parameters The parameters to be processed as query parameters.
+   * @return The result of the GET request as an InputStream.
+   * @throws MalformedURLException If the specified {@code url} is invalid.
+   * @throws IOException If an I/O error has occurred.
+   * @throws NullPointerException If {@code url} is null.
+   */
+  public static InputStream getAsStream(final String url, final Map<String,String[]> parameters) throws IOException {
+    return getAsStream(url, parameters, "UTF-8");
+  }
+
+  /**
+   * Invoke a GET request on the specified {@code url} with the provided
+   * parameter map and charset encoding. It is highly recommended to close the
+   * obtained {@link InputStream} after processing.
+   *
+   * @param url The {@code url} to be invoked.
    * @param parameters The parameters to be processed as query parameters.
    * @param charset The encoding to be applied.
    * @return The result of the GET request as an InputStream.
-   * @throws MalformedURLException If the specified URL is invalid.
+   * @throws MalformedURLException If the specified {@code url} is invalid.
    * @throws IOException If an I/O error has occurred.
-   * @throws UnsupportedEncodingException If the provided charset is not supported.
+   * @throws UnsupportedEncodingException If the provided charset is not
+   *           supported.
    * @throws NullPointerException If {@code url} is null.
    */
-  public static InputStream doGet(final String url, final Map<String,String[]> parameters, final String charset) throws IOException, UnsupportedEncodingException {
-    final String query = createQuery(parameters, charset);
-    final URLConnection urlConnection = new URL(Objects.requireNonNull(url) + "?" + query).openConnection();
+  public static InputStream getAsStream(final String url, final Map<String,String[]> parameters, final String charset) throws IOException, UnsupportedEncodingException {
+    final URLConnection urlConnection = get(url, parameters, charset).openConnection();
     urlConnection.setUseCaches(false);
     return urlConnection.getInputStream();
   }
 
   /**
-   * Invoke a POST request on the specified URL with the provided parameter map which
-   * will be encoded as UTF-8. It is highly recommended to close the obtained
-   * {@link InputStream} after processing.
+   * Invoke a GET request on the specified {@link URL} with the provided
+   * parameter map and charset encoding. It is highly recommended to close the
+   * obtained {@link InputStream} after processing.
    *
-   * @param url The URL to be invoked.
-   * @param parameters The parameters to be processed as query parameters.
-   * @return The result of the POST request as an InputStream.
-   * @throws MalformedURLException If the specified URL is invalid.
+   * @param url The {@link URL} to be invoked.
+   * @return The result of the GET request as an InputStream.
+   * @throws MalformedURLException If the specified {@link URL} is invalid.
    * @throws IOException If an I/O error has occurred.
+   * @throws UnsupportedEncodingException If the provided charset is not
+   *           supported.
    * @throws NullPointerException If {@code url} is null.
    */
-  public static InputStream doPost(final URL url, final Map<String,String[]> parameters) throws IOException {
-    return doPost(url, parameters, null);
+  public static InputStream getAsStream(final URL url) throws IOException, UnsupportedEncodingException {
+    final URLConnection urlConnection = url.openConnection();
+    urlConnection.setUseCaches(false);
+    return urlConnection.getInputStream();
   }
 
   /**
-   * Invoke a POST request on the specified URL with the provided parameter map which
-   * will be encoded as UTF-8. It is highly recommended to close the obtained
-   * {@link InputStream} after processing.
+   * Create an {@link URL} for a GET request on the specified {@code url} with
+   * the provided parameter map and charset encoding. It is highly recommended
+   * to close the obtained {@link InputStream} after processing.
    *
-   * @param url The URL to be invoked.
+   * @param url The {@code url} to be invoked.
+   * @param parameters The parameters to be processed as query parameters.
+   * @param charset The encoding to be applied.
+   * @return An {@link URL} for a GET request on the specified {@code url} with
+   *         the provided parameter map and charset encoding.
+   * @throws MalformedURLException If the specified {@code url} is invalid.
+   * @throws IOException If an I/O error has occurred.
+   * @throws UnsupportedEncodingException If the provided charset is not
+   *           supported.
+   * @throws NullPointerException If {@code url} is null.
+   */
+  public static URL get(final String url, final Map<String,String[]> parameters, final String charset) throws IOException, UnsupportedEncodingException {
+    final String query = createQuery(parameters, charset);
+    return new URL(Objects.requireNonNull(url) + "?" + query);
+  }
+
+  /**
+   * Invoke a POST request on the specified {@link URL} with the provided
+   * parameter map which will be encoded as UTF-8. It is highly recommended to
+   * close the obtained {@link InputStream} after processing.
+   *
+   * @param url The {@link URL} to be invoked.
+   * @param parameters The parameters to be processed as query parameters.
+   * @return The result of the POST request as an InputStream.
+   * @throws MalformedURLException If the specified {@link URL} is invalid.
+   * @throws IOException If an I/O error has occurred.
+   * @throws NullPointerException If {@code url} is null.
+   */
+  public static InputStream postAsStream(final URL url, final Map<String,String[]> parameters) throws IOException {
+    return postAsStream(url, parameters, null);
+  }
+
+  /**
+   * Invoke a POST request on the specified {@link URL} with the provided
+   * parameter map which will be encoded as UTF-8. It is highly recommended to
+   * close the obtained {@link InputStream} after processing.
+   *
+   * @param url The {@link URL} to be invoked.
    * @param parameters The parameters to be processed as query parameters.
    * @param properties The request properties to be processed as header
    *          properties.
    * @return The result of the POST request as an InputStream.
-   * @throws MalformedURLException If the specified URL is invalid.
+   * @throws MalformedURLException If the specified {@link URL} is invalid.
    * @throws IOException If an I/O error has occurred.
    * @throws NullPointerException If {@code url} is null.
    */
-  public static InputStream doPost(final URL url, final Map<String,String[]> parameters, final Properties properties) throws IOException {
-    return doPost(url, parameters, properties, null);
+  public static InputStream postAsStream(final URL url, final Map<String,String[]> parameters, final Properties properties) throws IOException {
+    return postAsStream(url, parameters, properties, null);
   }
 
   /**
-   * Invoke a POST request on the specified URL with the provided parameter map which
-   * will be encoded as UTF-8. It is highly recommended to close the obtained
-   * {@link InputStream} after processing.
+   * Invoke a POST request on the specified {@link URL} with the provided
+   * parameter map which will be encoded as UTF-8. It is highly recommended to
+   * close the obtained {@link InputStream} after processing.
    *
-   * @param url The URL to be invoked.
+   * @param url The {@link URL} to be invoked.
    * @param parameters The parameters to be processed as query parameters.
    * @param properties The request properties to be processed as header
    *          properties.
    * @param cookies The cookies to be injected into the header.
    * @return The result of the POST request as an InputStream.
-   * @throws MalformedURLException If the specified URL is invalid.
+   * @throws MalformedURLException If the specified {@link URL} is invalid.
    * @throws IOException If an I/O error has occurred.
    * @throws NullPointerException If {@code url} is null.
    */
-  public static InputStream doPost(final URL url, final Map<String,String[]> parameters, final Properties properties, final List<String> cookies) throws IOException {
+  public static InputStream postAsStream(final URL url, final Map<String,String[]> parameters, final Properties properties, final List<String> cookies) throws IOException {
     String charset = properties != null ? properties.getProperty("accept-charset") : null;
     if (charset == null)
       charset = "UTF-8";
