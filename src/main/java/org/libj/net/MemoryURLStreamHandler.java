@@ -21,8 +21,6 @@ import java.net.URLStreamHandler;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.libj.net.memory.Handler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A {@link URLStreamHandler} that implements the "memory" protocol. This class
@@ -30,53 +28,8 @@ import org.slf4j.LoggerFactory;
  * in which they are created.
  */
 public abstract class MemoryURLStreamHandler extends URLStreamHandler {
-  private static final Logger logger = LoggerFactory.getLogger(MemoryURLStreamHandler.class);
-
-  // TODO: Saving for future move to support jdk9+
-//  private static boolean canLookupViaProvider(final String className) throws IOException {
-//    final Enumeration<URL> resources = ClassLoader.getSystemClassLoader().getResources("META-INF/services/java.net.spi.URLStreamHandlerProvider");
-//    while (resources.hasMoreElements()) {
-//      final URL url = resources.nextElement();
-//      try (final InputStream in = url.openStream()) {
-//        if (new String(Streams.readBytes(in)).contains(className)) {
-//          return true;
-//        }
-//      }
-//    }
-//
-//    return false;
-//  }
-
-  private static boolean canLookupViaProperty(final String className) {
-    try {
-      ClassLoader.getSystemClassLoader().loadClass(className);
-      return true;
-    }
-    catch (final ClassNotFoundException e) {
-      return false;
-    }
-  }
-
   static {
-    // FIXME: jdk9+ code commented out
-//    try {
-      final String className = Handler.class.getName();
-//      if (!canLookupViaProvider(className)) {
-        final String property = "java.protocol.handler.pkgs";
-        final String pkgs = System.getProperty(property);
-        final String pkg = MemoryURLStreamHandler.class.getPackage().getName();
-        if (pkgs == null || !pkgs.contains(pkg))
-          System.setProperty(property, pkgs != null && pkgs.length() > 0 ? pkgs + "|" + pkg : pkg);
-
-        if (!canLookupViaProperty(className)) {
-          logger.warn("Unable to register " + MemoryURLStreamHandler.class.getName() + " via \"provider\" nor \"property\" methods, so resorting to URL.setURLStreamHandlerFactory()");
-          URL.setURLStreamHandlerFactory(new Handler.Provider());
-        }
-//      }
-//    }
-//    catch (final IOException e) {
-//      throw new ExceptionInInitializerError(e);
-//    }
+    URLStreamHandlers.register(Handler.class, Handler.Factory.class);
   }
 
   protected static final ConcurrentHashMap<String,byte[]> idToData = new ConcurrentHashMap<>();

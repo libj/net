@@ -165,7 +165,6 @@ public abstract class DelegateURLConnection extends URLConnection {
   }
 
   @Override
-  @SuppressWarnings("rawtypes")
   public Object getContent(final Class[] classes) throws IOException {
     return target.getContent(classes);
   }

@@ -16,6 +16,7 @@
 
 package org.libj.net.memory;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -31,10 +32,17 @@ import org.libj.net.MemoryURLStreamHandler;
  * property.
  */
 public class Handler extends MemoryURLStreamHandler {
-  public static class Provider implements URLStreamHandlerFactory { // FIXME: jdp9+ URLStreamHandlerProvider
+  public static class Factory implements URLStreamHandlerFactory { // FIXME: jdk9+ URLStreamHandlerProvider
+    static {
+      // Force Handler class to be loaded
+      if (Handler.idToData == null);
+    }
+
+    private static Handler handler;
+
     @Override
     public Handler createURLStreamHandler(final String protocol) {
-      return "memory".equals(protocol) ? new Handler() : null;
+      return !"memory".equals(protocol) ? null : handler == null ? handler = new Handler() : handler;
     }
   }
 
@@ -42,9 +50,9 @@ public class Handler extends MemoryURLStreamHandler {
    * @throws MalformedURLException If the provided {@link URL} specifies a
    *           protocol that is not {@code "memory"}, or a host that is not
    *           {@code null} or empty.
-   * @throws IOException If no data is registered for the provided {@link URL},
-   *           or if an I/O error occurs while opening the connection.
-   * @throws NullPointerException If the specified {@link URL} is null.
+   * @throws FileNotFoundException If no data is registered for the provided {@link URL}.
+   * @throws IOException If an I/O error occurs while opening the connection.
+   * @throws NullPointerException If the provided {@link URL} is null.
    */
   @Override
   protected URLConnection openConnection(final URL url) throws IOException {
@@ -56,7 +64,7 @@ public class Handler extends MemoryURLStreamHandler {
 
     final byte[] data = idToData.get(url.getPath());
     if (data == null)
-      throw new IOException("URL not registered: " + url);
+      throw new FileNotFoundException("URL not registered: " + url);
 
     return new MemoryURLConnection(url, data);
   }
