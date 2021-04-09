@@ -19,22 +19,24 @@ package org.libj.net;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 import javax.servlet.http.HttpServletResponse;
+
+import org.libj.util.ArrayUtil;
 
 /**
  * Utility functions for operations pertaining to file downloads.
  */
 public final class Downloads {
-  private static final int BUFFER_SIZE = 4096;
-
   /**
    * Downloads a file from the specified {@code url} to the provided
    * {@link File}. If the provided {@code file} exists, its lastModified
@@ -42,28 +44,55 @@ public final class Downloads {
    * GET request. Content is not downloaded if the file at the specified
    * {@code url} is not modified.
    *
-   * @param url The {@link URL} from which to download.
-   * @param file The destination {@link File}.
-   * @return The HTTP response code.
+   * @param fromUrl The {@code url} from which to download.
+   * @param toFile The destination {@link File}.
+   * @param options Options specifying how the download should be done.
+   * @return The <b>closed</b> {@link HttpURLConnection} that was used to
+   *         download the file.
    * @throws IOException If an I/O error has occurred.
-   * @throws NullPointerException If the provided url or {@link File} is null.
+   * @throws NullPointerException If the provided {@code url} or {@link File} is
+   *           null.
    */
-  public static int downloadFile(final String url, final File file) throws IOException {
-    final HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
+  public static HttpURLConnection downloadFile(final String fromUrl, final File toFile, final CopyOption ... options) throws IOException {
+    return downloadFile(new URL(fromUrl), toFile, options);
+  }
+
+  /**
+   * Downloads a file from the specified {@link URL} to the provided
+   * {@link File}. If the provided {@code file} exists, its lastModified
+   * timestamp is used to specify the {@code If-Modified-Since} header in the
+   * GET request. Content is not downloaded if the file at the specified
+   * {@link URL} is not modified.
+   *
+   * @param fromUrl The {@link URL} from which to download.
+   * @param toFile The destination {@link File}.
+   * @param options Options specifying how the download should be done.
+   * @return The <b>closed</b> {@link HttpURLConnection} that was used to
+   *         download the file.
+   * @throws IOException If an I/O error has occurred.
+   * @throws NullPointerException If the provided {@link URL} or {@link File} is
+   *           null.
+   */
+  public static HttpURLConnection downloadFile(final URL fromUrl, final File toFile, CopyOption ... options) throws IOException {
+    final HttpURLConnection connection = (HttpURLConnection)fromUrl.openConnection();
     try {
-      connection.setIfModifiedSince(file.lastModified());
+      if (toFile.exists())
+        connection.setIfModifiedSince(toFile.lastModified());
+
       final int responseCode = connection.getResponseCode();
       if (responseCode == HttpURLConnection.HTTP_OK) {
-        try (
-          final InputStream in = connection.getInputStream();
-          final FileOutputStream out = new FileOutputStream(file);
-        ) {
-          final byte[] buffer = new byte[BUFFER_SIZE];
-          for (int read; (read = in.read(buffer)) != -1; out.write(buffer, 0, read));
+        try (final InputStream in = connection.getInputStream()) {
+          final int index = ArrayUtil.indexOf(options, StandardCopyOption.COPY_ATTRIBUTES);
+          if (index > -1)
+            options = ArrayUtil.splice(options, index, 1);
+
+          Files.copy(in, toFile.toPath(), options);
+          if (index > -1)
+            toFile.setLastModified(connection.getLastModified());
         }
       }
 
-      return responseCode;
+      return connection;
     }
     finally {
       connection.disconnect();
@@ -98,15 +127,15 @@ public final class Downloads {
    * application.
    *
    * @param response The {@link HttpServletResponse}.
-   * @param file The file as a File object.
+   * @param toFile The file as a File object.
    * @param attachment If {@code true}, "Content-Disposition" will be
    *          "attachment", otherwise "inline".
    * @throws IOException If an I/O error has occurred.
    * @throws NullPointerException If {@code response} or {@code file} is null.
    */
-  public static void downloadFile(final HttpServletResponse response, final File file, final boolean attachment) throws IOException {
-    try (final InputStream in = new FileInputStream(file)) {
-      downloadFile(response, in, file.getName(), attachment);
+  public static void downloadFile(final HttpServletResponse response, final File toFile, final boolean attachment) throws IOException {
+    try (final InputStream in = new FileInputStream(toFile)) {
+      downloadFile(response, in, toFile.getName(), attachment);
     }
   }
 
