@@ -17,13 +17,10 @@
 package org.libj.net;
 
 import java.io.Serializable;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.IdentityHashMap;
-import java.util.Map;
+import java.util.Base64;
+import java.util.Objects;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.libj.lang.Strings;
 
 /**
  * The {@link AuthScheme} class represents a strong type representation of the
@@ -34,65 +31,265 @@ import org.slf4j.LoggerFactory;
  * @see Bearer
  */
 public abstract class AuthScheme implements Serializable {
-  private static final long serialVersionUID = -1473961705131874321L;
-  private static final Logger logger = LoggerFactory.getLogger(AuthScheme.class);
+  /**
+   * The "Authorization: Basic" header schemes.
+   */
+  public static class Basic extends AuthScheme {
+    private static final long serialVersionUID = 9177283445546043433L;
+    private static final String name = "Basic";
+    private static final Basic prototype = new Basic();
+
+    /**
+     * Returns a header string encoding of the provided {@code username} and
+     * {@code password}.
+     *
+     * @param username The username.
+     * @param password The password.
+     * @return A header string encoding of the provided {@code username} and
+     *         {@code password}.
+     */
+    public static String encode(final String username, final String password) {
+      return name + " " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+    }
+
+    /**
+     * Returns a {@link Basic} instance by decoding the {@code authorization}
+     * header string, or {@code null} if the provided {@code authorization} does
+     * not match.
+     *
+     * @param authorization The "Authorization" header string.
+     * @return A {@link Basic} instance by decoding the {@code authorization}
+     *         header string, or {@code null} if the provided
+     *         {@code authorization} does not match.
+     * @throws NullPointerException If {@code authorization} is null.
+     */
+    public static Basic decode(final String authorization) {
+      if (!prototype.matches(authorization))
+        return null;
+
+      final String login = new String(Base64.getDecoder().decode(authorization.substring(6)));
+      final int index = login.indexOf(':');
+      if (index == -1)
+        throw new IllegalArgumentException("Authorization header is malformed: missing ':'");
+
+      return new Basic(login.substring(0, index), login.substring(index + 1));
+    }
+
+    private final String username;
+    private final String password;
+
+    /**
+     * Creates a new {@link Basic} instance with the specified username and
+     * password.
+     *
+     * @param username The username.
+     * @param password The password.
+     * @throws NullPointerException If the specified {@code username} or
+     *           {@code password} is null.
+     */
+    public Basic(final String username, final String password) {
+      super(name);
+      this.username = Objects.requireNonNull(username);
+      this.password = Objects.requireNonNull(password);
+    }
+
+    /**
+     * Creates a new {@link Basic} instance with a null username and password..
+     */
+    private Basic() {
+      super(name);
+      this.username = null;
+      this.password = null;
+    }
+
+    /**
+     * Returns the username.
+     *
+     * @return The username.
+     */
+    public String getUsername() {
+      return this.username;
+    }
+
+    /**
+     * Returns the password.
+     *
+     * @return The password.
+     */
+    public String getPassword() {
+      return this.password;
+    }
+
+    @Override
+    public String encode() {
+      return encode(username, password);
+    }
+
+    @Override
+    Basic newInstance(final String authorization) {
+      return decode(authorization);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this)
+        return true;
+
+      if (!(obj instanceof Basic))
+        return false;
+
+      final Basic that = (Basic)obj;
+      if (!Objects.equals(username, that.username))
+        return false;
+
+      if (!Objects.equals(password, that.password))
+        return false;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+      if (username != null)
+        hashCode = 31 * hashCode + username.hashCode();
+
+      if (password != null)
+        hashCode = 31 * hashCode + password.hashCode();
+
+      return hashCode;
+    }
+  }
 
   /**
-   * Returns an instance of a {@link AuthScheme} subclass specified in
-   * {@code schemes} that matches the spec of the {@code authorization} header
-   * string.
+   * The "Authorization: Bearer" header schemes.
+   */
+  public static class Bearer extends AuthScheme {
+    private static final long serialVersionUID = -6164270642701659827L;
+    private static final String name = "Bearer";
+    private static final Bearer prototype = new Bearer();
+
+    /**
+     * Returns a header string encoding of the provided {@code token}.
+     *
+     * @param token The token.
+     * @return A header string encoding of the provided {@code token}.
+     */
+    public static String encode(final String token) {
+      return name + " " + Base64.getEncoder().encodeToString(token.getBytes());
+    }
+
+    /**
+     * Returns a {@link Bearer} instance by decoding the {@code authorization}
+     * header string, or {@code null} if the provided {@code authorization} does
+     * not match.
+     *
+     * @param authorization The "Authorization" header string.
+     * @return A {@link Bearer} instance by decoding the {@code authorization}
+     *         header string, or {@code null} if the provided
+     *         {@code authorization} does not match.
+     * @throws NullPointerException If {@code authorization} is null.
+     */
+    public static Bearer decode(final String authorization) {
+      return prototype.matches(authorization) ? new Bearer(new String(Base64.getDecoder().decode(authorization.substring(7)))) : null;
+    }
+
+    private final String token;
+
+    /**
+     * Creates a new {@link Bearer} instance with the specified token.
+     *
+     * @param token The token.
+     * @throws NullPointerException If the specified token is null.
+     */
+    public Bearer(final String token) {
+      super(name);
+      this.token = Objects.requireNonNull(token);
+    }
+
+    /**
+     * Creates a new {@link Bearer} instance with a null token.
+     */
+    private Bearer() {
+      super(name);
+      this.token = null;
+    }
+
+    /**
+     * Returns the token.
+     *
+     * @return The token.
+     */
+    public String getToken() {
+      return this.token;
+    }
+
+    @Override
+    public String encode() {
+      return encode(token);
+    }
+
+    @Override
+    Bearer newInstance(final String authorization) {
+      return decode(authorization);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this)
+        return true;
+
+      if (!(obj instanceof Bearer))
+        return false;
+
+      return Objects.equals(token, ((Bearer)obj).token);
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+      if (token != null)
+        hashCode = 31 * hashCode + token.hashCode();
+
+      return hashCode;
+    }
+  }
+
+  private static final long serialVersionUID = 6107746820515518332L;
+
+  /**
+   * Returns an instance of an {@link AuthScheme} matching the provided
+   * {@code authorization} header string, or {@code null} if
+   * {@code authorization} is null or no match is found.
    *
    * @param authorization The "Authorization" header string to match.
-   * @param schemes The array of {@link AuthScheme} classes to attempt to match.
-   * @return An instance of a {@link AuthScheme} subclass specified in
-   *         {@code schemes} that matches the spec of the {@code authorization}
-   *         header string.
-   * @throws UnsupportedOperationException If a {@link AuthScheme} class in
-   *           {@code schemes} does not implement a protected default
-   *           constructor, or if the constructor throws an exception when
-   *           invoked.
-   * @throws NullPointerException If {@code authorization} or {@code schemes} is
-   *           null.
+   * @return An instance of an {@link AuthScheme} matching the provided
+   *         {@code authorization} header string, or {@code null} if
+   *         {@code authorization} is null or no match is found.
+   * @throws UnsupportedOperationException If an {@link AuthScheme} class in
+   *           {@code schemes} does not implement a private default constructor,
+   *           or if the constructor throws an exception when invoked.
+   * @throws NullPointerException If {@code authorization} is null.
    */
-  @SafeVarargs
-  public static AuthScheme parse(final String authorization, final Class<? extends AuthScheme> ... schemes) {
-    for (final Class<? extends AuthScheme> scheme : schemes) {
-      final AuthScheme instance = getInstance(scheme);
-      if (instance.matches(authorization)) {
-        try {
-          return instance.decode(authorization);
-        }
-        catch (final Exception e) {
-          logger.debug(e.getMessage(), e);
-        }
-      }
-    }
+  public static AuthScheme parse(final String authorization) {
+    if (authorization == null)
+      return null;
+
+    if (Basic.prototype.matches(authorization))
+      return Basic.prototype.newInstance(authorization);
+
+    if (Bearer.prototype.matches(authorization))
+      return Bearer.prototype.newInstance(authorization);
 
     return null;
   }
 
-  private static final Map<Class<? extends AuthScheme>,AuthScheme> instances = new IdentityHashMap<>();
+  private final String name;
+  private final int len;
 
-  private static AuthScheme getInstance(final Class<? extends AuthScheme> scheme) {
-    AuthScheme instance = instances.get(scheme);
-    if (instance != null)
-      return instance;
-
-    try {
-      final Constructor<? extends AuthScheme> constructor = scheme.getDeclaredConstructor();
-      constructor.setAccessible(true);
-      instances.put(scheme, instance = constructor.newInstance());
-      return instance;
-    }
-    catch (final IllegalAccessException | InstantiationException | NoSuchMethodException e) {
-      throw new RuntimeException(e);
-    }
-    catch (final InvocationTargetException e) {
-      if (e.getCause() instanceof RuntimeException)
-        throw (RuntimeException)e.getCause();
-
-      throw new RuntimeException(e.getCause());
-    }
+  private AuthScheme(final String name) {
+    this.name = name;
+    this.len = name.length();
   }
 
   /**
@@ -106,44 +303,15 @@ public abstract class AuthScheme implements Serializable {
    * @throws NullPointerException If {@code authorization} is null.
    */
   public final boolean matches(final String authorization) {
-    return authorization != null && authorization.startsWith(name() + " ");
+    return authorization != null && authorization.charAt(len) == ' ' && Strings.regionMatches(authorization, true, 0, name, 0, len);
   }
 
   /**
-   * Returns a {@link AuthScheme} instance by parsing the {@code authorization}
-   * header string, or {@code null} if the specified string is null.
+   * Returns a header string encoding of this {@link AuthScheme}.
    *
-   * @param authorization The "Authorization" header string.
-   * @return A {@link AuthScheme} instance by parsing the {@code authorization}
-   *         header string.
+   * @return A header string encoding of this {@link AuthScheme}.
    */
-  public final AuthScheme parse(final String authorization) {
-    if (authorization == null)
-      return null;
+  public abstract String encode();
 
-    if (!authorization.startsWith(name() + " "))
-      throw new IllegalArgumentException("Authorization header is expected to be type '" + name() + "', but was found to be: '" + authorization + "'");
-
-    return decode(authorization);
-  }
-
-  /**
-   * Returns the name of this "Authorization" scheme. For example, "Basic" and
-   * "Bearer" are common "Authorization" header schemes.
-   *
-   * @return The name of this "Authorization" scheme.
-   */
-  public abstract String name();
-
-  /**
-   * Returns a {@link AuthScheme} instance by decoding the {@code authorization}
-   * header string. This method is required to be overridden by subclasses
-   * implementing an "Authorization" scheme.
-   *
-   * @param authorization The "Authorization" header string.
-   * @return A {@link AuthScheme} instance by decoding the {@code authorization}
-   *         header string.
-   * @throws NullPointerException If {@code authorization} is null.
-   */
-  protected abstract AuthScheme decode(String authorization);
+  abstract AuthScheme newInstance(String authorization);
 }
