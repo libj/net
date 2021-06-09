@@ -303,7 +303,7 @@ public abstract class AuthScheme implements Serializable {
    * @throws NullPointerException If {@code authorization} is null.
    */
   public final boolean matches(final String authorization) {
-    return authorization != null && authorization.charAt(len) == ' ' && Strings.regionMatches(authorization, true, 0, name, 0, len);
+    return authorization != null && authorization.length() > len && authorization.charAt(len) == ' ' && Strings.regionMatches(authorization, true, 0, name, 0, len);
   }
 
   /**
