@@ -1,6 +1,6 @@
 # LibJ Net
 
-[![Build Status](https://github.com/libj/net/workflows/build.yml/badge.svg)](https://github.com/libj/net/actions/workflows/build.yml)
+[![Build Status](https://github.com/libj/net/actions/workflows/build.yml/badge.svg)](https://github.com/libj/net/actions/workflows/build.yml)
 [![Coverage Status](https://coveralls.io/repos/github/libj/net/badge.svg)](https://coveralls.io/github/libj/net)
 [![Javadocs](https://www.javadoc.io/badge/org.libj/net.svg)](https://www.javadoc.io/doc/org.libj/net)
 [![Released Version](https://img.shields.io/maven-central/v/org.libj/net.svg)](https://mvnrepository.com/artifact/org.libj/net)
