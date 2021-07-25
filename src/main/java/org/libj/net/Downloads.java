@@ -58,6 +58,38 @@ public final class Downloads {
   }
 
   /**
+   * Downloads a file from the specified {@code url} to the provided
+   * {@link File}. If the provided {@code file} exists, its lastModified
+   * timestamp is used to specify the {@code If-Modified-Since} header in the
+   * GET request. Content is not downloaded if the file at the specified
+   * {@code url} is not modified.
+   *
+   * @param fromUrl The {@code url} from which to download.
+   * @param toFile The destination {@link File}.
+   * @param connectTimeout Sets a specified timeout value, in milliseconds, to
+   *          be used when opening a communications link to the resource
+   *          referenced by the {@link URLConnection} to {@code fromUrl}. If the
+   *          timeout expires before the connection can be established, a
+   *          {@link java.net.SocketTimeoutException} is raised. A timeout of
+   *          zero is interpreted as an infinite timeout.
+   * @param readTimeout Sets a specified timeout value, in milliseconds, to be
+   *          used when opening a communications link to the resource referenced
+   *          by the {@link URLConnection} to {@code fromUrl}. If the timeout
+   *          expires before the connection can be established, a
+   *          {@link java.net.SocketTimeoutException} is raised. A timeout of
+   *          zero is interpreted as an infinite timeout.
+   * @param options Options specifying how the download should be done.
+   * @return The <b>closed</b> {@link HttpURLConnection} that was used to
+   *         download the file.
+   * @throws IOException If an I/O error has occurred.
+   * @throws NullPointerException If the provided {@code url} or {@link File} is
+   *           null.
+   */
+  public static HttpURLConnection downloadFile(final String fromUrl, final File toFile, final int connectTimeout, final int readTimeout, final CopyOption ... options) throws IOException {
+    return downloadFile(new URL(fromUrl), toFile, connectTimeout, readTimeout, options);
+  }
+
+  /**
    * Downloads a file from the specified {@link URL} to the provided
    * {@link File}. If the provided {@code file} exists, its lastModified
    * timestamp is used to specify the {@code If-Modified-Since} header in the
@@ -74,13 +106,48 @@ public final class Downloads {
    *           null.
    */
   public static HttpURLConnection downloadFile(final URL fromUrl, final File toFile, CopyOption ... options) throws IOException {
+    return downloadFile(fromUrl, toFile, 0, 0, options);
+  }
+
+  /**
+   * Downloads a file from the specified {@link URL} to the provided
+   * {@link File}. If the provided {@code file} exists, its lastModified
+   * timestamp is used to specify the {@code If-Modified-Since} header in the
+   * GET request. Content is not downloaded if the file at the specified
+   * {@link URL} is not modified.
+   *
+   * @param fromUrl The {@link URL} from which to download.
+   * @param toFile The destination {@link File}.
+   * @param connectTimeout Sets a specified timeout value, in milliseconds, to
+   *          be used when opening a communications link to the resource
+   *          referenced by the {@link URLConnection} to {@code fromUrl}. If the
+   *          timeout expires before the connection can be established, a
+   *          {@link java.net.SocketTimeoutException} is raised. A timeout of
+   *          zero is interpreted as an infinite timeout.
+   * @param readTimeout Sets a specified timeout value, in milliseconds, to be
+   *          used when opening a communications link to the resource referenced
+   *          by the {@link URLConnection} to {@code fromUrl}. If the timeout
+   *          expires before the connection can be established, a
+   *          {@link java.net.SocketTimeoutException} is raised. A timeout of
+   *          zero is interpreted as an infinite timeout.
+   * @param options Options specifying how the download should be done.
+   * @return The <b>closed</b> {@link HttpURLConnection} that was used to
+   *         download the file.
+   * @throws IOException If an I/O error has occurred.
+   * @throws IllegalArgumentException If the {@code connectTimeout} or
+   *           {@code readTimeout} parameter is negative.
+   * @throws NullPointerException If the provided {@link URL} or {@link File} is
+   *           null.
+   */
+  public static HttpURLConnection downloadFile(final URL fromUrl, final File toFile, final int connectTimeout, final int readTimeout, CopyOption ... options) throws IOException {
     final HttpURLConnection connection = (HttpURLConnection)fromUrl.openConnection();
+    connection.setConnectTimeout(connectTimeout);
+    connection.setReadTimeout(readTimeout);
     try {
       if (toFile.exists())
         connection.setIfModifiedSince(toFile.lastModified());
 
-      final int responseCode = connection.getResponseCode();
-      if (responseCode == HttpURLConnection.HTTP_OK) {
+      if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
         try (final InputStream in = connection.getInputStream()) {
           final int index = ArrayUtil.indexOf(options, StandardCopyOption.COPY_ATTRIBUTES);
           if (index > -1)
