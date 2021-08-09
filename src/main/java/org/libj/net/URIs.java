@@ -20,6 +20,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import org.libj.lang.Assertions;
 import org.libj.util.StringPaths;
 
 /**
@@ -39,11 +40,11 @@ public final class URIs {
    * @return The new {@link URI}.
    * @throws IllegalArgumentException if this URL is not formatted strictly
    *           according to to RFC2396 and cannot be converted to a URI.
-   * @throws NullPointerException If the specified {@link URL} is null.
+   * @throws IllegalArgumentException If {@code url} is null.
    */
   public static URI fromURL(final URL url) {
     try {
-      return url.toURI();
+      return Assertions.assertNotNull(url).toURI();
     }
     catch (final URISyntaxException e) {
       throw new IllegalArgumentException(e.getMessage(), e);
@@ -58,9 +59,11 @@ public final class URIs {
    * @param to The {@link URI} to which to end up.
    * @return The relativized {@link URI}, or {@code null} if either specified
    *         URIs are opaque.
-   * @throws NullPointerException If {@code from} or {@code to} is null.
+   * @throws IllegalArgumentException If {@code from} or {@code to} is null.
    */
   public static URI relativePath(final URI from, final URI to) {
+    Assertions.assertNotNull(from);
+    Assertions.assertNotNull(to);
     // quick bail-out
     if (!from.isAbsolute() || !to.isAbsolute())
       return to;
@@ -113,10 +116,10 @@ public final class URIs {
    * @param uri The {@link URI}.
    * @return {@code true} if the specified {@link URI} represents a file path;
    *         otherwise {@code false}.
-   * @throws NullPointerException If {@code uri} is null.
+   * @throws IllegalArgumentException If {@code uri} is null.
    */
   public static boolean isLocalFile(final URI uri) {
-    final String host = uri.getHost();
+    final String host = Assertions.assertNotNull(uri).getHost();
     return "file".equalsIgnoreCase(uri.getScheme()) && (host == null || host.length() == 0 || "localhost".equals(host));
   }
 
@@ -131,9 +134,10 @@ public final class URIs {
    * @param uri The {@link URI} to test.
    * @return {@code true} if the specified {@link URI} represents a location
    *         that is local; otherwise {@code false}.
-   * @throws NullPointerException If {@code uri} is null.
+   * @throws IllegalArgumentException If {@code uri} is null.
    */
   public static boolean isLocalJarFile(URI uri) {
+    Assertions.assertNotNull(uri);
     do {
       if (!uri.toString().startsWith("jar:"))
         return false;
@@ -166,7 +170,7 @@ public final class URIs {
    *         that is either a local file with scheme {@code "file:"}, or a
    *         local JAR file with scheme {@code "jar:file:"}; otherwise
    *         {@code false}.
-   * @throws NullPointerException If {@code uri} is null.
+   * @throws IllegalArgumentException If {@code uri} is null.
    */
   public static boolean isLocal(final URI uri) {
     return isLocalFile(uri) || isLocalJarFile(uri);
@@ -182,10 +186,10 @@ public final class URIs {
    * @return The name of the file or directory denoted by the specified
    *         {@link URI}, or the empty string if the name sequence of
    *         {@code uri} is empty.
-   * @throws NullPointerException If {@code uri} is null.
+   * @throws IllegalArgumentException If {@code uri} is null.
    */
   public static String getName(final URI uri) {
-    return StringPaths.getName(uri.toString());
+    return StringPaths.getName(Assertions.assertNotNull(uri).toString());
   }
 
   /**
@@ -198,10 +202,10 @@ public final class URIs {
    * @return The simple name of the file or directory denoted by the specified
    *         {@link URI}, or the empty string if the name sequence of
    *         {@code uri} is empty.
-   * @throws NullPointerException If {@code uri} is null.
+   * @throws IllegalArgumentException If {@code uri} is null.
    */
   public static String getSimpleName(final URI uri) {
-    return StringPaths.getSimpleName(uri.toString());
+    return StringPaths.getSimpleName(Assertions.assertNotNull(uri).toString());
   }
 
   /**
@@ -214,7 +218,7 @@ public final class URIs {
    * @see StringPaths#getParent(String)
    */
   public static URI getParent(final URI uri) {
-    final String parentPath = StringPaths.getParent(uri.toString());
+    final String parentPath = StringPaths.getParent(Assertions.assertNotNull(uri).toString());
     return parentPath == null ? null : URI.create(parentPath);
   }
 
@@ -251,9 +255,11 @@ public final class URIs {
    *           components violates RFC 2396, or if the authority component of
    *           the string is present but cannot be parsed as a server-based
    *           authority.
-   * @throws NullPointerException If {@code baseURI} or {@code path} is null.
+   * @throws IllegalArgumentException If {@code baseURI} or {@code path} is null.
    */
   public static URI toURI(final URI baseURI, String path) {
+    Assertions.assertNotNull(baseURI);
+    Assertions.assertNotNull(path);
     final int slash = baseURI.getPath().lastIndexOf('/');
     if (slash != -1)
       path = baseURI.getPath().substring(0, slash + 1) + path;

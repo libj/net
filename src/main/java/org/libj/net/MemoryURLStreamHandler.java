@@ -58,7 +58,7 @@ public abstract class MemoryURLStreamHandler extends URLStreamHandler {
    * @throws IllegalArgumentException If the provided {@link URL} specifies a
    *           protocol that is not {@code "memory"}, or a host that is not
    *           {@code null} or empty.
-   * @throws NullPointerException If the provided {@link URL} is null.
+   * @throws IllegalArgumentException If the provided {@link URL} is null.
    */
   public static byte[] getData(final URL url) {
     if (!"memory".equals(url.getProtocol()))

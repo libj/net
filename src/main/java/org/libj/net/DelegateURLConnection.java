@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import org.libj.lang.Assertions;
+
 /**
  * A {@link DelegateURLConnection} contains some other {@link URLConnection},
  * which it uses as its basic source of data, possibly transforming the data
@@ -45,10 +47,10 @@ public abstract class DelegateURLConnection extends URLConnection {
    * {@link URLConnection}.
    *
    * @param target The target {@link URLConnection}.
-   * @throws NullPointerException If the target {@link URLConnection} is null.
+   * @throws IllegalArgumentException If the target {@link URLConnection} is null.
    */
   public DelegateURLConnection(final URLConnection target) {
-    super(target.getURL());
+    super(Assertions.assertNotNull(target).getURL());
     this.target = target;
   }
 

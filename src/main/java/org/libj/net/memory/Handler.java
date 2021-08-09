@@ -23,6 +23,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandlerFactory;
 
+import org.libj.lang.Assertions;
 import org.libj.net.MemoryURLConnection;
 import org.libj.net.MemoryURLStreamHandler;
 
@@ -52,11 +53,11 @@ public class Handler extends MemoryURLStreamHandler {
    *           {@code null} or empty.
    * @throws FileNotFoundException If no data is registered for the provided {@link URL}.
    * @throws IOException If an I/O error occurs while opening the connection.
-   * @throws NullPointerException If the provided {@link URL} is null.
+   * @throws IllegalArgumentException If {@code url} is null.
    */
   @Override
   protected URLConnection openConnection(final URL url) throws IOException {
-    if (!"memory".equals(url.getProtocol()))
+    if (!"memory".equals(Assertions.assertNotNull(url).getProtocol()))
       throw new MalformedURLException("Unsupported protocol: " + url.getProtocol());
 
     if (url.getHost() != null && url.getHost().length() > 0)

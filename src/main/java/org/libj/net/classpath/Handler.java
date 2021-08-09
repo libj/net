@@ -24,6 +24,7 @@ import java.net.URLConnection;
 import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
 
+import org.libj.lang.Assertions;
 import org.libj.net.ClasspathURLStreamHandler;
 
 /**
@@ -52,11 +53,11 @@ public class Handler extends ClasspathURLStreamHandler {
    * @throws FileNotFoundException If no resource exists at the provided
    *           {@link URL}.
    * @throws IOException If an I/O error occurs while opening the connection.
-   * @throws NullPointerException If the provided {@link URL} is null.
+   * @throws IllegalArgumentException If {@code url} is null.
    */
   @Override
   protected URLConnection openConnection(final URL url) throws IOException {
-    if (!"classpath".equals(url.getProtocol()))
+    if (!"classpath".equals(Assertions.assertNotNull(url).getProtocol()))
       throw new MalformedURLException("Unsupported protocol: " + url.getProtocol());
 
     final String resourcePath = url.toString().substring(12);

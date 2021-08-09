@@ -27,8 +27,9 @@ import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Properties;
+
+import org.libj.lang.Assertions;
 
 /**
  * Utility functions pertaining to the {@link HTTP} protocol.
@@ -44,7 +45,7 @@ public final class HTTP {
    * @return The result of the GET request as an InputStream.
    * @throws MalformedURLException If the specified {@code url} is invalid.
    * @throws IOException If an I/O error has occurred.
-   * @throws NullPointerException If {@code url} is null.
+   * @throws IllegalArgumentException If {@code url} is null.
    */
   public static URL get(final String url, final Map<String,String[]> parameters) throws IOException {
     return get(url, parameters, "UTF-8");
@@ -60,7 +61,7 @@ public final class HTTP {
    * @return The result of the GET request as an InputStream.
    * @throws MalformedURLException If the specified {@code url} is invalid.
    * @throws IOException If an I/O error has occurred.
-   * @throws NullPointerException If {@code url} is null.
+   * @throws IllegalArgumentException If {@code url} is null.
    */
   public static InputStream getAsStream(final String url, final Map<String,String[]> parameters) throws IOException {
     return getAsStream(url, parameters, "UTF-8");
@@ -77,9 +78,9 @@ public final class HTTP {
    * @return The result of the GET request as an InputStream.
    * @throws MalformedURLException If the specified {@code url} is invalid.
    * @throws IOException If an I/O error has occurred.
+   * @throws IllegalArgumentException If {@code url} is null.
    * @throws UnsupportedEncodingException If the provided charset is not
    *           supported.
-   * @throws NullPointerException If {@code url} is null.
    */
   public static InputStream getAsStream(final String url, final Map<String,String[]> parameters, final String charset) throws IOException, UnsupportedEncodingException {
     final URLConnection urlConnection = get(url, parameters, charset).openConnection();
@@ -96,12 +97,12 @@ public final class HTTP {
    * @return The result of the GET request as an InputStream.
    * @throws MalformedURLException If the specified {@link URL} is invalid.
    * @throws IOException If an I/O error has occurred.
+   * @throws IllegalArgumentException If {@code url} is null.
    * @throws UnsupportedEncodingException If the provided charset is not
    *           supported.
-   * @throws NullPointerException If {@code url} is null.
    */
   public static InputStream getAsStream(final URL url) throws IOException, UnsupportedEncodingException {
-    final URLConnection urlConnection = url.openConnection();
+    final URLConnection urlConnection = Assertions.assertNotNull(url).openConnection();
     urlConnection.setUseCaches(false);
     return urlConnection.getInputStream();
   }
@@ -118,13 +119,13 @@ public final class HTTP {
    *         the provided parameter map and charset encoding.
    * @throws MalformedURLException If the specified {@code url} is invalid.
    * @throws IOException If an I/O error has occurred.
+   * @throws IllegalArgumentException If {@code url} is null.
    * @throws UnsupportedEncodingException If the provided charset is not
    *           supported.
-   * @throws NullPointerException If {@code url} is null.
    */
   public static URL get(final String url, final Map<String,String[]> parameters, final String charset) throws IOException, UnsupportedEncodingException {
     final String query = createQuery(parameters, charset);
-    return new URL(Objects.requireNonNull(url) + "?" + query);
+    return new URL(Assertions.assertNotNull(url) + "?" + query);
   }
 
   /**
@@ -137,7 +138,7 @@ public final class HTTP {
    * @return The result of the POST request as an InputStream.
    * @throws MalformedURLException If the specified {@link URL} is invalid.
    * @throws IOException If an I/O error has occurred.
-   * @throws NullPointerException If {@code url} is null.
+   * @throws IllegalArgumentException If {@code url} is null.
    */
   public static InputStream postAsStream(final URL url, final Map<String,String[]> parameters) throws IOException {
     return postAsStream(url, parameters, null);
@@ -155,7 +156,7 @@ public final class HTTP {
    * @return The result of the POST request as an InputStream.
    * @throws MalformedURLException If the specified {@link URL} is invalid.
    * @throws IOException If an I/O error has occurred.
-   * @throws NullPointerException If {@code url} is null.
+   * @throws IllegalArgumentException If {@code url} is null.
    */
   public static InputStream postAsStream(final URL url, final Map<String,String[]> parameters, final Properties properties) throws IOException {
     return postAsStream(url, parameters, properties, null);
@@ -174,9 +175,10 @@ public final class HTTP {
    * @return The result of the POST request as an InputStream.
    * @throws MalformedURLException If the specified {@link URL} is invalid.
    * @throws IOException If an I/O error has occurred.
-   * @throws NullPointerException If {@code url} is null.
+   * @throws IllegalArgumentException If {@code url} is null.
    */
   public static InputStream postAsStream(final URL url, final Map<String,String[]> parameters, final Properties properties, final List<String> cookies) throws IOException {
+    Assertions.assertNotNull(url);
     String charset = properties != null ? properties.getProperty("accept-charset") : null;
     if (charset == null)
       charset = "UTF-8";
@@ -209,11 +211,12 @@ public final class HTTP {
    * @param parameters The parameter map to be processed as query parameters.
    * @param charset The encoding to be applied.
    * @return The parameter map as query string.
+   * @throws IllegalArgumentException If {@code charset} is null.
    * @throws UnsupportedEncodingException If the provided charset is not
    *           supported.
-   * @throws NullPointerException If the provided charset is null.
    */
   public static String createQuery(final Map<String,String[]> parameters, final String charset) throws UnsupportedEncodingException {
+    Assertions.assertNotNull(charset);
     if (parameters == null || parameters.size() == 0)
       return "";
 

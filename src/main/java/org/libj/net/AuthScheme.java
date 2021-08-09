@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.Base64;
 import java.util.Objects;
 
+import org.libj.lang.Assertions;
 import org.libj.lang.Strings;
 
 /**
@@ -61,10 +62,10 @@ public abstract class AuthScheme implements Serializable {
      * @return A {@link Basic} instance by decoding the {@code authorization}
      *         header string, or {@code null} if the provided
      *         {@code authorization} does not match.
-     * @throws NullPointerException If {@code authorization} is null.
+     * @throws IllegalArgumentException If {@code authorization} is null.
      */
     public static Basic decode(final String authorization) {
-      if (!prototype.matches(authorization))
+      if (!prototype.matches(Assertions.assertNotNull(authorization)))
         return null;
 
       final String login = new String(Base64.getDecoder().decode(authorization.substring(6)));
@@ -84,13 +85,13 @@ public abstract class AuthScheme implements Serializable {
      *
      * @param username The username.
      * @param password The password.
-     * @throws NullPointerException If the specified {@code username} or
+     * @throws IllegalArgumentException If the specified {@code username} or
      *           {@code password} is null.
      */
     public Basic(final String username, final String password) {
       super(name);
-      this.username = Objects.requireNonNull(username);
-      this.password = Objects.requireNonNull(password);
+      this.username = Assertions.assertNotNull(username);
+      this.password = Assertions.assertNotNull(password);
     }
 
     /**
@@ -188,10 +189,10 @@ public abstract class AuthScheme implements Serializable {
      * @return A {@link Bearer} instance by decoding the {@code authorization}
      *         header string, or {@code null} if the provided
      *         {@code authorization} does not match.
-     * @throws NullPointerException If {@code authorization} is null.
+     * @throws IllegalArgumentException If {@code authorization} is null.
      */
     public static Bearer decode(final String authorization) {
-      return prototype.matches(authorization) ? new Bearer(new String(Base64.getDecoder().decode(authorization.substring(7)))) : null;
+      return prototype.matches(Assertions.assertNotNull(authorization)) ? new Bearer(new String(Base64.getDecoder().decode(authorization.substring(7)))) : null;
     }
 
     private final String token;
@@ -200,11 +201,11 @@ public abstract class AuthScheme implements Serializable {
      * Creates a new {@link Bearer} instance with the specified token.
      *
      * @param token The token.
-     * @throws NullPointerException If the specified token is null.
+     * @throws IllegalArgumentException If the specified token is null.
      */
     public Bearer(final String token) {
       super(name);
-      this.token = Objects.requireNonNull(token);
+      this.token = Assertions.assertNotNull(token);
     }
 
     /**
@@ -269,7 +270,6 @@ public abstract class AuthScheme implements Serializable {
    * @throws UnsupportedOperationException If an {@link AuthScheme} class in
    *           {@code schemes} does not implement a private default constructor,
    *           or if the constructor throws an exception when invoked.
-   * @throws NullPointerException If {@code authorization} is null.
    */
   public static AuthScheme parse(final String authorization) {
     if (authorization == null)
@@ -300,7 +300,6 @@ public abstract class AuthScheme implements Serializable {
    * @return {@code true} if the {@code authorization} header string matches
    *         this {@link AuthScheme} subclass's implementation; otherwise
    *         {@code false}.
-   * @throws NullPointerException If {@code authorization} is null.
    */
   public final boolean matches(final String authorization) {
     return authorization != null && authorization.length() > len && authorization.charAt(len) == ' ' && Strings.regionMatches(authorization, true, 0, name, 0, len);

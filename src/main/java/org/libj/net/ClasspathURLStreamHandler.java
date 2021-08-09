@@ -18,8 +18,8 @@ package org.libj.net;
 
 import java.net.URL;
 import java.net.URLStreamHandler;
-import java.util.Objects;
 
+import org.libj.lang.Assertions;
 import org.libj.net.classpath.Handler;
 
 public abstract class ClasspathURLStreamHandler extends URLStreamHandler {
@@ -34,10 +34,10 @@ public abstract class ClasspathURLStreamHandler extends URLStreamHandler {
    *
    * @param resourcePath The resource path.
    * @return A "classpath" protocol {@link URL} for the specified resource path.
-   * @throws NullPointerException If {@code resourcePath} is null.
+   * @throws IllegalArgumentException If {@code resourcePath} is null.
    */
   public static URL createURL(final String resourcePath) {
-    return URLs.create("classpath:" + Objects.requireNonNull(resourcePath));
+    return URLs.create("classpath:" + Assertions.assertNotNull(resourcePath));
   }
 
   /**
@@ -49,13 +49,12 @@ public abstract class ClasspathURLStreamHandler extends URLStreamHandler {
    *
    * @param url The {@link URL}.
    * @return The data for the provided {@link URL}.
-   * @throws IllegalArgumentException If the provided {@link URL} specifies a
-   *           protocol that is not {@code "classpath"}, or a host that is not
-   *           {@code null} or empty.
-   * @throws NullPointerException If the provided {@link URL} is null.
+   * @throws IllegalArgumentException If {@code url} is null, or if {@code url}
+   *           specifies a protocol that is not {@code "classpath"}, or a host
+   *           that is not {@code null} or empty.
    */
   public static URL getResource(final URL url) {
-    if (!"classpath".equals(url.getProtocol()))
+    if (!"classpath".equals(Assertions.assertNotNull(url).getProtocol()))
       throw new IllegalArgumentException("Illegal protocol: " + url.getProtocol());
 
     if (url.getHost() != null && url.getHost().length() > 0)

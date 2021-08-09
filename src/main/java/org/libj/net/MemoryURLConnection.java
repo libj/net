@@ -20,7 +20,8 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Objects;
+
+import org.libj.lang.Assertions;
 
 /**
  * A {@link URLConnection} wrapping data in the form of a {@code byte} array.
@@ -34,10 +35,11 @@ public class MemoryURLConnection extends URLConnection {
    *
    * @param url The {@link URL}.
    * @param data The data.
-   * @throws NullPointerException If the {@link URL} or {@code data} is null.
+   * @throws IllegalArgumentException If the {@link URL} or {@code data} is
+   *           null.
    */
   public MemoryURLConnection(final URL url, final byte[] data) {
-    super(Objects.requireNonNull(url));
+    super(Assertions.assertNotNull(url));
     this.in = new ByteArrayInputStream(data);
   }
 

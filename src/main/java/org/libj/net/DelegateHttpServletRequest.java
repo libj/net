@@ -41,6 +41,8 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.Part;
 
+import org.libj.lang.Assertions;
+
 /**
  * A {@link DelegateHttpServletRequest} contains some other
  * {@link HttpServletRequest}, which it uses as its basic source of data,
@@ -60,11 +62,11 @@ public abstract class DelegateHttpServletRequest implements HttpServletRequest {
    * {@link HttpServletRequest}.
    *
    * @param target The target {@link HttpServletRequest}.
-   * @throws NullPointerException If the specified {@link HttpServletRequest} is
+   * @throws IllegalArgumentException If the specified {@link HttpServletRequest} is
    *           null.
    */
   public DelegateHttpServletRequest(final HttpServletRequest target) {
-    this.target = Objects.requireNonNull(target);
+    this.target = Assertions.assertNotNull(target);
   }
 
   /**

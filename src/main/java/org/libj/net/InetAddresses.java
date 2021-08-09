@@ -18,6 +18,8 @@ package org.libj.net;
 
 import java.net.InetAddress;
 
+import org.libj.lang.Assertions;
+
 /**
  * Utility methods for {@link InetAddress}.
  */
@@ -29,10 +31,10 @@ public final class InetAddresses {
    *
    * @param address The {@link InetAddress}.
    * @return The decimal representation of the IP of an {@link InetAddress}.
-   * @throws NullPointerException If {@code address} is null.
+   * @throws IllegalArgumentException If {@code address} is null.
    */
   public static String toStringIP(final InetAddress address) {
-    final byte[] bytes = address.getAddress();
+    final byte[] bytes = Assertions.assertNotNull(address).getAddress();
     final StringBuilder builder = new StringBuilder();
     for (int i = 0; i < bytes.length; ++i) {
       if (i > 0)
