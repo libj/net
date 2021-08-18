@@ -36,10 +36,8 @@ public final class URLStreamHandlers implements URLStreamHandlerFactory {
 //    final Enumeration<URL> resources = ClassLoader.getSystemClassLoader().getResources("META-INF/services/java.net.spi.URLStreamHandlerProvider");
 //    while (resources.hasMoreElements()) {
 //      final URL url = resources.nextElement();
-//      try (final InputStream in = url.openStream()) {
-//        if (new String(Streams.readBytes(in)).contains(className)) {
-//          return true;
-//        }
+//      if (new String(URLs.readBytes(url)).contains(className)) {
+//        return true;
 //      }
 //    }
 //

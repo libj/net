@@ -16,6 +16,7 @@
 
 package org.libj.net;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -1043,6 +1044,28 @@ public final class URLs {
    */
   public static URL withLiteralHost(final String spec) {
     return create(null, spec, new LiteralHostStreamHandler());
+  }
+
+  /**
+   * Reads all bytes from the provided {@link URL} and returns the resulting
+   * buffer array.
+   *
+   * @param url The {@link URL} from which to read.
+   * @return The {@code byte[]} containing all bytes that were read from the
+   *         provided {@link URL}.
+   * @throws IOException If the first byte cannot be read for any reason other
+   *           than the end of the file, if the input stream has been closed, or
+   *           if some other I/O error occurs.
+   * @throws IllegalArgumentException If {@code url} is null.
+   * @see InputStream#read(byte[])
+   */
+  public static byte[] readBytes(final URL url) throws IOException {
+    try (final InputStream in = Assertions.assertNotNull(url).openStream()) {
+      final ByteArrayOutputStream buf = new ByteArrayOutputStream(1024);
+      final byte[] data = new byte[1024];
+      for (int length; (length = in.read(data)) != -1; buf.write(data, 0, length));
+      return buf.toByteArray();
+    }
   }
 
   private URLs() {
