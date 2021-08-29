@@ -47,7 +47,8 @@ public abstract class DelegateURLConnection extends URLConnection {
    * {@link URLConnection}.
    *
    * @param target The target {@link URLConnection}.
-   * @throws IllegalArgumentException If the target {@link URLConnection} is null.
+   * @throws IllegalArgumentException If the target {@link URLConnection} is
+   *           null.
    */
   public DelegateURLConnection(final URLConnection target) {
     super(Assertions.assertNotNull(target).getURL());
