@@ -775,12 +775,11 @@ public final class URLs {
    * specific {@link Charset}. The supplied charset is used to determine what
    * characters are represented by any consecutive sequences of the form
    * "{@code %xy}".
-   * <p>
-   * <b>Note:</b> The
-   * <a href= "http://www.w3.org/TR/html40/appendix/notes.html#non-ascii-chars">
-   * World Wide Web Consortium Recommendation</a> states that UTF-8 should be
-   * used. Not doing so may introduce incompatibilities.
    *
+   * @implSpec The <a href=
+   *           "http://www.w3.org/TR/html40/appendix/notes.html#non-ascii-chars">
+   *           World Wide Web Consortium Recommendation</a> states that UTF-8
+   *           should be used. Not doing so may introduce incompatibilities.
    * @param s The {@link String} to decode.
    * @param charset The {@link Charset}.
    * @return The decoded {@link String}.
@@ -997,8 +996,8 @@ public final class URLs {
 
   /**
    * Disables all {@code http} and {@code https} access from this JVM.
-   * <p>
-   * <b>Note:</b> Once called, this cannot be undone.
+   *
+   * @implNote Once called, this cannot be undone.
    */
   public static void disableRemote() {
     OfflineURLStreamHandler.register();

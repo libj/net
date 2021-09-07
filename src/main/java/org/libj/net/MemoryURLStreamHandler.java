@@ -49,10 +49,9 @@ public abstract class MemoryURLStreamHandler extends URLStreamHandler {
 
   /**
    * Returns the data for the provided {@link URL}.
-   * <p>
-   * <b>Note:</b> This method only supports URLs with {@code "memory"} protocol,
-   * and a {@code null} or empty host.
    *
+   * @implNote This method only supports URLs with {@code "memory"} protocol,
+   *           and a {@code null} or empty host.
    * @param url The {@link URL}.
    * @return The data for the provided {@link URL}.
    * @throws IllegalArgumentException If the provided {@link URL} specifies a

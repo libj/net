@@ -43,10 +43,9 @@ public abstract class ClasspathURLStreamHandler extends URLStreamHandler {
   /**
    * Returns the first matching resource {@link URL} for the provided classpath
    * {@link URL}.
-   * <p>
-   * <b>Note:</b> This method only supports URLs with {@code "classpath"}
-   * protocol, and a {@code null} or empty host.
    *
+   * @implNote This method only supports URLs with {@code "classpath"} protocol,
+   *           and a {@code null} or empty host.
    * @param url The {@link URL}.
    * @return The data for the provided {@link URL}.
    * @throws IllegalArgumentException If {@code url} is null, or if {@code url}
