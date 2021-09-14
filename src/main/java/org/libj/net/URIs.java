@@ -127,7 +127,7 @@ public final class URIs {
    * Tests whether the specified {@link URI} represents a location that is a
    * local JAR file with scheme {@code "jar:file:"}.
    * <p>
-   * The compound scheme definition is unwrapped in order to determine if the
+   * The composite scheme definition is unwrapped in order to determine if the
    * root resource locator in the URI is local. This method then uses
    * {@link #isLocalFile(URI)} to check whether {@code uri} is local.
    *
@@ -160,16 +160,15 @@ public final class URIs {
    * either a local file with scheme {@code "file:"}, or a local JAR file with
    * scheme {@code "jar:file:"}.
    * <p>
-   * URIs with compound scheme definitions, such as {@code "jar:file:"} are
+   * URIs with composite scheme definitions, such as {@code "jar:file:"} are
    * first unwrapped in order to digest the root resource locator in the URI.
    * This method then uses {@link #isLocalFile(URI)} to check whether
    * {@code uri} is local.
    *
    * @param uri The {@link URI} to test.
    * @return {@code true} if the specified {@link URI} represents a location
-   *         that is either a local file with scheme {@code "file:"}, or a
-   *         local JAR file with scheme {@code "jar:file:"}; otherwise
-   *         {@code false}.
+   *         that is either a local file with scheme {@code "file:"}, or a local
+   *         JAR file with scheme {@code "jar:file:"}; otherwise {@code false}.
    * @throws IllegalArgumentException If {@code uri} is null.
    */
   public static boolean isLocal(final URI uri) {

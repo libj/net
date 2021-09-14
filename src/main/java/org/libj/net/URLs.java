@@ -521,7 +521,7 @@ public final class URLs {
    * Tests whether the specified {@link URL} represents a location that is a
    * local JAR file with protocol {@code "jar:file:"}.
    * <p>
-   * The compound protocol definition is unwrapped in order to determine if the
+   * The composite protocol definition is unwrapped in order to determine if the
    * root resource locator in the URL is local. This method then uses
    * {@link URLs#isLocalFile(URL)} to check whether {@code url} is local.
    *
@@ -553,7 +553,7 @@ public final class URLs {
    * either a local file with protocol {@code "file:"}, or a local JAR file with
    * protocol {@code "jar:file:"}.
    * <p>
-   * URLs with compound protocol definitions, such as {@code "jar:file:"} are
+   * URLs with composite protocol definitions, such as {@code "jar:file:"} are
    * first unwrapped in order to digest the root resource locator in the URL.
    * This method then uses {@link URLs#isLocalFile(URL)} to check whether
    * {@code url} is local.
