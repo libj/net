@@ -32,8 +32,7 @@ public final class URIComponent {
    * compatible with JavaScript's {@code decodeURIComponent} function.
    *
    * @param uri The encoded string encoded in UTF-8 to be decoded.
-   * @return The decoded string, or {@code null} if the provided string
-   *         is null.
+   * @return The decoded string, or {@code null} if the provided string is null.
    * @throws UnsupportedOperationException If character encoding needs to be
    *           consulted, but named character encoding is not supported.
    */
@@ -66,8 +65,7 @@ public final class URIComponent {
    * compatible with JavaScript's {@code encodeURIComponent} function.
    *
    * @param uri The string to be encoded.
-   * @return The encoded string, or {@code null} if the provided string
-   *         is null.
+   * @return The encoded string, or {@code null} if the provided string is null.
    * @throws UnsupportedOperationException If character encoding needs to be
    *           consulted, but named character encoding is not supported.
    */
@@ -85,8 +83,7 @@ public final class URIComponent {
    * compatible with JavaScript's {@code encodeURIComponent} function.
    *
    * @param ch The {@code char} to be encoded.
-   * @return The encoded string, or {@code null} if the provided string
-   *         is null.
+   * @return The encoded string, or {@code null} if the provided string is null.
    * @throws UnsupportedOperationException If character encoding needs to be
    *           consulted, but named character encoding is not supported.
    */
