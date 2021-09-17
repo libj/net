@@ -51,6 +51,68 @@ public final class URIs {
     }
   }
 
+  private static boolean compare(final String s1, final String s2) {
+    if (s1 == s2)
+      return true;
+
+    if (s1 == null || s2 == null)
+      return false;
+
+    return s1.equals(s2);
+  }
+
+  private static final URI empty = URI.create("");
+
+  // FIXME: Check this implementation against #relativePath
+  public static URI relativize(final URI from, final URI to) {
+    Assertions.assertNotNull(from);
+    Assertions.assertNotNull(to);
+    if (!compare(from.getScheme(), to.getScheme()))
+      return to;
+
+    if (!compare(from.getHost(), to.getHost()))
+      return to;
+
+    if (from.getPort() != to.getPort())
+      return to;
+
+    if (from.getPath() == null && to.getPath() == null)
+      return empty;
+
+    if (from.getPath() == null)
+      return URI.create(to.getPath());
+
+    if (to.getPath() == null)
+      return to;
+
+    String fromPath = from.getPath();
+    if (fromPath.startsWith("/"))
+      fromPath = fromPath.substring(1);
+
+    final String[] fsplit = fromPath.split("/");
+    String toPath = to.getPath();
+    if (toPath.startsWith("/"))
+      toPath = toPath.substring(1);
+
+    final String[] tsplit = toPath.split("/");
+
+    int f = 0;
+    for (; f < fsplit.length && f < tsplit.length; f++)
+      if (!fsplit[f].equals(tsplit[f]))
+        break;
+
+    final StringBuilder builder = new StringBuilder();
+    for (int i = f; i < fsplit.length; i++)
+      builder.append("../");
+
+    for (int i = f; i < tsplit.length; i++)
+      builder.append(tsplit[i]).append('/');
+
+    if (builder.length() > 0)
+      builder.setLength(builder.length() - 1);
+
+    return URI.create(builder.toString());
+  }
   /**
    * Constructs a relative path between the specified {@code from} and provided
    * {@code to}.
@@ -61,6 +123,7 @@ public final class URIs {
    *         URIs are opaque.
    * @throws IllegalArgumentException If {@code from} or {@code to} is null.
    */
+  // FIXME: Check this implementation against #relativize
   public static URI relativePath(final URI from, final URI to) {
     Assertions.assertNotNull(from);
     Assertions.assertNotNull(to);
