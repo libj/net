@@ -36,7 +36,6 @@ public abstract class AuthScheme implements Serializable {
    * The "Authorization: Basic" header schemes.
    */
   public static class Basic extends AuthScheme {
-    private static final long serialVersionUID = 9177283445546043433L;
     private static final String name = "Basic";
     private static final Basic prototype = new Basic();
 
@@ -166,7 +165,6 @@ public abstract class AuthScheme implements Serializable {
    * The "Authorization: Bearer" header schemes.
    */
   public static class Bearer extends AuthScheme {
-    private static final long serialVersionUID = -6164270642701659827L;
     private static final String name = "Bearer";
     private static final Bearer prototype = new Bearer();
 
@@ -256,7 +254,6 @@ public abstract class AuthScheme implements Serializable {
     }
   }
 
-  private static final long serialVersionUID = 6107746820515518332L;
 
   /**
    * Returns an instance of an {@link AuthScheme} matching the provided
