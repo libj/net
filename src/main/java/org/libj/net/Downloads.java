@@ -16,6 +16,8 @@
 
 package org.libj.net;
 
+import static org.libj.lang.Assertions.*;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,7 +33,6 @@ import java.nio.file.StandardCopyOption;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.libj.lang.Assertions;
 import org.libj.util.ArrayUtil;
 
 /**
@@ -55,7 +56,7 @@ public final class Downloads {
    *           {@code toFile}, or {@code options} is null.
    */
   public static HttpURLConnection downloadFile(final String fromUrl, final File toFile, final CopyOption ... options) throws IOException {
-    return downloadFile(new URL(Assertions.assertNotNull(fromUrl)), toFile, options);
+    return downloadFile(new URL(assertNotNull(fromUrl)), toFile, options);
   }
 
   /**
@@ -87,7 +88,7 @@ public final class Downloads {
    *           {@code toFile}, or {@code options} is null.
    */
   public static HttpURLConnection downloadFile(final String fromUrl, final File toFile, final int connectTimeout, final int readTimeout, final CopyOption ... options) throws IOException {
-    return downloadFile(new URL(Assertions.assertNotNull(fromUrl)), toFile, connectTimeout, readTimeout, options);
+    return downloadFile(new URL(assertNotNull(fromUrl)), toFile, connectTimeout, readTimeout, options);
   }
 
   /**
@@ -140,7 +141,7 @@ public final class Downloads {
    *           {@code readTimeout} parameter is negative.
    */
   public static HttpURLConnection downloadFile(final URL fromUrl, final File toFile, final int connectTimeout, final int readTimeout, CopyOption ... options) throws IOException {
-    final HttpURLConnection connection = (HttpURLConnection)Assertions.assertNotNull(fromUrl).openConnection();
+    final HttpURLConnection connection = (HttpURLConnection)assertNotNull(fromUrl).openConnection();
     connection.setConnectTimeout(connectTimeout);
     connection.setReadTimeout(readTimeout);
     try {
@@ -182,7 +183,7 @@ public final class Downloads {
    *           {@code fileName} is null.
    */
   public static void downloadFile(final HttpServletResponse response, final byte[] bytes, final String fileName, final boolean attachment) throws IOException {
-    try (final InputStream in = new ByteArrayInputStream(Assertions.assertNotNull(bytes))) {
+    try (final InputStream in = new ByteArrayInputStream(assertNotNull(bytes))) {
       downloadFile(response, in, fileName, attachment);
     }
   }
@@ -203,7 +204,7 @@ public final class Downloads {
    */
   public static void downloadFile(final HttpServletResponse response, final File toFile, final boolean attachment) throws IOException {
     try (final InputStream in = new FileInputStream(toFile)) {
-      downloadFile(response, in, Assertions.assertNotNull(toFile).getName(), attachment);
+      downloadFile(response, in, assertNotNull(toFile).getName(), attachment);
     }
   }
 
@@ -223,8 +224,8 @@ public final class Downloads {
    *           {@code fileName} is null.
    */
   public static void downloadFile(final HttpServletResponse response, final InputStream in, final String fileName, final boolean attachment) throws IOException {
-    Assertions.assertNotNull(response);
-    Assertions.assertNotNull(fileName);
+    assertNotNull(response);
+    assertNotNull(fileName);
     String contentType = URLConnection.guessContentTypeFromName(fileName);
     if (contentType == null)
       contentType = "application/octet-stream";

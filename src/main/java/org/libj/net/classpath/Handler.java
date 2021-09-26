@@ -16,6 +16,8 @@
 
 package org.libj.net.classpath;
 
+import static org.libj.lang.Assertions.*;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -24,7 +26,6 @@ import java.net.URLConnection;
 import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
 
-import org.libj.lang.Assertions;
 import org.libj.net.ClasspathURLStreamHandler;
 
 /**
@@ -57,7 +58,7 @@ public class Handler extends ClasspathURLStreamHandler {
    */
   @Override
   protected URLConnection openConnection(final URL url) throws IOException {
-    if (!"classpath".equals(Assertions.assertNotNull(url).getProtocol()))
+    if (!"classpath".equals(assertNotNull(url).getProtocol()))
       throw new MalformedURLException("Unsupported protocol: " + url.getProtocol());
 
     final String resourcePath = url.toString().substring(12);

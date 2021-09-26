@@ -16,6 +16,8 @@
 
 package org.libj.net;
 
+import static org.libj.lang.Assertions.*;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -41,7 +43,6 @@ import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
 
-import org.libj.lang.Assertions;
 import org.libj.lang.Strings;
 import org.libj.net.offline.OfflineURLStreamHandler;
 import org.libj.util.StringPaths;
@@ -78,7 +79,7 @@ public final class URLs {
    */
   public static URL create(final String str) {
     try {
-      return new URL(Assertions.assertNotNull(str));
+      return new URL(assertNotNull(str));
     }
     catch (final MalformedURLException e) {
       throw new IllegalArgumentException(e.getMessage(), e);
@@ -138,7 +139,7 @@ public final class URLs {
    */
   public static URL create(final URL context, final String spec, final URLStreamHandler handler) {
     try {
-      return new URL(context, Assertions.assertNotNull(spec), handler);
+      return new URL(context, assertNotNull(spec), handler);
     }
     catch (final MalformedURLException e) {
       throw new IllegalArgumentException(e.getMessage(), e);
@@ -236,7 +237,7 @@ public final class URLs {
    */
   public static URL create(final String protocol, final String host, int port, final String file, final URLStreamHandler handler) {
     try {
-      return new URL(protocol, host, -1, Assertions.assertNotNull(file), handler);
+      return new URL(protocol, host, -1, assertNotNull(file), handler);
     }
     catch (final MalformedURLException e) {
       throw new IllegalArgumentException(e.getMessage(), e);
@@ -316,7 +317,7 @@ public final class URLs {
    */
   public static URL fromURI(final URI uri) {
     try {
-      return Assertions.assertNotNull(uri).toURL();
+      return assertNotNull(uri).toURL();
     }
     catch (final MalformedURLException e) {
       throw new UncheckedIOException(e);
@@ -409,9 +410,9 @@ public final class URLs {
    */
   public static URL[] toURL(final File ... files) {
     try {
-      final URL[] urls = new URL[Assertions.assertNotNull(files).length];
+      final URL[] urls = new URL[assertNotNull(files).length];
       for (int i = 0; i < files.length; ++i)
-        urls[i] = Assertions.assertNotNull(files[i]).toURI().toURL();
+        urls[i] = assertNotNull(files[i]).toURI().toURL();
 
       return urls;
     }
@@ -462,7 +463,7 @@ public final class URLs {
    */
   public static boolean exists(final URL url, final int timeout) {
     try {
-      if ("file".equals(Assertions.assertNotNull(url).getProtocol()))
+      if ("file".equals(assertNotNull(url).getProtocol()))
         return new File(url.toURI()).exists();
     }
     catch (final URISyntaxException ignored) {
@@ -513,7 +514,7 @@ public final class URLs {
    * @throws IllegalArgumentException If {@code url} is null.
    */
   public static boolean isLocalFile(final URL url) {
-    final String host = Assertions.assertNotNull(url).getHost();
+    final String host = assertNotNull(url).getHost();
     return "file".equalsIgnoreCase(url.getProtocol()) && (host == null || host.length() == 0 || "localhost".equals(host));
   }
 
@@ -532,7 +533,7 @@ public final class URLs {
    */
   public static boolean isLocalJarFile(URL url) {
     do {
-      if (!Assertions.assertNotNull(url).toString().startsWith("jar:"))
+      if (!assertNotNull(url).toString().startsWith("jar:"))
         return false;
 
       final String path = url.toString().substring(4);
@@ -580,7 +581,7 @@ public final class URLs {
    */
   public static boolean isJar(final URL url) {
     try {
-      return Assertions.assertNotNull(url).toURI().toString().startsWith("jar:");
+      return assertNotNull(url).toURI().toString().startsWith("jar:");
     }
     catch (final URISyntaxException e) {
       return false;
@@ -633,7 +634,7 @@ public final class URLs {
    * @throws IllegalArgumentException If {@code url} is null.
    */
   public static String getName(final URL url) {
-    return StringPaths.getName(Assertions.assertNotNull(url).toString());
+    return StringPaths.getName(assertNotNull(url).toString());
   }
 
   /**
@@ -649,7 +650,7 @@ public final class URLs {
    * @throws IllegalArgumentException If {@code url} is null.
    */
   public static String getSimpleName(final URL url) {
-    return StringPaths.getSimpleName(Assertions.assertNotNull(url).toString());
+    return StringPaths.getSimpleName(assertNotNull(url).toString());
   }
 
   /**
@@ -663,7 +664,7 @@ public final class URLs {
    * @see StringPaths#getParent(String)
    */
   public static URL getParent(final URL url) {
-    final String parentPath = StringPaths.getParent(Assertions.assertNotNull(url).toString());
+    final String parentPath = StringPaths.getParent(assertNotNull(url).toString());
     return parentPath == null ? null : create(parentPath);
   }
 
@@ -719,7 +720,7 @@ public final class URLs {
    */
   public static String encode(final String s, final String enc) {
     try {
-      return URLEncoder.encode(Assertions.assertNotNull(s), Assertions.assertNotNull(enc));
+      return URLEncoder.encode(assertNotNull(s), assertNotNull(enc));
     }
     catch (final UnsupportedEncodingException e) {
       throw new UnsupportedOperationException(e);
@@ -750,7 +751,7 @@ public final class URLs {
    */
   public static String encode(final String s, final Charset charset) {
     try {
-      return URLEncoder.encode(Assertions.assertNotNull(s), Assertions.assertNotNull(charset).name());
+      return URLEncoder.encode(assertNotNull(s), assertNotNull(charset).name());
     }
     catch (final UnsupportedEncodingException e) {
       throw new UnsupportedOperationException(e);
@@ -788,7 +789,7 @@ public final class URLs {
    * @see URLs#encode(String,Charset)
    */
   public static String decode(final String s, final Charset charset) {
-    return decode(s, Assertions.assertNotNull(charset), false);
+    return decode(s, assertNotNull(charset), false);
   }
 
   /**
@@ -812,7 +813,7 @@ public final class URLs {
    * @see URLs#encode(String,String)
    */
   public static String decode(final String s, final String enc) {
-    return decode(s, Charset.forName(Assertions.assertNotNull(enc)), false);
+    return decode(s, Charset.forName(assertNotNull(enc)), false);
   }
 
   private static String decode(final String s, final Charset charset, final boolean isPath) {
@@ -1059,7 +1060,7 @@ public final class URLs {
    * @see InputStream#read(byte[])
    */
   public static byte[] readBytes(final URL url) throws IOException {
-    try (final InputStream in = Assertions.assertNotNull(url).openStream()) {
+    try (final InputStream in = assertNotNull(url).openStream()) {
       final ByteArrayOutputStream buf = new ByteArrayOutputStream(1024);
       final byte[] data = new byte[1024];
       for (int length; (length = in.read(data)) != -1; buf.write(data, 0, length));

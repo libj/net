@@ -16,11 +16,12 @@
 
 package org.libj.net;
 
+import static org.libj.lang.Assertions.*;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import org.libj.lang.Assertions;
 import org.libj.util.StringPaths;
 
 /**
@@ -44,7 +45,7 @@ public final class URIs {
    */
   public static URI fromURL(final URL url) {
     try {
-      return Assertions.assertNotNull(url).toURI();
+      return assertNotNull(url).toURI();
     }
     catch (final URISyntaxException e) {
       throw new IllegalArgumentException(e.getMessage(), e);
@@ -65,8 +66,8 @@ public final class URIs {
 
   // FIXME: Check this implementation against #relativePath
   public static URI relativize(final URI from, final URI to) {
-    Assertions.assertNotNull(from);
-    Assertions.assertNotNull(to);
+    assertNotNull(from);
+    assertNotNull(to);
     if (!compare(from.getScheme(), to.getScheme()))
       return to;
 
@@ -125,8 +126,8 @@ public final class URIs {
    */
   // FIXME: Check this implementation against #relativize
   public static URI relativePath(final URI from, final URI to) {
-    Assertions.assertNotNull(from);
-    Assertions.assertNotNull(to);
+    assertNotNull(from);
+    assertNotNull(to);
     // quick bail-out
     if (!from.isAbsolute() || !to.isAbsolute())
       return to;
@@ -182,7 +183,7 @@ public final class URIs {
    * @throws IllegalArgumentException If {@code uri} is null.
    */
   public static boolean isLocalFile(final URI uri) {
-    final String host = Assertions.assertNotNull(uri).getHost();
+    final String host = assertNotNull(uri).getHost();
     return "file".equalsIgnoreCase(uri.getScheme()) && (host == null || host.length() == 0 || "localhost".equals(host));
   }
 
@@ -200,7 +201,7 @@ public final class URIs {
    * @throws IllegalArgumentException If {@code uri} is null.
    */
   public static boolean isLocalJarFile(URI uri) {
-    Assertions.assertNotNull(uri);
+    assertNotNull(uri);
     do {
       if (!uri.toString().startsWith("jar:"))
         return false;
@@ -251,7 +252,7 @@ public final class URIs {
    * @throws IllegalArgumentException If {@code uri} is null.
    */
   public static String getName(final URI uri) {
-    return StringPaths.getName(Assertions.assertNotNull(uri).toString());
+    return StringPaths.getName(assertNotNull(uri).toString());
   }
 
   /**
@@ -267,7 +268,7 @@ public final class URIs {
    * @throws IllegalArgumentException If {@code uri} is null.
    */
   public static String getSimpleName(final URI uri) {
-    return StringPaths.getSimpleName(Assertions.assertNotNull(uri).toString());
+    return StringPaths.getSimpleName(assertNotNull(uri).toString());
   }
 
   /**
@@ -280,7 +281,7 @@ public final class URIs {
    * @see StringPaths#getParent(String)
    */
   public static URI getParent(final URI uri) {
-    final String parentPath = StringPaths.getParent(Assertions.assertNotNull(uri).toString());
+    final String parentPath = StringPaths.getParent(assertNotNull(uri).toString());
     return parentPath == null ? null : URI.create(parentPath);
   }
 
@@ -320,8 +321,8 @@ public final class URIs {
    * @throws IllegalArgumentException If {@code baseURI} or {@code path} is null.
    */
   public static URI toURI(final URI baseURI, String path) {
-    Assertions.assertNotNull(baseURI);
-    Assertions.assertNotNull(path);
+    assertNotNull(baseURI);
+    assertNotNull(path);
     final int slash = baseURI.getPath().lastIndexOf('/');
     if (slash != -1)
       path = baseURI.getPath().substring(0, slash + 1) + path;

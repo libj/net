@@ -16,6 +16,8 @@
 
 package org.libj.net.memory;
 
+import static org.libj.lang.Assertions.*;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -23,7 +25,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandlerFactory;
 
-import org.libj.lang.Assertions;
 import org.libj.net.MemoryURLConnection;
 import org.libj.net.MemoryURLStreamHandler;
 
@@ -57,7 +58,7 @@ public class Handler extends MemoryURLStreamHandler {
    */
   @Override
   protected URLConnection openConnection(final URL url) throws IOException {
-    if (!"memory".equals(Assertions.assertNotNull(url).getProtocol()))
+    if (!"memory".equals(assertNotNull(url).getProtocol()))
       throw new MalformedURLException("Unsupported protocol: " + url.getProtocol());
 
     if (url.getHost() != null && url.getHost().length() > 0)

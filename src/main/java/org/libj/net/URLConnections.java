@@ -16,6 +16,8 @@
 
 package org.libj.net;
 
+import static org.libj.lang.Assertions.*;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -24,8 +26,6 @@ import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Properties;
-
-import org.libj.lang.Assertions;
 
 /**
  * Utility functions operations pertaining to {@link URLConnection}.
@@ -43,8 +43,8 @@ public final class URLConnections {
    *           {@code properties} is null.
    */
   public static void setRequestProperties(final URLConnection urlConnection, final Properties properties) {
-    Assertions.assertNotNull(urlConnection);
-    Assertions.assertNotNull(properties);
+    assertNotNull(urlConnection);
+    assertNotNull(properties);
     for (final Map.Entry<Object,Object> entry : properties.entrySet())
       urlConnection.setRequestProperty((String)entry.getKey(), (String)entry.getValue());
   }
@@ -60,7 +60,7 @@ public final class URLConnections {
    * @throws IllegalArgumentException If the specified {@link URL} is null.
    */
   public static InputStream tryOpenRedirectStream(final URL url) throws IOException {
-    final URLConnection connection = Assertions.assertNotNull(url).openConnection();
+    final URLConnection connection = assertNotNull(url).openConnection();
     if (connection instanceof HttpURLConnection && Arrays.binarySearch(REDIRECT_CODES, ((HttpURLConnection)connection).getResponseCode()) > 0) {
       final String location = connection.getHeaderField("Location");
       return new URL(location).openConnection().getInputStream();

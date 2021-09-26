@@ -16,6 +16,8 @@
 
 package org.libj.net;
 
+import static org.libj.lang.Assertions.*;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
@@ -28,8 +30,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
-import org.libj.lang.Assertions;
 
 /**
  * Utility functions pertaining to the {@link HTTP} protocol.
@@ -102,7 +102,7 @@ public final class HTTP {
    *           supported.
    */
   public static InputStream getAsStream(final URL url) throws IOException, UnsupportedEncodingException {
-    final URLConnection urlConnection = Assertions.assertNotNull(url).openConnection();
+    final URLConnection urlConnection = assertNotNull(url).openConnection();
     urlConnection.setUseCaches(false);
     return urlConnection.getInputStream();
   }
@@ -125,7 +125,7 @@ public final class HTTP {
    */
   public static URL get(final String url, final Map<String,String[]> parameters, final String charset) throws IOException, UnsupportedEncodingException {
     final String query = createQuery(parameters, charset);
-    return new URL(Assertions.assertNotNull(url) + "?" + query);
+    return new URL(assertNotNull(url) + "?" + query);
   }
 
   /**
@@ -178,7 +178,7 @@ public final class HTTP {
    * @throws IllegalArgumentException If {@code url} is null.
    */
   public static InputStream postAsStream(final URL url, final Map<String,String[]> parameters, final Properties properties, final List<String> cookies) throws IOException {
-    Assertions.assertNotNull(url);
+    assertNotNull(url);
     String charset = properties != null ? properties.getProperty("accept-charset") : null;
     if (charset == null)
       charset = "UTF-8";
@@ -216,7 +216,7 @@ public final class HTTP {
    *           supported.
    */
   public static String createQuery(final Map<String,String[]> parameters, final String charset) throws UnsupportedEncodingException {
-    Assertions.assertNotNull(charset);
+    assertNotNull(charset);
     if (parameters == null || parameters.size() == 0)
       return "";
 

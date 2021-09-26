@@ -16,11 +16,12 @@
 
 package org.libj.net;
 
+import static org.libj.lang.Assertions.*;
+
 import java.io.Serializable;
 import java.util.Base64;
 import java.util.Objects;
 
-import org.libj.lang.Assertions;
 import org.libj.lang.Strings;
 
 /**
@@ -64,7 +65,7 @@ public abstract class AuthScheme implements Serializable {
      * @throws IllegalArgumentException If {@code authorization} is null.
      */
     public static Basic decode(final String authorization) {
-      if (!prototype.matches(Assertions.assertNotNull(authorization)))
+      if (!prototype.matches(assertNotNull(authorization)))
         return null;
 
       final String login = new String(Base64.getDecoder().decode(authorization.substring(6)));
@@ -89,8 +90,8 @@ public abstract class AuthScheme implements Serializable {
      */
     public Basic(final String username, final String password) {
       super(name);
-      this.username = Assertions.assertNotNull(username);
-      this.password = Assertions.assertNotNull(password);
+      this.username = assertNotNull(username);
+      this.password = assertNotNull(password);
     }
 
     /**
@@ -190,7 +191,7 @@ public abstract class AuthScheme implements Serializable {
      * @throws IllegalArgumentException If {@code authorization} is null.
      */
     public static Bearer decode(final String authorization) {
-      return prototype.matches(Assertions.assertNotNull(authorization)) ? new Bearer(new String(Base64.getDecoder().decode(authorization.substring(7)))) : null;
+      return prototype.matches(assertNotNull(authorization)) ? new Bearer(new String(Base64.getDecoder().decode(authorization.substring(7)))) : null;
     }
 
     private final String token;
@@ -203,7 +204,7 @@ public abstract class AuthScheme implements Serializable {
      */
     public Bearer(final String token) {
       super(name);
-      this.token = Assertions.assertNotNull(token);
+      this.token = assertNotNull(token);
     }
 
     /**

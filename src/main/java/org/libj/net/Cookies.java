@@ -16,6 +16,8 @@
 
 package org.libj.net;
 
+import static org.libj.lang.Assertions.*;
+
 import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Map;
@@ -24,7 +26,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.libj.lang.Assertions;
 import org.libj.util.CollectionUtil;
 
 /**
@@ -44,8 +45,8 @@ public final class Cookies {
    * @throws IllegalArgumentException If {@code request} or {@code name} is null.
    */
   public static String getCookieValue(final HttpServletRequest request, final String name) {
-    Assertions.assertNotNull(request);
-    Assertions.assertNotNull(name);
+    assertNotNull(request);
+    assertNotNull(name);
     final Cookie[] cookies = request.getCookies();
     if (cookies == null)
       return null;
@@ -75,7 +76,7 @@ public final class Cookies {
   public static void setCookieValue(final HttpServletResponse response, final String name, final String value, final int maxAge) {
     final Cookie cookie = new Cookie(name, value);
     cookie.setMaxAge(maxAge);
-    Assertions.assertNotNull(response).addCookie(cookie);
+    assertNotNull(response).addCookie(cookie);
   }
 
   /**
@@ -106,7 +107,7 @@ public final class Cookies {
    * @throws IllegalArgumentException If {@code cookies} is null.
    */
   public static Map.Entry<String,String> createCookieHeader(final Collection<String> cookies) {
-    return new AbstractMap.SimpleEntry<>("Cookie", CollectionUtil.toString(Assertions.assertNotNull(cookies), ";"));
+    return new AbstractMap.SimpleEntry<>("Cookie", CollectionUtil.toString(assertNotNull(cookies), ";"));
   }
 
   private Cookies() {

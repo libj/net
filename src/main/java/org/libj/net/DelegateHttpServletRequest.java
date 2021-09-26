@@ -16,6 +16,8 @@
 
 package org.libj.net;
 
+import static org.libj.lang.Assertions.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -41,8 +43,6 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.Part;
 
-import org.libj.lang.Assertions;
-
 /**
  * A {@link DelegateHttpServletRequest} contains some other
  * {@link HttpServletRequest}, which it uses as its basic source of data,
@@ -66,7 +66,7 @@ public abstract class DelegateHttpServletRequest implements HttpServletRequest {
    *           null.
    */
   public DelegateHttpServletRequest(final HttpServletRequest target) {
-    this.target = Assertions.assertNotNull(target);
+    this.target = assertNotNull(target);
   }
 
   /**

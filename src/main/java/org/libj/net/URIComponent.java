@@ -16,11 +16,11 @@
 
 package org.libj.net;
 
+import static org.libj.lang.Assertions.*;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-
-import org.libj.lang.Assertions;
 
 /**
  * Utility functions for encoding and decoding URI strings using a specification
@@ -57,7 +57,7 @@ public final class URIComponent {
    * @throws IllegalArgumentException If {@code enc} is null.
    */
   public static String decode(final String uri, final String enc) throws UnsupportedEncodingException {
-    return uri != null ? URLDecoder.decode(uri, Assertions.assertNotNull(enc)) : null;
+    return uri != null ? URLDecoder.decode(uri, assertNotNull(enc)) : null;
   }
 
   /**
@@ -108,7 +108,7 @@ public final class URIComponent {
    * @throws IllegalArgumentException If {@code enc} is null.
    */
   public static String encode(final String uri, final String enc) throws UnsupportedEncodingException {
-    return uri == null ? null : URLEncoder.encode(uri, Assertions.assertNotNull(enc)).replace("+", "%20"); //.replace("%21", "!").replace("%27", "'").replace("%28", "(").replace("%29", ")").replace("%7E", "~") : null;
+    return uri == null ? null : URLEncoder.encode(uri, assertNotNull(enc)).replace("+", "%20"); //.replace("%21", "!").replace("%27", "'").replace("%28", "(").replace("%29", ")").replace("%7E", "~") : null;
   }
 
   /**

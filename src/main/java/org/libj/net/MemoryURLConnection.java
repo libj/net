@@ -16,12 +16,12 @@
 
 package org.libj.net;
 
+import static org.libj.lang.Assertions.*;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-
-import org.libj.lang.Assertions;
 
 /**
  * A {@link URLConnection} wrapping data in the form of a {@code byte} array.
@@ -39,7 +39,7 @@ public class MemoryURLConnection extends URLConnection {
    *           null.
    */
   public MemoryURLConnection(final URL url, final byte[] data) {
-    super(Assertions.assertNotNull(url));
+    super(assertNotNull(url));
     this.in = new ByteArrayInputStream(data);
   }
 

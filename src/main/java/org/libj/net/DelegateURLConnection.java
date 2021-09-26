@@ -16,6 +16,8 @@
 
 package org.libj.net;
 
+import static org.libj.lang.Assertions.*;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -25,8 +27,6 @@ import java.security.Permission;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
-import org.libj.lang.Assertions;
 
 /**
  * A {@link DelegateURLConnection} contains some other {@link URLConnection},
@@ -51,7 +51,7 @@ public abstract class DelegateURLConnection extends URLConnection {
    *           null.
    */
   public DelegateURLConnection(final URLConnection target) {
-    super(Assertions.assertNotNull(target).getURL());
+    super(assertNotNull(target).getURL());
     this.target = target;
   }
 

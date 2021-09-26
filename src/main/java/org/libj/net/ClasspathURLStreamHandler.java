@@ -16,10 +16,11 @@
 
 package org.libj.net;
 
+import static org.libj.lang.Assertions.*;
+
 import java.net.URL;
 import java.net.URLStreamHandler;
 
-import org.libj.lang.Assertions;
 import org.libj.net.classpath.Handler;
 
 public abstract class ClasspathURLStreamHandler extends URLStreamHandler {
@@ -37,7 +38,7 @@ public abstract class ClasspathURLStreamHandler extends URLStreamHandler {
    * @throws IllegalArgumentException If {@code resourcePath} is null.
    */
   public static URL createURL(final String resourcePath) {
-    return URLs.create("classpath:" + Assertions.assertNotNull(resourcePath));
+    return URLs.create("classpath:" + assertNotNull(resourcePath));
   }
 
   /**
@@ -53,7 +54,7 @@ public abstract class ClasspathURLStreamHandler extends URLStreamHandler {
    *           that is not {@code null} or empty.
    */
   public static URL getResource(final URL url) {
-    if (!"classpath".equals(Assertions.assertNotNull(url).getProtocol()))
+    if (!"classpath".equals(assertNotNull(url).getProtocol()))
       throw new IllegalArgumentException("Illegal protocol: " + url.getProtocol());
 
     if (url.getHost() != null && url.getHost().length() > 0)
