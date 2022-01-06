@@ -23,18 +23,18 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 /**
- * Utility functions for encoding and decoding URI strings using a specification
- * that is compatible with JavaScript's {@code decodeURIComponent} function.
+ * Utility functions for encoding and decoding URI strings using a specification that is compatible with JavaScript's
+ * {@code decodeURIComponent} function.
  */
 public final class URIComponent {
   /**
-   * Decodes the provided string encoded in UTF-8 using a specification that is
-   * compatible with JavaScript's {@code decodeURIComponent} function.
+   * Decodes the provided string encoded in UTF-8 using a specification that is compatible with JavaScript's
+   * {@code decodeURIComponent} function.
    *
    * @param uri The encoded string encoded in UTF-8 to be decoded.
    * @return The decoded string, or {@code null} if the provided string is null.
-   * @throws UnsupportedOperationException If character encoding needs to be
-   *           consulted, but named character encoding is not supported.
+   * @throws UnsupportedOperationException If character encoding needs to be consulted, but named character encoding is not
+   *           supported.
    */
   public static String decode(final String uri) {
     try {
@@ -46,14 +46,13 @@ public final class URIComponent {
   }
 
   /**
-   * Decodes the provided string using a specification that is compatible with
-   * JavaScript's {@code decodeURIComponent} function.
+   * Decodes the provided string using a specification that is compatible with JavaScript's {@code decodeURIComponent} function.
    *
    * @param uri The encoded string to be decoded.
    * @param enc The name of a supported character encoding.
    * @return The decoded string, or {@code null} if the provided string is null.
-   * @throws UnsupportedEncodingException If character encoding needs to be
-   *           consulted, but named character encoding is not supported.
+   * @throws UnsupportedEncodingException If character encoding needs to be consulted, but named character encoding is not
+   *           supported.
    * @throws IllegalArgumentException If {@code enc} is null.
    */
   public static String decode(final String uri, final String enc) throws UnsupportedEncodingException {
@@ -61,13 +60,13 @@ public final class URIComponent {
   }
 
   /**
-   * Encodes the provided string as UTF-8 using a specification that is
-   * compatible with JavaScript's {@code encodeURIComponent} function.
+   * Encodes the provided string as UTF-8 using a specification that is compatible with JavaScript's {@code encodeURIComponent}
+   * function.
    *
    * @param uri The string to be encoded.
    * @return The encoded string, or {@code null} if the provided string is null.
-   * @throws UnsupportedOperationException If character encoding needs to be
-   *           consulted, but named character encoding is not supported.
+   * @throws UnsupportedOperationException If character encoding needs to be consulted, but named character encoding is not
+   *           supported.
    */
   public static String encode(final String uri) {
     try {
@@ -79,13 +78,13 @@ public final class URIComponent {
   }
 
   /**
-   * Encodes the provided {@code char} as UTF-8 using a specification that is
-   * compatible with JavaScript's {@code encodeURIComponent} function.
+   * Encodes the provided {@code char} as UTF-8 using a specification that is compatible with JavaScript's
+   * {@code encodeURIComponent} function.
    *
    * @param ch The {@code char} to be encoded.
    * @return The encoded string, or {@code null} if the provided string is null.
-   * @throws UnsupportedOperationException If character encoding needs to be
-   *           consulted, but named character encoding is not supported.
+   * @throws UnsupportedOperationException If character encoding needs to be consulted, but named character encoding is not
+   *           supported.
    */
   public static String encode(final char ch) {
     try {
@@ -97,14 +96,13 @@ public final class URIComponent {
   }
 
   /**
-   * Encodes the provided string using a specification that is compatible with
-   * JavaScript's {@code encodeURIComponent} function.
+   * Encodes the provided string using a specification that is compatible with JavaScript's {@code encodeURIComponent} function.
    *
    * @param uri The string to be encoded.
    * @param enc The name of a supported character encoding.
    * @return The encoded string, or {@code null} if the provided string is null.
-   * @throws UnsupportedEncodingException If character encoding needs to be
-   *           consulted, but named character encoding is not supported.
+   * @throws UnsupportedEncodingException If character encoding needs to be consulted, but named character encoding is not
+   *           supported.
    * @throws IllegalArgumentException If {@code enc} is null.
    */
   public static String encode(final String uri, final String enc) throws UnsupportedEncodingException {
@@ -112,14 +110,14 @@ public final class URIComponent {
   }
 
   /**
-   * Encodes the provided {@code char} using a specification that is compatible
-   * with JavaScript's {@code encodeURIComponent} function.
+   * Encodes the provided {@code char} using a specification that is compatible with JavaScript's {@code encodeURIComponent}
+   * function.
    *
    * @param ch The {@code char} to be encoded.
    * @param enc The name of a supported character encoding.
    * @return The encoded string, or {@code null} if the provided string is null.
-   * @throws UnsupportedEncodingException If character encoding needs to be
-   *           consulted, but named character encoding is not supported.
+   * @throws UnsupportedEncodingException If character encoding needs to be consulted, but named character encoding is not
+   *           supported.
    * @throws IllegalArgumentException If {@code enc} is null.
    */
   // FIXME: Reimplement more efficiently

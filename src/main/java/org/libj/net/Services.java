@@ -19,8 +19,7 @@ package org.libj.net;
 import java.net.URI;
 
 /**
- * Class for obtaining IANA Network Service information, as available in
- * {@code /etc/services}.
+ * Class for obtaining IANA Network Service information, as available in {@code /etc/services}.
  */
 public final class Services {
   private static Service makeService(final jnr.netdb.Service service) {
@@ -28,12 +27,12 @@ public final class Services {
   }
 
   /**
-   * Returns the {@link Service} definition for the specified TCP/UDP port, or
-   * {@code null} if a {@link Service} is not defined for the port.
+   * Returns the {@link Service} definition for the specified TCP/UDP port, or {@code null} if a {@link Service} is not defined for
+   * the port.
    *
    * @param port The port.
-   * @return The {@link Service} definition for the specified TCP/UDP port, or
-   *         {@code null} if a {@link Service} is not defined for the port.
+   * @return The {@link Service} definition for the specified TCP/UDP port, or {@code null} if a {@link Service} is not defined for
+   *         the port.
    */
   public static Service getService(final int port) {
     final Service service = makeService(jnr.netdb.Service.getServiceByPort(port, "tcp"));
@@ -48,12 +47,12 @@ public final class Services {
   }
 
   /**
-   * Returns the {@link Service} definition for the specified TCP/UDP scheme, or
-   * {@code null} if a {@link Service} is not defined for the scheme.
+   * Returns the {@link Service} definition for the specified TCP/UDP scheme, or {@code null} if a {@link Service} is not defined
+   * for the scheme.
    *
    * @param scheme The scheme.
-   * @return The {@link Service} definition for the specified TCP/UDP scheme, or
-   *         {@code null} if a {@link Service} is not defined for the scheme.
+   * @return The {@link Service} definition for the specified TCP/UDP scheme, or {@code null} if a {@link Service} is not defined
+   *         for the scheme.
    */
   public static Service getService(final String scheme) {
     final Service service = makeService(jnr.netdb.Service.getServiceByName(scheme, "tcp"));

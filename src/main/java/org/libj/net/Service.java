@@ -22,8 +22,7 @@ import java.util.Objects;
 import org.libj.util.CollectionUtil;
 
 /**
- * Class representing an IANA Network Service, as available in
- * {@code /etc/services}.
+ * Class representing an IANA Network Service, as available in {@code /etc/services}.
  */
 public class Service {
   /** Official service name */
@@ -35,8 +34,7 @@ public class Service {
   private final Collection<String> aliases;
 
   /**
-   * Creates a new {@link Service} with the specified service name, port, and
-   * aliases.
+   * Creates a new {@link Service} with the specified service name, port, and aliases.
    *
    * @param serviceName The service name.
    * @param port The port.

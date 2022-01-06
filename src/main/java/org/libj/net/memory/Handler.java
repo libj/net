@@ -29,9 +29,8 @@ import org.libj.net.MemoryURLConnection;
 import org.libj.net.MemoryURLStreamHandler;
 
 /**
- * Handler class extending {@link MemoryURLStreamHandler}. This class is used
- * for handler registration with the {@code "java.protocol.handler.pkgs"} system
- * property.
+ * Handler class extending {@link MemoryURLStreamHandler}. This class is used for handler registration with the
+ * {@code "java.protocol.handler.pkgs"} system property.
  */
 public class Handler extends MemoryURLStreamHandler {
   public static class Factory implements URLStreamHandlerFactory { // FIXME: jdk9+ URLStreamHandlerProvider
@@ -49,9 +48,8 @@ public class Handler extends MemoryURLStreamHandler {
   }
 
   /**
-   * @throws MalformedURLException If the provided {@link URL} specifies a
-   *           protocol that is not {@code "memory"}, or a host that is not
-   *           {@code null} or empty.
+   * @throws MalformedURLException If the provided {@link URL} specifies a protocol that is not {@code "memory"}, or a host that is
+   *           not {@code null} or empty.
    * @throws FileNotFoundException If no data is registered for the provided {@link URL}.
    * @throws IOException If an I/O error occurs while opening the connection.
    * @throws IllegalArgumentException If {@code url} is null.

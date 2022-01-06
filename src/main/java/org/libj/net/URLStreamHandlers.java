@@ -23,12 +23,9 @@ import java.util.Iterator;
 import java.util.ServiceLoader;
 
 /**
- * A utility class for registering and loading {@link URLStreamHandlerFactory}
- * via SPI. This class is also a {@link URLStreamHandlerFactory}, which it uses
- * to register via
- * {@link URL#setURLStreamHandlerFactory(URLStreamHandlerFactory)} in the event
- * that the approach based on the {@code "java.protocol.handler.pkgs"} property
- * does not work.
+ * A utility class for registering and loading {@link URLStreamHandlerFactory} via SPI. This class is also a
+ * {@link URLStreamHandlerFactory}, which it uses to register via {@link URL#setURLStreamHandlerFactory(URLStreamHandlerFactory)} in
+ * the event that the approach based on the {@code "java.protocol.handler.pkgs"} property does not work.
  */
 public final class URLStreamHandlers implements URLStreamHandlerFactory {
   // TODO: Saving for future move to support jdk9+
@@ -55,8 +52,8 @@ public final class URLStreamHandlers implements URLStreamHandlerFactory {
   }
 
   /**
-   * Uses Java's SPI to load all {@link URLStreamHandlerFactory} classes defined
-   * in {@code META-INF/services/java.net.URLStreamHandlerFactory}.
+   * Uses Java's SPI to load all {@link URLStreamHandlerFactory} classes defined in
+   * {@code META-INF/services/java.net.URLStreamHandlerFactory}.
    */
   public static void loadSPI() {
     final Iterator<URLStreamHandlerFactory> iterator = ServiceLoader.load(URLStreamHandlerFactory.class).iterator();
@@ -65,17 +62,13 @@ public final class URLStreamHandlers implements URLStreamHandlerFactory {
   }
 
   /**
-   * Registers the provided {@link URLStreamHandler} and its corresponding
-   * {@link URLStreamHandlerFactory} classes. This method first attempts to
-   * register the handler with the {@code "java.protocol.handler.pkgs"} property
-   * definition. If this fails, this method will then register the
-   * {@link URLStreamHandlers} class via
-   * {@link URL#setURLStreamHandlerFactory(URLStreamHandlerFactory)} to manage
-   * {@link URLStreamHandler} lookups.
+   * Registers the provided {@link URLStreamHandler} and its corresponding {@link URLStreamHandlerFactory} classes. This method
+   * first attempts to register the handler with the {@code "java.protocol.handler.pkgs"} property definition. If this fails, this
+   * method will then register the {@link URLStreamHandlers} class via
+   * {@link URL#setURLStreamHandlerFactory(URLStreamHandlerFactory)} to manage {@link URLStreamHandler} lookups.
    *
    * @param handlerClass The {@link URLStreamHandler} class to register.
-   * @param factoryClass The corresponding {@link URLStreamHandlerFactory}
-   *          class.
+   * @param factoryClass The corresponding {@link URLStreamHandlerFactory} class.
    */
   public static void register(final Class<? extends URLStreamHandler> handlerClass, final Class<? extends URLStreamHandlerFactory> factoryClass) {
     final String className = handlerClass.getName();

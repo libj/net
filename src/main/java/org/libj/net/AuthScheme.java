@@ -25,9 +25,8 @@ import java.util.Objects;
 import org.libj.lang.Strings;
 
 /**
- * The {@link AuthScheme} class represents a strong type representation of the
- * "Authorization" header schemes. This class allows an "Authorization" scheme
- * to be parsed to an instance of {@link AuthScheme}.
+ * The {@link AuthScheme} class represents a strong type representation of the "Authorization" header schemes. This class allows an
+ * "Authorization" scheme to be parsed to an instance of {@link AuthScheme}.
  *
  * @see Basic
  * @see Bearer
@@ -41,26 +40,22 @@ public abstract class AuthScheme implements Serializable {
     private static final Basic prototype = new Basic();
 
     /**
-     * Returns a header string encoding of the provided {@code username} and
-     * {@code password}.
+     * Returns a header string encoding of the provided {@code username} and {@code password}.
      *
      * @param username The username.
      * @param password The password.
-     * @return A header string encoding of the provided {@code username} and
-     *         {@code password}.
+     * @return A header string encoding of the provided {@code username} and {@code password}.
      */
     public static String encode(final String username, final String password) {
       return name + " " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
     }
 
     /**
-     * Returns a {@link Basic} instance by decoding the {@code authorization}
-     * header string, or {@code null} if the provided {@code authorization} does
-     * not match.
+     * Returns a {@link Basic} instance by decoding the {@code authorization} header string, or {@code null} if the provided
+     * {@code authorization} does not match.
      *
      * @param authorization The "Authorization" header string.
-     * @return A {@link Basic} instance by decoding the {@code authorization}
-     *         header string, or {@code null} if the provided
+     * @return A {@link Basic} instance by decoding the {@code authorization} header string, or {@code null} if the provided
      *         {@code authorization} does not match.
      * @throws IllegalArgumentException If {@code authorization} is null.
      */
@@ -80,13 +75,11 @@ public abstract class AuthScheme implements Serializable {
     private final String password;
 
     /**
-     * Creates a new {@link Basic} instance with the specified username and
-     * password.
+     * Creates a new {@link Basic} instance with the specified username and password.
      *
      * @param username The username.
      * @param password The password.
-     * @throws IllegalArgumentException If the specified {@code username} or
-     *           {@code password} is null.
+     * @throws IllegalArgumentException If the specified {@code username} or {@code password} is null.
      */
     public Basic(final String username, final String password) {
       super(name);
@@ -180,13 +173,11 @@ public abstract class AuthScheme implements Serializable {
     }
 
     /**
-     * Returns a {@link Bearer} instance by decoding the {@code authorization}
-     * header string, or {@code null} if the provided {@code authorization} does
-     * not match.
+     * Returns a {@link Bearer} instance by decoding the {@code authorization} header string, or {@code null} if the provided
+     * {@code authorization} does not match.
      *
      * @param authorization The "Authorization" header string.
-     * @return A {@link Bearer} instance by decoding the {@code authorization}
-     *         header string, or {@code null} if the provided
+     * @return A {@link Bearer} instance by decoding the {@code authorization} header string, or {@code null} if the provided
      *         {@code authorization} does not match.
      * @throws IllegalArgumentException If {@code authorization} is null.
      */
@@ -255,19 +246,15 @@ public abstract class AuthScheme implements Serializable {
     }
   }
 
-
   /**
-   * Returns an instance of an {@link AuthScheme} matching the provided
-   * {@code authorization} header string, or {@code null} if
+   * Returns an instance of an {@link AuthScheme} matching the provided {@code authorization} header string, or {@code null} if
    * {@code authorization} is null or no match is found.
    *
    * @param authorization The "Authorization" header string to match.
-   * @return An instance of an {@link AuthScheme} matching the provided
-   *         {@code authorization} header string, or {@code null} if
+   * @return An instance of an {@link AuthScheme} matching the provided {@code authorization} header string, or {@code null} if
    *         {@code authorization} is null or no match is found.
-   * @throws UnsupportedOperationException If an {@link AuthScheme} class in
-   *           {@code schemes} does not implement a private default constructor,
-   *           or if the constructor throws an exception when invoked.
+   * @throws UnsupportedOperationException If an {@link AuthScheme} class in {@code schemes} does not implement a private default
+   *           constructor, or if the constructor throws an exception when invoked.
    */
   public static AuthScheme parse(final String authorization) {
     if (authorization == null)
@@ -291,13 +278,11 @@ public abstract class AuthScheme implements Serializable {
   }
 
   /**
-   * Tests whether the {@code authorization} header string matches this
-   * {@link AuthScheme} subclass's implementation.
+   * Tests whether the {@code authorization} header string matches this {@link AuthScheme} subclass's implementation.
    *
    * @param authorization The "Authorization" header string.
-   * @return {@code true} if the {@code authorization} header string matches
-   *         this {@link AuthScheme} subclass's implementation; otherwise
-   *         {@code false}.
+   * @return {@code true} if the {@code authorization} header string matches this {@link AuthScheme} subclass's implementation;
+   *         otherwise {@code false}.
    */
   public final boolean matches(final String authorization) {
     return authorization != null && authorization.length() > len && authorization.charAt(len) == ' ' && Strings.regionMatches(authorization, true, 0, name, 0, len);

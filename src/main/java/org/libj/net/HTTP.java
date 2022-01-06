@@ -36,9 +36,8 @@ import java.util.Properties;
  */
 public final class HTTP {
   /**
-   * Create an {@link URL} for the specified {@code url} with the provided
-   * parameter map which will be encoded as UTF-8. It is highly recommended to
-   * close the obtained {@link InputStream} after processing.
+   * Create an {@link URL} for the specified {@code url} with the provided parameter map which will be encoded as UTF-8. It is
+   * highly recommended to close the obtained {@link InputStream} after processing.
    *
    * @param url The {@code url} to be invoked.
    * @param parameters The parameters to be processed as query parameters.
@@ -52,9 +51,8 @@ public final class HTTP {
   }
 
   /**
-   * Invoke a GET request on the specified {@code url} with the provided
-   * parameter map which will be encoded as UTF-8. It is highly recommended to
-   * close the obtained {@link InputStream} after processing.
+   * Invoke a GET request on the specified {@code url} with the provided parameter map which will be encoded as UTF-8. It is highly
+   * recommended to close the obtained {@link InputStream} after processing.
    *
    * @param url The {@code url} to be invoked.
    * @param parameters The parameters to be processed as query parameters.
@@ -68,9 +66,8 @@ public final class HTTP {
   }
 
   /**
-   * Invoke a GET request on the specified {@code url} with the provided
-   * parameter map and charset encoding. It is highly recommended to close the
-   * obtained {@link InputStream} after processing.
+   * Invoke a GET request on the specified {@code url} with the provided parameter map and charset encoding. It is highly
+   * recommended to close the obtained {@link InputStream} after processing.
    *
    * @param url The {@code url} to be invoked.
    * @param parameters The parameters to be processed as query parameters.
@@ -79,8 +76,7 @@ public final class HTTP {
    * @throws MalformedURLException If the specified {@code url} is invalid.
    * @throws IOException If an I/O error has occurred.
    * @throws IllegalArgumentException If {@code url} is null.
-   * @throws UnsupportedEncodingException If the provided charset is not
-   *           supported.
+   * @throws UnsupportedEncodingException If the provided charset is not supported.
    */
   public static InputStream getAsStream(final String url, final Map<String,String[]> parameters, final String charset) throws IOException, UnsupportedEncodingException {
     final URLConnection urlConnection = get(url, parameters, charset).openConnection();
@@ -89,17 +85,15 @@ public final class HTTP {
   }
 
   /**
-   * Invoke a GET request on the specified {@link URL} with the provided
-   * parameter map and charset encoding. It is highly recommended to close the
-   * obtained {@link InputStream} after processing.
+   * Invoke a GET request on the specified {@link URL} with the provided parameter map and charset encoding. It is highly
+   * recommended to close the obtained {@link InputStream} after processing.
    *
    * @param url The {@link URL} to be invoked.
    * @return The result of the GET request as an InputStream.
    * @throws MalformedURLException If the specified {@link URL} is invalid.
    * @throws IOException If an I/O error has occurred.
    * @throws IllegalArgumentException If {@code url} is null.
-   * @throws UnsupportedEncodingException If the provided charset is not
-   *           supported.
+   * @throws UnsupportedEncodingException If the provided charset is not supported.
    */
   public static InputStream getAsStream(final URL url) throws IOException, UnsupportedEncodingException {
     final URLConnection urlConnection = assertNotNull(url).openConnection();
@@ -108,20 +102,17 @@ public final class HTTP {
   }
 
   /**
-   * Create an {@link URL} for a GET request on the specified {@code url} with
-   * the provided parameter map and charset encoding. It is highly recommended
-   * to close the obtained {@link InputStream} after processing.
+   * Create an {@link URL} for a GET request on the specified {@code url} with the provided parameter map and charset encoding. It
+   * is highly recommended to close the obtained {@link InputStream} after processing.
    *
    * @param url The {@code url} to be invoked.
    * @param parameters The parameters to be processed as query parameters.
    * @param charset The encoding to be applied.
-   * @return An {@link URL} for a GET request on the specified {@code url} with
-   *         the provided parameter map and charset encoding.
+   * @return An {@link URL} for a GET request on the specified {@code url} with the provided parameter map and charset encoding.
    * @throws MalformedURLException If the specified {@code url} is invalid.
    * @throws IOException If an I/O error has occurred.
    * @throws IllegalArgumentException If {@code url} is null.
-   * @throws UnsupportedEncodingException If the provided charset is not
-   *           supported.
+   * @throws UnsupportedEncodingException If the provided charset is not supported.
    */
   public static URL get(final String url, final Map<String,String[]> parameters, final String charset) throws IOException, UnsupportedEncodingException {
     final String query = createQuery(parameters, charset);
@@ -129,9 +120,8 @@ public final class HTTP {
   }
 
   /**
-   * Invoke a POST request on the specified {@link URL} with the provided
-   * parameter map which will be encoded as UTF-8. It is highly recommended to
-   * close the obtained {@link InputStream} after processing.
+   * Invoke a POST request on the specified {@link URL} with the provided parameter map which will be encoded as UTF-8. It is highly
+   * recommended to close the obtained {@link InputStream} after processing.
    *
    * @param url The {@link URL} to be invoked.
    * @param parameters The parameters to be processed as query parameters.
@@ -145,14 +135,12 @@ public final class HTTP {
   }
 
   /**
-   * Invoke a POST request on the specified {@link URL} with the provided
-   * parameter map which will be encoded as UTF-8. It is highly recommended to
-   * close the obtained {@link InputStream} after processing.
+   * Invoke a POST request on the specified {@link URL} with the provided parameter map which will be encoded as UTF-8. It is highly
+   * recommended to close the obtained {@link InputStream} after processing.
    *
    * @param url The {@link URL} to be invoked.
    * @param parameters The parameters to be processed as query parameters.
-   * @param properties The request properties to be processed as header
-   *          properties.
+   * @param properties The request properties to be processed as header properties.
    * @return The result of the POST request as an InputStream.
    * @throws MalformedURLException If the specified {@link URL} is invalid.
    * @throws IOException If an I/O error has occurred.
@@ -163,14 +151,12 @@ public final class HTTP {
   }
 
   /**
-   * Invoke a POST request on the specified {@link URL} with the provided
-   * parameter map which will be encoded as UTF-8. It is highly recommended to
-   * close the obtained {@link InputStream} after processing.
+   * Invoke a POST request on the specified {@link URL} with the provided parameter map which will be encoded as UTF-8. It is highly
+   * recommended to close the obtained {@link InputStream} after processing.
    *
    * @param url The {@link URL} to be invoked.
    * @param parameters The parameters to be processed as query parameters.
-   * @param properties The request properties to be processed as header
-   *          properties.
+   * @param properties The request properties to be processed as header properties.
    * @param cookies The cookies to be injected into the header.
    * @return The result of the POST request as an InputStream.
    * @throws MalformedURLException If the specified {@link URL} is invalid.
@@ -205,15 +191,13 @@ public final class HTTP {
   }
 
   /**
-   * Create a query string based on the specified parameter map and the provided
-   * charset encoding.
+   * Create a query string based on the specified parameter map and the provided charset encoding.
    *
    * @param parameters The parameter map to be processed as query parameters.
    * @param charset The encoding to be applied.
    * @return The parameter map as query string.
    * @throws IllegalArgumentException If {@code charset} is null.
-   * @throws UnsupportedEncodingException If the provided charset is not
-   *           supported.
+   * @throws UnsupportedEncodingException If the provided charset is not supported.
    */
   public static String createQuery(final Map<String,String[]> parameters, final String charset) throws UnsupportedEncodingException {
     assertNotNull(charset);

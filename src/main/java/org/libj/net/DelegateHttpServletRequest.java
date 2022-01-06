@@ -44,26 +44,21 @@ import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.Part;
 
 /**
- * A {@link DelegateHttpServletRequest} contains some other
- * {@link HttpServletRequest}, which it uses as its basic source of data,
- * possibly transforming the data along the way or providing additional
- * functionality. The class {@link DelegateHttpServletRequest} itself simply
- * overrides all methods of {@link HttpServletRequest} with versions that pass
- * all requests to the contained input stream. Subclasses of
- * {@link DelegateHttpServletRequest} may further override some of these methods
- * and may also provide additional methods and fields.
+ * A {@link DelegateHttpServletRequest} contains some other {@link HttpServletRequest}, which it uses as its basic source of data,
+ * possibly transforming the data along the way or providing additional functionality. The class {@link DelegateHttpServletRequest}
+ * itself simply overrides all methods of {@link HttpServletRequest} with versions that pass all requests to the contained input
+ * stream. Subclasses of {@link DelegateHttpServletRequest} may further override some of these methods and may also provide
+ * additional methods and fields.
  */
 public abstract class DelegateHttpServletRequest implements HttpServletRequest {
   /** The target {@link HttpServletRequest}. */
   protected volatile HttpServletRequest target;
 
   /**
-   * Creates a new {@link DelegateHttpServletRequest} with the specified target
-   * {@link HttpServletRequest}.
+   * Creates a new {@link DelegateHttpServletRequest} with the specified target {@link HttpServletRequest}.
    *
    * @param target The target {@link HttpServletRequest}.
-   * @throws IllegalArgumentException If the specified {@link HttpServletRequest} is
-   *           null.
+   * @throws IllegalArgumentException If the specified {@link HttpServletRequest} is null.
    */
   public DelegateHttpServletRequest(final HttpServletRequest target) {
     this.target = assertNotNull(target);

@@ -23,9 +23,8 @@ import java.net.URLConnection;
 import java.net.URLStreamHandler;
 
 /**
- * An "offline" stream protocol handler. This handler effectively throws
- * {@link FileNotFoundException} from the {@link #openConnection(URL)} and
- * {@link #openConnection(URL,Proxy)} methods.
+ * An "offline" stream protocol handler. This handler effectively throws {@link FileNotFoundException} from the
+ * {@link #openConnection(URL)} and {@link #openConnection(URL,Proxy)} methods.
  *
  * @see org.libj.net.offline.http.Handler
  * @see org.libj.net.offline.https.Handler

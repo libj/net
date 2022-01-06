@@ -21,20 +21,17 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * Utility functions for operations pertaining to {@link Socket} and
- * {@link ServerSocket} classes.
+ * Utility functions for operations pertaining to {@link Socket} and {@link ServerSocket} classes.
  */
 public final class Sockets {
   /**
-   * Returns the first available port, evaluating ports sequentially from
-   * {@code from} to {@code to}.
+   * Returns the first available port, evaluating ports sequentially from {@code from} to {@code to}.
    *
    * @param from The lowest port number to evaluate, inclusive.
    * @param to The highest port number to evaluate, exclusive.
    * @return The first available port.
    * @throws IOException If no available ports were found.
-   * @throws IllegalArgumentException If {@code from < 1}, {@code from > to}, or
-   *           {@code to > 65536}.
+   * @throws IllegalArgumentException If {@code from < 1}, {@code from > to}, or {@code to > 65536}.
    */
   public static int findOpenPort(final int from, final int to) throws IOException {
     if (from < 1)

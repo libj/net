@@ -23,9 +23,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.libj.net.memory.Handler;
 
 /**
- * A {@link URLStreamHandler} that implements the "memory" protocol. This class
- * can be used to create {@code memory:/...} URLs that are resolvable in the JVM
- * in which they are created.
+ * A {@link URLStreamHandler} that implements the "memory" protocol. This class can be used to create {@code memory:/...} URLs that
+ * are resolvable in the JVM in which they are created.
  */
 public abstract class MemoryURLStreamHandler extends URLStreamHandler {
   static {
@@ -50,13 +49,11 @@ public abstract class MemoryURLStreamHandler extends URLStreamHandler {
   /**
    * Returns the data for the provided {@link URL}.
    *
-   * @implNote This method only supports URLs with {@code "memory"} protocol,
-   *           and a {@code null} or empty host.
+   * @implNote This method only supports URLs with {@code "memory"} protocol, and a {@code null} or empty host.
    * @param url The {@link URL}.
    * @return The data for the provided {@link URL}.
-   * @throws IllegalArgumentException If the provided {@link URL} specifies a
-   *           protocol that is not {@code "memory"}, or a host that is not
-   *           {@code null} or empty.
+   * @throws IllegalArgumentException If the provided {@link URL} specifies a protocol that is not {@code "memory"}, or a host that
+   *           is not {@code null} or empty.
    * @throws IllegalArgumentException If the provided {@link URL} is null.
    */
   public static byte[] getData(final URL url) {

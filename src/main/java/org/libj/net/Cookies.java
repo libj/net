@@ -29,18 +29,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.libj.util.CollectionUtil;
 
 /**
- * Utility methods for management of cookies in {@link HttpServletRequest}s and
- * {@link HttpServletResponse}s.
+ * Utility methods for management of cookies in {@link HttpServletRequest}s and {@link HttpServletResponse}s.
  */
 public final class Cookies {
   /**
-   * Returns the cookie value associated with the given cookie name from the
-   * given {@code request}.
+   * Returns the cookie value associated with the given cookie name from the given {@code request}.
    *
    * @param request The request.
    * @param name The cookie name.
-   * @return The cookie value associated with the given cookie name, or
-   *         {@code null} if the cookie {@code name} is not found in the
+   * @return The cookie value associated with the given cookie name, or {@code null} if the cookie {@code name} is not found in the
    *         {@code request}.
    * @throws IllegalArgumentException If {@code request} or {@code name} is null.
    */
@@ -59,19 +56,14 @@ public final class Cookies {
   }
 
   /**
-   * Set the cookie in the {@code response} with the provided {@code name},
-   * {@code value}, and expiration {@code maxAge}.
+   * Set the cookie in the {@code response} with the provided {@code name}, {@code value}, and expiration {@code maxAge}.
    *
    * @param response The HttpServletResponse to be used.
    * @param name The cookie name to associate the cookie value with.
-   * @param value The actual cookie value to be set in the given servlet
-   *          response.
-   * @param maxAge The expiration interval in seconds. If this is set to 0, then
-   *          the cookie will immediately expire.
-   * @throws IllegalArgumentException If {@code response} is null, or if the
-   *           cookie name is null or empty or contains any illegal characters
-   *           (for example, a comma, space, or semicolon) or matches a token
-   *           reserved for use by the cookie protocol.
+   * @param value The actual cookie value to be set in the given servlet response.
+   * @param maxAge The expiration interval in seconds. If this is set to 0, then the cookie will immediately expire.
+   * @throws IllegalArgumentException If {@code response} is null, or if the cookie name is null or empty or contains any illegal
+   *           characters (for example, a comma, space, or semicolon) or matches a token reserved for use by the cookie protocol.
    */
   public static void setCookieValue(final HttpServletResponse response, final String name, final String value, final int maxAge) {
     final Cookie cookie = new Cookie(name, value);
@@ -82,27 +74,22 @@ public final class Cookies {
   /**
    * Remove the cookie in the {@code response} with the provided {@code name}.
    * <p>
-   * The cookie expiration interval is set to zero, resulting in the cookie
-   * being expired immediately.
+   * The cookie expiration interval is set to zero, resulting in the cookie being expired immediately.
    *
    * @param response The HttpServletResponse to be used.
    * @param name The cookie name of the cookie to be removed.
-   * @throws IllegalArgumentException If {@code response} is null, or if the
-   *           cookie name is null or empty or contains any illegal characters
-   *           (for example, a comma, space, or semicolon) or matches a token
-   *           reserved for use by the cookie protocol.
+   * @throws IllegalArgumentException If {@code response} is null, or if the cookie name is null or empty or contains any illegal
+   *           characters (for example, a comma, space, or semicolon) or matches a token reserved for use by the cookie protocol.
    */
   public static void removeCookie(final HttpServletResponse response, final String name) {
     setCookieValue(response, name, null, 0);
   }
 
   /**
-   * Create a semicolon-delimited cookie header for the specified
-   * {@code cookies}.
+   * Create a semicolon-delimited cookie header for the specified {@code cookies}.
    *
    * @param cookies The collection of cookies.
-   * @return A {@code Map.Entry<String,String>} with key set to
-   *         {@code "Cookie"}, and value set to semicolon-delimited
+   * @return A {@code Map.Entry<String,String>} with key set to {@code "Cookie"}, and value set to semicolon-delimited
    *         {@code cookies}.
    * @throws IllegalArgumentException If {@code cookies} is null.
    */

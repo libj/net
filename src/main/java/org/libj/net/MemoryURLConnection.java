@@ -30,13 +30,11 @@ public class MemoryURLConnection extends URLConnection {
   private final ByteArrayInputStream in;
 
   /**
-   * Creates a new {@link MemoryURLConnection} with the specified {@code url}
-   * and {@code data}.
+   * Creates a new {@link MemoryURLConnection} with the specified {@code url} and {@code data}.
    *
    * @param url The {@link URL}.
    * @param data The data.
-   * @throws IllegalArgumentException If the {@link URL} or {@code data} is
-   *           null.
+   * @throws IllegalArgumentException If the {@link URL} or {@code data} is null.
    */
   public MemoryURLConnection(final URL url, final byte[] data) {
     super(assertNotNull(url));

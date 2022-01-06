@@ -34,13 +34,11 @@ public final class URLConnections {
   private static final int[] REDIRECT_CODES = {HttpURLConnection.HTTP_OK, HttpURLConnection.HTTP_MOVED_PERM, HttpURLConnection.HTTP_MOVED_TEMP, HttpURLConnection.HTTP_SEE_OTHER};
 
   /**
-   * Sets the specified {@link Properties} in the provided
-   * {@link URLConnection}.
+   * Sets the specified {@link Properties} in the provided {@link URLConnection}.
    *
    * @param urlConnection The {@link URLConnection}.
    * @param properties The {@link Properties}.
-   * @throws IllegalArgumentException If {@code urlConnection} or
-   *           {@code properties} is null.
+   * @throws IllegalArgumentException If {@code urlConnection} or {@code properties} is null.
    */
   public static void setRequestProperties(final URLConnection urlConnection, final Properties properties) {
     assertNotNull(urlConnection);
@@ -50,12 +48,10 @@ public final class URLConnections {
   }
 
   /**
-   * Returns an {@link InputStream} to the specified url that may or may not
-   * exist at a redirected location.
+   * Returns an {@link InputStream} to the specified url that may or may not exist at a redirected location.
    *
    * @param url The {@link URL}.
-   * @return An {@link InputStream} to the specified url that may or may not
-   *         exist at a redirected location.
+   * @return An {@link InputStream} to the specified url that may or may not exist at a redirected location.
    * @throws IOException If an I/O error has occurred.
    * @throws IllegalArgumentException If the specified {@link URL} is null.
    */

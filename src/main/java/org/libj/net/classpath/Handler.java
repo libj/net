@@ -29,9 +29,8 @@ import java.net.URLStreamHandlerFactory;
 import org.libj.net.ClasspathURLStreamHandler;
 
 /**
- * A {@link URLStreamHandler} that implements the "classpath" protocol. This
- * class can be used to create {@code classpath:/...} URLs that are resolvable
- * as {@link ClassLoader} resources.
+ * A {@link URLStreamHandler} that implements the "classpath" protocol. This class can be used to create {@code classpath:/...} URLs
+ * that are resolvable as {@link ClassLoader} resources.
  */
 public class Handler extends ClasspathURLStreamHandler {
   public static class Factory implements URLStreamHandlerFactory { // FIXME: jdk9+ URLStreamHandlerProvider
@@ -49,10 +48,8 @@ public class Handler extends ClasspathURLStreamHandler {
   }
 
   /**
-   * @throws MalformedURLException If the provided {@link URL} specifies a
-   *           protocol that is not {@code "classpath"}.
-   * @throws FileNotFoundException If no resource exists at the provided
-   *           {@link URL}.
+   * @throws MalformedURLException If the provided {@link URL} specifies a protocol that is not {@code "classpath"}.
+   * @throws FileNotFoundException If no resource exists at the provided {@link URL}.
    * @throws IOException If an I/O error occurs while opening the connection.
    * @throws IllegalArgumentException If {@code url} is null.
    */
