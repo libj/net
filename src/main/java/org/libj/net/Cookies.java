@@ -48,7 +48,7 @@ public final class Cookies {
     if (cookies == null)
       return null;
 
-    for (final Cookie cookie : cookies)
+    for (final Cookie cookie : cookies) // [A]
       if (cookie != null && name.equals(cookie.getName()))
         return cookie.getValue();
 

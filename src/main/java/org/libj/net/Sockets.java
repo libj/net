@@ -43,7 +43,7 @@ public final class Sockets {
     if (to > 65536)
       throw new IllegalArgumentException("to > 65536: " + to);
 
-    for (int port = from; port < to; ++port) {
+    for (int port = from; port < to; ++port) { // [N]
       try (final ServerSocket socket = new ServerSocket(port)) {
         return socket.getLocalPort();
       }

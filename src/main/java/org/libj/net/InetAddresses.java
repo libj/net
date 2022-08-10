@@ -36,7 +36,7 @@ public final class InetAddresses {
   public static String toStringIP(final InetAddress address) {
     final byte[] bytes = assertNotNull(address).getAddress();
     final StringBuilder builder = new StringBuilder();
-    for (int i = 0; i < bytes.length; ++i) {
+    for (int i = 0; i < bytes.length; ++i) { // [A]
       if (i > 0)
         builder.append('.');
 

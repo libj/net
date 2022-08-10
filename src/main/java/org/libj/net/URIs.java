@@ -97,15 +97,15 @@ public final class URIs {
     final String[] tsplit = toPath.split("/");
 
     int f = 0;
-    for (; f < fsplit.length && f < tsplit.length; f++)
+    for (; f < fsplit.length && f < tsplit.length; ++f) // [A]
       if (!fsplit[f].equals(tsplit[f]))
         break;
 
     final StringBuilder builder = new StringBuilder();
-    for (int i = f; i < fsplit.length; i++)
+    for (int i = f; i < fsplit.length; ++i) // [A]
       builder.append("../");
 
-    for (int i = f; i < tsplit.length; i++)
+    for (int i = f; i < tsplit.length; ++i) // [A]
       builder.append(tsplit[i]).append('/');
 
     if (builder.length() > 0)

@@ -32,13 +32,13 @@ public class MemoryURLStreamHandlerTest {
 
   @Test
   public void test() throws IOException {
-    for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < 100; ++i) { // [N]
       final byte[] data = {random(), random(), random(), random(), random()};
       final URL url = MemoryURLStreamHandler.createURL(data);
       final ByteArrayOutputStream out = new ByteArrayOutputStream();
       try (final InputStream in = url.openStream()) {
         final byte[] bytes = new byte[1024];
-        for (int len; (len = in.read(bytes)) != -1;)
+        for (int len; (len = in.read(bytes)) != -1;) // [X]
           if (len != 0)
             out.write(bytes, 0, len);
       }

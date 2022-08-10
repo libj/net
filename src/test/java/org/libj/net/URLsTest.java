@@ -88,7 +88,7 @@ public class URLsTest {
     map.put(new URL("file:///usr/lib"), new URL("file:///usr/share/../share/../lib"));
     map.put(new URL("file:///var"), new URL("file:///usr/share/../share/../lib/../../var"));
 
-    for (final Map.Entry<URL,URL> entry : map.entrySet())
+    for (final Map.Entry<URL,URL> entry : map.entrySet()) // [S]
       assertEquals(entry.getKey(), URLs.canonicalize(entry.getValue()));
 
     assertNull(URLs.canonicalize(null));

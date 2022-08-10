@@ -349,7 +349,7 @@ public final class URLs {
   public static URL[] toURL(final File ... files) {
     try {
       final URL[] urls = new URL[assertNotNull(files).length];
-      for (int i = 0; i < files.length; ++i)
+      for (int i = 0; i < files.length; ++i) // [A]
         urls[i] = assertNotNull(files[i]).toURI().toURL();
 
       return urls;
@@ -696,7 +696,7 @@ public final class URLs {
     boolean needDecode = false;
     int escapesCount = 0;
     final int length = s.length();
-    for (int i = 0; i < length; ++i) {
+    for (int i = 0; i < length; ++i) { // [N]
       final char ch = s.charAt(i);
       if (ch == '%') {
         escapesCount += 1;
@@ -750,7 +750,7 @@ public final class URLs {
     final StringBuilder builder = new StringBuilder();
     final StringBuilder builderToEncode = new StringBuilder();
 
-    for (int i = 0; i < value.length(); ++i) {
+    for (int i = 0, i$ = value.length(); i < i$; ++i) { // [N]
       final char ch = value.charAt(i);
       if (reservedChars.indexOf(ch) != -1) {
         if (builderToEncode.length() > 0) {
@@ -924,8 +924,7 @@ public final class URLs {
     try (final InputStream in = assertNotNull(url).openStream()) {
       final ByteArrayOutputStream buf = new ByteArrayOutputStream(1024);
       final byte[] data = new byte[1024];
-      for (int length; (length = in.read(data)) != -1; buf.write(data, 0, length))
-        ;
+      for (int length; (length = in.read(data)) != -1; buf.write(data, 0, length)); // [X]
       return buf.toByteArray();
     }
   }

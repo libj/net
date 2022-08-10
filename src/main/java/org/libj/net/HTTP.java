@@ -175,7 +175,7 @@ public final class HTTP {
     urlConnection.setDoOutput(true); // Triggers POST
     // urlConnection.setRequestProperty("content-type", "application/x-www-form-urlencoded");
     if (properties != null)
-      for (final Map.Entry<Object,Object> property : properties.entrySet())
+      for (final Map.Entry<Object,Object> property : properties.entrySet()) // [S]
         urlConnection.setRequestProperty((String)property.getKey(), (String)property.getValue());
 
     if (cookies != null) {
@@ -207,14 +207,14 @@ public final class HTTP {
     final StringBuilder builder = new StringBuilder();
     final Iterator<Map.Entry<String,String[]>> iterator = parameters.entrySet().iterator();
     final StringBuilder temp = new StringBuilder();
-    for (int i = 0; iterator.hasNext(); ++i) {
+    for (int i = 0; iterator.hasNext(); ++i) { // [I]
       final Map.Entry<String,String[]> entry = iterator.next();
       final String name = entry.getKey();
       final String[] values = entry.getValue();
       if (i > 0)
         builder.append('&');
 
-      for (int j = 0; j < values.length; ++j) {
+      for (int j = 0; j < values.length; ++j) { // [A]
         if (j > 0)
           temp.append('&');
 
