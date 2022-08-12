@@ -349,7 +349,7 @@ public final class URLs {
   public static URL[] toURL(final File ... files) {
     try {
       final URL[] urls = new URL[assertNotNull(files).length];
-      for (int i = 0; i < files.length; ++i) // [A]
+      for (int i = 0, i$ = files.length; i < i$; ++i) // [A]
         urls[i] = assertNotNull(files[i]).toURI().toURL();
 
       return urls;

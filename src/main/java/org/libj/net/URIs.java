@@ -102,10 +102,10 @@ public final class URIs {
         break;
 
     final StringBuilder builder = new StringBuilder();
-    for (int i = f; i < fsplit.length; ++i) // [A]
+    for (int i = f, i$ = fsplit.length; i < i$; ++i) // [A]
       builder.append("../");
 
-    for (int i = f; i < tsplit.length; ++i) // [A]
+    for (int i = f, i$ = tsplit.length; i < i$; ++i) // [A]
       builder.append(tsplit[i]).append('/');
 
     if (builder.length() > 0)

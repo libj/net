@@ -214,7 +214,7 @@ public final class HTTP {
       if (i > 0)
         builder.append('&');
 
-      for (int j = 0; j < values.length; ++j) { // [A]
+      for (int j = 0, j$ = values.length; j < j$; ++j) { // [A]
         if (j > 0)
           temp.append('&');
 
