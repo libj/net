@@ -29,26 +29,20 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * A {@link DelegateURLConnection} contains some other {@link URLConnection},
- * which it uses as its basic source of data, possibly transforming the data
- * along the way or providing additional functionality. The class
- * {@link DelegateURLConnection} itself simply overrides all methods of
- * {@link URLConnection} with versions that pass all requests to the contained
- * input stream. Subclasses of {@link DelegateURLConnection} may further
- * override some of these methods and may also provide additional methods and
- * fields.
+ * A {@link DelegateURLConnection} contains some other {@link URLConnection}, which it uses as its basic source of data, possibly
+ * transforming the data along the way or providing additional functionality. The class {@link DelegateURLConnection} itself simply
+ * overrides all methods of {@link URLConnection} with versions that pass all requests to the contained input stream. Subclasses of
+ * {@link DelegateURLConnection} may further override some of these methods and may also provide additional methods and fields.
  */
 public abstract class DelegateURLConnection extends URLConnection {
   /** The target {@link URLConnection}. */
   protected volatile URLConnection target;
 
   /**
-   * Creates a new {@link DelegateURLConnection} with the specified target
-   * {@link URLConnection}.
+   * Creates a new {@link DelegateURLConnection} with the specified target {@link URLConnection}.
    *
    * @param target The target {@link URLConnection}.
-   * @throws IllegalArgumentException If the target {@link URLConnection} is
-   *           null.
+   * @throws IllegalArgumentException If the target {@link URLConnection} is null.
    */
   public DelegateURLConnection(final URLConnection target) {
     super(assertNotNull(target).getURL());
