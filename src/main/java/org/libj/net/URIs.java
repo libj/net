@@ -18,10 +18,16 @@ package org.libj.net;
 
 import static org.libj.lang.Assertions.*;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
+import org.libj.util.MultiHashMap;
 import org.libj.util.StringPaths;
 
 /**
@@ -307,6 +313,41 @@ public final class URIs {
     catch (final URISyntaxException e) {
       throw new IllegalArgumentException(e.getMessage(), e);
     }
+  }
+
+  /**
+   * Returns a map of parameters decoded from the provided {@code data} and {@code charset}.
+   *
+   * @param data The string of parameters to decode.
+   * @param charset The charset with which the {@code data} is to be decoded.
+   * @return A map of parameters decoded from the provided {@code data} and {@code charset}.
+   * @throws UnsupportedEncodingException If character encoding needs to be consulted, but named character encoding is not
+   *           supported.
+   * @throws IllegalArgumentException If {@code data} or {@code charset} is null, or when illegal strings are encountered.
+   */
+  public static Map<String,List<String>> decodeParameters(final String data, final String charset) throws UnsupportedEncodingException {
+    assertNotNull(data);
+    assertNotNull(charset);
+    final StringBuilder b = new StringBuilder();
+    String name = null;
+    final MultiHashMap<String,String,List<String>> map = new MultiHashMap<>(ArrayList::new);
+    for (int i = 0; i < data.length(); ++i) {
+      final char ch = data.charAt(i);
+      if (ch == '&') {
+        map.add(name, URLDecoder.decode(b.toString(), charset));
+        b.setLength(0);
+      }
+      else if (ch == '=') {
+        name = URLDecoder.decode(b.toString(), charset);
+        b.setLength(0);
+      }
+      else {
+        b.append(ch);
+      }
+    }
+
+    map.add(name, URLDecoder.decode(b.toString(), charset));
+    return map;
   }
 
   private URIs() {

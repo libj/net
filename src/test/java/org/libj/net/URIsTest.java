@@ -18,10 +18,15 @@ package org.libj.net;
 
 import static org.junit.Assert.*;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
+import org.libj.util.MultiHashMap;
 
 public class URIsTest {
   @Test
@@ -79,5 +84,42 @@ public class URIsTest {
     assertNull(URIs.getCanonicalParent(null));
     assertEquals(new URI("file:///usr/"), URIs.getCanonicalParent(new URI("file:///usr/share/../share")));
     assertEquals(new URI("file:///usr/local/"), URIs.getCanonicalParent(new URI("file:///usr/local/bin/../lib/../bin")));
+  }
+
+  private static void assertMap(final Map<String,List<String>> actual, final String ... members) {
+    final MultiHashMap<String,String,List<String>> expected = new MultiHashMap<>(ArrayList::new);
+    for (int i = 0; i < members.length;)
+      expected.add(members[i++], members[i++]);
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  public void testDecodeParameters() throws Exception {
+    try {
+      URIs.decodeParameters(null, "UTF-8");
+      fail("Expected IllegalArgumentException");
+    }
+    catch (final IllegalArgumentException e) {
+    }
+
+    try {
+      URIs.decodeParameters("a=b", null);
+      fail("Expected IllegalArgumentException");
+    }
+    catch (final IllegalArgumentException e) {
+    }
+
+    try {
+      URIs.decodeParameters("a=b", "bla");
+      fail("Expected IllegalArgumentException");
+    }
+    catch (final UnsupportedEncodingException e) {
+    }
+
+    assertMap(URIs.decodeParameters("foo=bar", "UTF-8"), "foo", "bar");
+    assertMap(URIs.decodeParameters("foo=bar&foo=bar", "UTF-8"), "foo", "bar", "foo", "bar");
+    assertMap(URIs.decodeParameters("a=b&c=d", "UTF-8"), "a", "b", "c", "d");
+    assertMap(URIs.decodeParameters("a%20a=b%20b&c%20c=d%20d", "UTF-8"), "a a", "b b", "c c", "d d");
   }
 }
