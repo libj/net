@@ -57,7 +57,7 @@ public abstract class AuthScheme implements Serializable {
      * @param authorization The "Authorization" header string.
      * @return A {@link Basic} instance by decoding the {@code authorization} header string, or {@code null} if the provided
      *         {@code authorization} does not match.
-     * @throws IllegalArgumentException If {@code authorization} is null.
+     * @throws IllegalArgumentException If {@code authorization} is null, or if {@code authorization} is not in valid Base64 scheme.
      */
     public static Basic decode(final String authorization) {
       if (!prototype.matches(assertNotNull(authorization)))
@@ -179,7 +179,7 @@ public abstract class AuthScheme implements Serializable {
      * @param authorization The "Authorization" header string.
      * @return A {@link Bearer} instance by decoding the {@code authorization} header string, or {@code null} if the provided
      *         {@code authorization} does not match.
-     * @throws IllegalArgumentException If {@code authorization} is null.
+     * @throws IllegalArgumentException If {@code authorization} is null, or if {@code authorization} is not in valid Base64 scheme.
      */
     public static Bearer decode(final String authorization) {
       return prototype.matches(assertNotNull(authorization)) ? new Bearer(new String(Base64.getDecoder().decode(authorization.substring(7)))) : null;
