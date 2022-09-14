@@ -162,7 +162,7 @@ public abstract class DelegateURLConnection extends URLConnection {
   }
 
   @Override
-  public Object getContent(final Class[] classes) throws IOException {
+  public Object getContent(final Class<?>[] classes) throws IOException {
     return target.getContent(classes);
   }
 
