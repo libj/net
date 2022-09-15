@@ -118,8 +118,8 @@ public class URIsTest {
     }
 
     try {
-      URIs.decodeParameters(map, "a=b", "bla");
-      fail("Expected IllegalArgumentException");
+      URIs.decodeParameters(map, "a=b", "");
+      fail("Expected UnsupportedEncodingException");
     }
     catch (final UnsupportedEncodingException e) {
     }

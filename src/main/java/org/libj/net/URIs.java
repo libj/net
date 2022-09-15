@@ -344,11 +344,11 @@ public final class URIs {
     for (int i = 0; i < i$; ++i) {
       final char ch = data.charAt(i);
       if (ch == '&') {
-        add(parameters, name, charset == null ? b.toString() : URLDecoder.decode(b.toString(), charset));
+        add(parameters, name, charset == null ? b.toString() : URLDecoder.decode(b.toString(), charset)); // FIXME: This is doing a hashmap lookup for URLDecoder via charset on every invocation
         b.setLength(0);
       }
       else if (ch == '=') {
-        name = charset == null ? b.toString() : URLDecoder.decode(b.toString(), charset);
+        name = charset == null ? b.toString() : URLDecoder.decode(b.toString(), charset); // FIXME: This is doing a hashmap lookup for URLDecoder via charset on every invocation
         b.setLength(0);
       }
       else {
@@ -356,7 +356,7 @@ public final class URIs {
       }
     }
 
-    add(parameters, name, charset == null ? b.toString() : URLDecoder.decode(b.toString(), charset));
+    add(parameters, name, charset == null ? b.toString() : URLDecoder.decode(b.toString(), charset)); // FIXME: This is doing a hashmap lookup for URLDecoder via charset on every invocation
   }
 
   private URIs() {
