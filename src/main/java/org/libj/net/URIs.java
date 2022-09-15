@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.libj.util.MultiHashMap;
 import org.libj.util.StringPaths;
 
 /**
@@ -315,30 +314,41 @@ public final class URIs {
     }
   }
 
+  private static void add(final Map<String,List<String>> parameters, final String name, final String value) {
+    List<String> values = parameters.get(name);
+    if (values == null)
+      parameters.put(name, values = new ArrayList<>());
+
+    values.add(value);
+  }
+
   /**
    * Returns a map of parameters decoded from the provided {@code data} and {@code charset}.
    *
+   * @param parameters The map into which decoded parameters are to be added.
    * @param data The string of parameters to decode.
-   * @param charset The charset with which the {@code data} is to be decoded.
-   * @return A map of parameters decoded from the provided {@code data} and {@code charset}.
+   * @param charset The charset with which the {@code data} is to be decoded, or {@code null} if the data should not be decoded.
    * @throws UnsupportedEncodingException If character encoding needs to be consulted, but named character encoding is not
    *           supported.
-   * @throws IllegalArgumentException If {@code data} or {@code charset} is null, or when illegal strings are encountered.
+   * @throws IllegalArgumentException If {@code parameters} or {@code data} is null, or when illegal strings are encountered.
    */
-  public static Map<String,List<String>> decodeParameters(final String data, final String charset) throws UnsupportedEncodingException {
+  public static void decodeParameters(final Map<String,List<String>> parameters, final String data, final String charset) throws UnsupportedEncodingException {
+    assertNotNull(parameters);
     assertNotNull(data);
-    assertNotNull(charset);
+    final int i$ = data.length();
+    if (i$ == 0)
+      return;
+
     final StringBuilder b = new StringBuilder();
     String name = null;
-    final MultiHashMap<String,String,List<String>> map = new MultiHashMap<>(ArrayList::new);
-    for (int i = 0; i < data.length(); ++i) {
+    for (int i = 0; i < i$; ++i) {
       final char ch = data.charAt(i);
       if (ch == '&') {
-        map.add(name, URLDecoder.decode(b.toString(), charset));
+        add(parameters, name, charset == null ? b.toString() : URLDecoder.decode(b.toString(), charset));
         b.setLength(0);
       }
       else if (ch == '=') {
-        name = URLDecoder.decode(b.toString(), charset);
+        name = charset == null ? b.toString() : URLDecoder.decode(b.toString(), charset);
         b.setLength(0);
       }
       else {
@@ -346,8 +356,7 @@ public final class URIs {
       }
     }
 
-    map.add(name, URLDecoder.decode(b.toString(), charset));
-    return map;
+    add(parameters, name, charset == null ? b.toString() : URLDecoder.decode(b.toString(), charset));
   }
 
   private URIs() {
