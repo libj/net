@@ -88,7 +88,7 @@ public class URIsTest {
 
   private static void assertMap(final Map<String,List<String>> actual, final String ... members) {
     final MultiHashMap<String,String,List<String>> expected = new MultiHashMap<>(ArrayList::new);
-    for (int i = 0; i < members.length;)
+    for (int i = 0, i$ = members.length; i < i$;) // [A]
       expected.add(members[i++], members[i++]);
 
     assertEquals(expected, actual);

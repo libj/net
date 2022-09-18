@@ -341,7 +341,7 @@ public final class URIs {
 
     final StringBuilder b = new StringBuilder();
     String name = null;
-    for (int i = 0; i < i$; ++i) {
+    for (int i = 0; i < i$; ++i) { // [X]
       final char ch = data.charAt(i);
       if (ch == '&') {
         add(parameters, name, charset == null ? b.toString() : URLDecoder.decode(b.toString(), charset)); // FIXME: This is doing a hashmap lookup for URLDecoder via charset on every invocation
