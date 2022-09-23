@@ -20,7 +20,6 @@ import static org.libj.lang.Assertions.*;
 
 import java.io.IOException;
 
-import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 
@@ -42,11 +41,9 @@ import org.libj.io.Streams;
  * {@link ServletInputStream#readLine(byte[],int,int)}, which contains a bug that results in a
  * {@code ArrayIndexOutOfBoundsExceptions} under certain conditions. Apache JServ is known to suffer from this bug.
  */
-public class BufferedServletInputStream extends ServletInputStream {
+public class BufferedServletInputStream extends FilterServletInputStream {
   private static final int INVALIDATED = -2;
   private static final int UNMARKED = -1;
-
-  private ServletInputStream in;
 
   private byte[] buf;
   private int count, pos = 0;
@@ -64,7 +61,7 @@ public class BufferedServletInputStream extends ServletInputStream {
    * @throws IllegalArgumentException If {@code in} is null, or if {@code size <= 0}.
    */
   public BufferedServletInputStream(final ServletInputStream in, final int maxLength) throws IOException {
-    this.in = assertNotNull(in);
+    super(in);
     this.buf = Streams.readBytes(in, maxLength);
     this.count = buf.length;
   }
@@ -73,11 +70,11 @@ public class BufferedServletInputStream extends ServletInputStream {
    * Check to make sure that underlying input stream has not been nulled out due to close; if not return it;
    */
   private ServletInputStream getInIfOpen() throws IOException {
-      final ServletInputStream input = in;
-      if (input == null)
-        throw new IOException("Stream closed");
+    final ServletInputStream input = in;
+    if (input == null)
+      throw new IOException("Stream closed");
 
-      return input;
+    return input;
   }
 
   /**
@@ -204,11 +201,6 @@ public class BufferedServletInputStream extends ServletInputStream {
   @Override
   public boolean isFinished() {
     return pos >= count;
-  }
-
-  @Override
-  public void setReadListener(final ReadListener readListener) {
-    in.setReadListener(readListener);
   }
 
   /**

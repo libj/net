@@ -263,12 +263,7 @@ public class BufferedServletInputStreamTest {
       catch (final NullPointerException e) {
       }
 
-      try {
-        in.close();
-      }
-      catch (final IOException e) {
-        fail("Unexpected 1: " + e);
-      }
+      in.close();
 
       try {
         in.read(null, 1, 0);
@@ -300,14 +295,9 @@ public class BufferedServletInputStreamTest {
 
     // Test to ensure that a drained stream returns 0 at EOF
     try (final BufferedServletInputStream in = new BufferedServletInputStream(new StringInputStream("  "), 2)) {
-      try {
-        assertEquals("Emptying the reader should return two bytes", 2, in.read(ca, 0, 2));
-        assertEquals("EOF on a reader should be -1", -1, in.read(ca, 0, 2));
-        assertEquals("Reading zero bytes at EOF should work", 0, in.read(ca, 0, 0));
-      }
-      catch (final IOException ex) {
-        fail("Unexpected IOException: " + ex.getLocalizedMessage());
-      }
+      assertEquals("Emptying the reader should return two bytes", 2, in.read(ca, 0, 2));
+      assertEquals("EOF on a reader should be -1", -1, in.read(ca, 0, 2));
+      assertEquals("Reading zero bytes at EOF should work", 0, in.read(ca, 0, 0));
     }
 
     // Test for method int BufferedServletInputStream.read(byte[], int, int)
@@ -315,9 +305,6 @@ public class BufferedServletInputStreamTest {
       final byte[] buf = new byte[testString.length()];
       in.read(buf, 50, 500);
       assertTrue("Bytes read improperly", new String(buf, 50, 500).equals(testString.substring(0, 500)));
-    }
-    catch (final IOException e) {
-      fail("Exception during read test");
     }
   }
 
@@ -428,9 +415,10 @@ public class BufferedServletInputStreamTest {
 
   /**
    * @tests BufferedServletInputStream#readLine()
+   * @throws IOException If an I/O error has occurred.
    */
   @Test
-  public void testReadLine() {
+  public void testReadLine() throws IOException {
     // Test for method java.lang.String BufferedServletInputStream.readLine()
     try (final BufferedServletInputStream in = new BufferedServletInputStream(new StringInputStream(testString), testString.length())) {
       final byte[] b = new byte[27];
@@ -441,9 +429,6 @@ public class BufferedServletInputStreamTest {
       assertEquals(expected.length(), count);
       final String actual = new String(b, off, count);
       assertEquals("readLine returned incorrect string", expected, actual);
-    }
-    catch (final IOException e) {
-      fail("Exception during readLine test");
     }
   }
 
@@ -460,9 +445,10 @@ public class BufferedServletInputStreamTest {
 
   /**
    * @tests BufferedServletInputStream#reset()
+   * @throws IOException If an I/O error has occurred.
    */
   @Test
-  public void testReset() {
+  public void testReset() throws IOException {
     // Test for method void BufferedServletInputStream.reset()
     try (final BufferedServletInputStream in = new BufferedServletInputStream(new StringInputStream(testString), testString.length())) {
       in.skip(500);
@@ -472,9 +458,6 @@ public class BufferedServletInputStreamTest {
       final byte[] buf = new byte[testString.length()];
       in.read(buf, 0, 500);
       assertTrue("Failed to reset properly", testString.substring(500, 1000).equals(new String(buf, 0, 500)));
-    }
-    catch (final IOException e) {
-      fail("Exception during reset test");
     }
 
     try (final BufferedServletInputStream in = new BufferedServletInputStream(new StringInputStream(testString), testString.length())) {
@@ -520,18 +503,16 @@ public class BufferedServletInputStreamTest {
 
   /**
    * @tests BufferedServletInputStream#skip(long)
+   * @throws IOException If an I/O error has occurred.
    */
   @Test
-  public void testSkipJ() {
+  public void testSkipJ() throws IOException {
     // Test for method long BufferedServletInputStream.skip(long)
     try (final BufferedServletInputStream in = new BufferedServletInputStream(new StringInputStream(testString), testString.length())) {
       in.skip(500);
       final byte[] buf = new byte[testString.length()];
       in.read(buf, 0, 500);
       assertTrue("Failed to set skip properly", testString.substring(500, 1000).equals(new String(buf, 0, 500)));
-    }
-    catch (final IOException e) {
-      fail("Exception during skip test");
     }
   }
 }
