@@ -174,7 +174,7 @@ public final class HTTP {
     urlConnection.setUseCaches(false);
     urlConnection.setDoOutput(true); // Triggers POST
     // urlConnection.setRequestProperty("content-type", "application/x-www-form-urlencoded");
-    if (properties != null)
+    if (properties != null && properties.size() > 0)
       for (final Map.Entry<Object,Object> property : properties.entrySet()) // [S]
         urlConnection.setRequestProperty((String)property.getKey(), (String)property.getValue());
 

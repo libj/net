@@ -18,15 +18,14 @@ package org.libj.net;
 
 import static org.libj.lang.Assertions.*;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.libj.lang.Strings;
 import org.libj.util.StringPaths;
 
 /**
@@ -94,13 +93,12 @@ public final class URIs {
     if (fromPath.startsWith("/"))
       fromPath = fromPath.substring(1);
 
-    final String[] fsplit = fromPath.split("/");
+    final String[] fsplit = Strings.split(fromPath, '/');
     String toPath = to.getPath();
     if (toPath.startsWith("/"))
       toPath = toPath.substring(1);
 
-    final String[] tsplit = toPath.split("/");
-
+    final String[] tsplit = Strings.split(toPath, '/');
     int f = 0;
     for (; f < fsplit.length && f < tsplit.length; ++f) // [A]
       if (!fsplit[f].equals(tsplit[f]))
@@ -314,41 +312,36 @@ public final class URIs {
     }
   }
 
+
   private static void add(final Map<String,List<String>> parameters, final String name, final String value) {
     List<String> values = parameters.get(name);
     if (values == null)
-      parameters.put(name, values = new ArrayList<>());
+      parameters.put(name, values = new ArrayList<>(2));
 
     values.add(value);
   }
 
   /**
-   * Returns a map of parameters decoded from the provided {@code data} and {@code charset}.
+   * Parses the provided {@code data} string into the specified {@code parameters} map.
    *
+   * @implNote This method does not decode the parsed parameters.
    * @param parameters The map into which decoded parameters are to be added.
-   * @param data The string of parameters to decode.
-   * @param charset The charset with which the {@code data} is to be decoded, or {@code null} if the data should not be decoded.
-   * @throws UnsupportedEncodingException If character encoding needs to be consulted, but named character encoding is not
-   *           supported.
-   * @throws IllegalArgumentException If {@code parameters} or {@code data} is null, or when illegal strings are encountered.
+   * @param data The string of parameters to parse.
+   * @throws IllegalArgumentException If {@code parameters} or {@code data} is null.
    */
-  public static void decodeParameters(final Map<String,List<String>> parameters, final String data, final String charset) throws UnsupportedEncodingException {
-    assertNotNull(parameters);
+  public static void parseParameters(final Map<String,List<String>> parameters, final String data) {
     assertNotNull(data);
-    final int i$ = data.length();
-    if (i$ == 0)
-      return;
-
+    assertNotNull(parameters);
     final StringBuilder b = new StringBuilder();
     String name = null;
-    for (int i = 0; i < i$; ++i) { // [X]
+    for (int i = 0, i$ = data.length(); i < i$; ++i) { // [X]
       final char ch = data.charAt(i);
       if (ch == '&') {
-        add(parameters, name, charset == null ? b.toString() : URLDecoder.decode(b.toString(), charset)); // FIXME: This is doing a hashmap lookup for URLDecoder via charset on every invocation
+        add(parameters, name, b.toString());
         b.setLength(0);
       }
       else if (ch == '=') {
-        name = charset == null ? b.toString() : URLDecoder.decode(b.toString(), charset); // FIXME: This is doing a hashmap lookup for URLDecoder via charset on every invocation
+        name = b.toString();
         b.setLength(0);
       }
       else {
@@ -356,7 +349,7 @@ public final class URIs {
       }
     }
 
-    add(parameters, name, charset == null ? b.toString() : URLDecoder.decode(b.toString(), charset)); // FIXME: This is doing a hashmap lookup for URLDecoder via charset on every invocation
+    add(parameters, name, b.toString());
   }
 
   private URIs() {

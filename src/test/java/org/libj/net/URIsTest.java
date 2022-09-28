@@ -18,7 +18,6 @@ package org.libj.net;
 
 import static org.junit.Assert.*;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -95,15 +94,15 @@ public class URIsTest {
     actual.clear();
   }
 
-  private static Map<String,List<String>> decodeParameters(final Map<String,List<String>> parameters, final String data, final String charset) throws UnsupportedEncodingException {
-    URIs.decodeParameters(parameters, data, charset);
+  private static Map<String,List<String>> decodeParameters(final Map<String,List<String>> parameters, final String data) {
+    URIs.parseParameters(parameters, data);
     return parameters;
   }
 
   @Test
-  public void testDecodeParameters() throws Exception {
+  public void testParseParameters() throws Exception {
     try {
-      URIs.decodeParameters(null, "f=b", "UTF-8");
+      URIs.parseParameters(null, "f=b");
       fail("Expected IllegalArgumentException");
     }
     catch (final IllegalArgumentException e) {
@@ -111,23 +110,15 @@ public class URIsTest {
 
     final MultiHashMap<String,String,List<String>> map = new MultiHashMap<>(ArrayList::new);
     try {
-      URIs.decodeParameters(map, null, "UTF-8");
+      URIs.parseParameters(map, null);
       fail("Expected IllegalArgumentException");
     }
     catch (final IllegalArgumentException e) {
     }
 
-    try {
-      URIs.decodeParameters(map, "a=b", "");
-      fail("Expected UnsupportedEncodingException");
-    }
-    catch (final UnsupportedEncodingException e) {
-    }
-
-    assertMap(decodeParameters(map, "foo=bar", "UTF-8"), "foo", "bar");
-    assertMap(decodeParameters(map, "foo=bar&foo=bar", "UTF-8"), "foo", "bar", "foo", "bar");
-    assertMap(decodeParameters(map, "a=b&c=d", "UTF-8"), "a", "b", "c", "d");
-    assertMap(decodeParameters(map, "a%20a=b%20b&c%20c=d%20d", "UTF-8"), "a a", "b b", "c c", "d d");
-    assertMap(decodeParameters(map, "a%20a=b%20b&c%20c=d%20d", null), "a%20a", "b%20b", "c%20c", "d%20d");
+    assertMap(decodeParameters(map, "foo=bar"), "foo", "bar");
+    assertMap(decodeParameters(map, "foo=bar&foo=bar"), "foo", "bar", "foo", "bar");
+    assertMap(decodeParameters(map, "a=b&c=d"), "a", "b", "c", "d");
+    assertMap(decodeParameters(map, "a%20a=b%20b&c%20c=d%20d"), "a%20a", "b%20b", "c%20c", "d%20d");
   }
 }

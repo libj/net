@@ -43,8 +43,9 @@ public final class URLConnections {
   public static void setRequestProperties(final URLConnection urlConnection, final Properties properties) {
     assertNotNull(urlConnection);
     assertNotNull(properties);
-    for (final Map.Entry<Object,Object> entry : properties.entrySet()) // [S]
-      urlConnection.setRequestProperty((String)entry.getKey(), (String)entry.getValue());
+    if (properties.size() > 0)
+      for (final Map.Entry<Object,Object> entry : properties.entrySet()) // [S]
+        urlConnection.setRequestProperty((String)entry.getKey(), (String)entry.getValue());
   }
 
   /**
