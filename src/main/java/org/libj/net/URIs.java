@@ -334,7 +334,7 @@ public final class URIs {
     assertNotNull(parameters);
     final StringBuilder b = new StringBuilder();
     String name = null;
-    for (int i = 0, i$ = data.length(); i < i$; ++i) { // [X]
+    for (int i = 0, i$ = data.length(); i < i$; ++i) { // [$]
       final char ch = data.charAt(i);
       if (ch == '&') {
         add(parameters, name, b.toString());

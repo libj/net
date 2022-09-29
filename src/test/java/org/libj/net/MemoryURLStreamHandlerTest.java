@@ -38,7 +38,7 @@ public class MemoryURLStreamHandlerTest {
       final ByteArrayOutputStream out = new ByteArrayOutputStream();
       try (final InputStream in = url.openStream()) {
         final byte[] bytes = new byte[1024];
-        for (int len; (len = in.read(bytes)) != -1;) // [X]
+        for (int len; (len = in.read(bytes)) != -1;) // [ST]
           if (len != 0)
             out.write(bytes, 0, len);
       }

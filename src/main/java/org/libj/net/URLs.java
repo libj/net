@@ -924,7 +924,7 @@ public final class URLs {
     try (final InputStream in = assertNotNull(url).openStream()) {
       final ByteArrayOutputStream buf = new ByteArrayOutputStream(1024);
       final byte[] data = new byte[1024];
-      for (int length; (length = in.read(data)) != -1; buf.write(data, 0, length)); // [X]
+      for (int length; (length = in.read(data)) != -1; buf.write(data, 0, length)); // [ST]
       return buf.toByteArray();
     }
   }

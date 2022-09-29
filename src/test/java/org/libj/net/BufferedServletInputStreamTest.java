@@ -36,7 +36,7 @@ public class BufferedServletInputStreamTest {
 
     @Override
     public int readLine(final byte[] b, final int off, final int len) throws IOException {
-      for (int i = 0, j = off; i < len; ++i) { // [X]
+      for (int i = 0, j = off; i < len; ++i) { // [A]
         int by = read();
         if (by == -1)
           return i;
