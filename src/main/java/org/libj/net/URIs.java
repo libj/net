@@ -312,8 +312,12 @@ public final class URIs {
     }
   }
 
+  private static void add(final Map<String,List<String>> parameters, String name, String value) {
+    if (name == null) {
+      name = value;
+      value = null;
+    }
 
-  private static void add(final Map<String,List<String>> parameters, final String name, final String value) {
     List<String> values = parameters.get(name);
     if (values == null)
       parameters.put(name, values = new ArrayList<>(2));
@@ -339,6 +343,7 @@ public final class URIs {
       if (ch == '&') {
         add(parameters, name, b.toString());
         b.setLength(0);
+        name = null;
       }
       else if (ch == '=') {
         name = b.toString();
