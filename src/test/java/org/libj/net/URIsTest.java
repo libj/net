@@ -103,17 +103,17 @@ public class URIsTest {
   public void testParseParameters() throws Exception {
     try {
       URIs.parseParameters(null, "f=b");
-      fail("Expected IllegalArgumentException");
+      fail("Expected NullPointerException");
     }
-    catch (final IllegalArgumentException e) {
+    catch (final NullPointerException e) {
     }
 
     final MultiHashMap<String,String,List<String>> map = new MultiHashMap<>(ArrayList::new);
     try {
       URIs.parseParameters(map, null);
-      fail("Expected IllegalArgumentException");
+      fail("Expected NullPointerException");
     }
-    catch (final IllegalArgumentException e) {
+    catch (final NullPointerException e) {
     }
 
     assertMap(decodeParameters(map, "foo=bar"), "foo", "bar");

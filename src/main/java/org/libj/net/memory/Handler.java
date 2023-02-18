@@ -16,8 +16,6 @@
 
 package org.libj.net.memory;
 
-import static org.libj.lang.Assertions.*;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -52,11 +50,11 @@ public class Handler extends MemoryURLStreamHandler {
    *           not {@code null} or empty.
    * @throws FileNotFoundException If no data is registered for the provided {@link URL}.
    * @throws IOException If an I/O error occurs while opening the connection.
-   * @throws IllegalArgumentException If {@code url} is null.
+   * @throws NullPointerException If {@code url} is null.
    */
   @Override
   protected URLConnection openConnection(final URL url) throws IOException {
-    if (!"memory".equals(assertNotNull(url).getProtocol()))
+    if (!"memory".equals(url.getProtocol()))
       throw new MalformedURLException("Unsupported protocol: " + url.getProtocol());
 
     if (url.getHost() != null && url.getHost().length() > 0)

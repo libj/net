@@ -47,11 +47,12 @@ public abstract class ClasspathURLStreamHandler extends URLStreamHandler {
    * @implNote This method only supports URLs with {@code "classpath"} protocol, and a {@code null} or empty host.
    * @param url The {@link URL}.
    * @return The data for the provided {@link URL}.
-   * @throws IllegalArgumentException If {@code url} is null, or if {@code url} specifies a protocol that is not
-   *           {@code "classpath"}, or a host that is not {@code null} or empty.
+   * @throws NullPointerException If {@code url} is null.
+   * @throws IllegalArgumentException If {@code url} specifies a protocol that is not {@code "classpath"}, or a host that is not
+   *           {@code null} or empty.
    */
   public static URL getResource(final URL url) {
-    if (!"classpath".equals(assertNotNull(url).getProtocol()))
+    if (!"classpath".equals(url.getProtocol()))
       throw new IllegalArgumentException("Illegal protocol: " + url.getProtocol());
 
     if (url.getHost() != null && url.getHost().length() > 0)

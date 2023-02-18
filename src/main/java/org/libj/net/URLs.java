@@ -16,8 +16,6 @@
 
 package org.libj.net;
 
-import static org.libj.lang.Assertions.*;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -69,12 +67,13 @@ public final class URLs {
    *
    * @param str The string to parse.
    * @return The new {@link URL}.
-   * @throws IllegalArgumentException If {@code str} is null, or if {@code str} declares a protocol that could not be found in a
-   *           specification string, or if the string could not be parsed.
+   * @throws NullPointerException If {@code str} is null.
+   * @throws IllegalArgumentException If {@code str} declares a protocol that could not be found in a specification string, or if
+   *           the string could not be parsed.
    */
   public static URL create(final String str) {
     try {
-      return new URL(assertNotNull(str));
+      return new URL(str);
     }
     catch (final MalformedURLException e) {
       throw new IllegalArgumentException(e.getMessage(), e);
@@ -96,8 +95,9 @@ public final class URLs {
    * @param context The context in which to parse the specification.
    * @param spec The {@link String} to parse.
    * @return The new {@link URL}.
-   * @throws IllegalArgumentException If {@code spec} is null, or if {@code str} declares a protocol that could not be found in a
-   *           specification string, or if the string could not be parsed.
+   * @throws NullPointerException If {@code spec} is null.
+   * @throws IllegalArgumentException If {@code str} declares a protocol that could not be found in a specification string, or if
+   *           the string could not be parsed.
    */
   public static URL create(final URL context, final String spec) {
     return create(context, spec, null);
@@ -119,12 +119,13 @@ public final class URLs {
    * @param spec The {@link String} to parse.
    * @param handler The stream handler for the URL.
    * @return The new {@link URL}.
-   * @throws IllegalArgumentException If {@code spec} is null, or if {@code str} declares a protocol that could not be found in a
-   *           specification string, or if the string could not be parsed.
+   * @throws NullPointerException If {@code spec} is null.
+   * @throws IllegalArgumentException If {@code str} declares a protocol that could not be found in a specification string, or if
+   *           the string could not be parsed.
    */
   public static URL create(final URL context, final String spec, final URLStreamHandler handler) {
     try {
-      return new URL(context, assertNotNull(spec), handler);
+      return new URL(context, spec, handler);
     }
     catch (final MalformedURLException e) {
       throw new IllegalArgumentException(e.getMessage(), e);
@@ -196,12 +197,13 @@ public final class URLs {
    * @param file The file on the host.
    * @param handler The stream handler for the URL.
    * @return The new {@link URL}.
-   * @throws IllegalArgumentException If {@code file} is null, or if {@code str} declares a protocol that could not be found in a
-   *           specification string, or if the string could not be parsed.
+   * @throws NullPointerException If {@code file} is null.
+   * @throws IllegalArgumentException If {@code str} declares a protocol that could not be found in a specification string, or if
+   *           the string could not be parsed.
    */
   public static URL create(final String protocol, final String host, int port, final String file, final URLStreamHandler handler) {
     try {
-      return new URL(protocol, host, -1, assertNotNull(file), handler);
+      return new URL(protocol, host, -1, file, handler);
     }
     catch (final MalformedURLException e) {
       throw new IllegalArgumentException(e.getMessage(), e);
@@ -262,13 +264,14 @@ public final class URLs {
    *
    * @param uri The {@link URI} to convert to a {@link URL}.
    * @return The new {@link URL}.
-   * @throws IllegalArgumentException If the specified {@link URI uri} is null, or if this {@link URL} is not absolute.
+   * @throws NullPointerException If the specified {@link URI uri} is null.
+   * @throws IllegalArgumentException If this {@link URL} is not absolute.
    * @throws UncheckedIOException If a protocol handler for the {@link URL} could not be found, or if some other error occurred
    *           while constructing the {@link URL}.
    */
   public static URL fromURI(final URI uri) {
     try {
-      return assertNotNull(uri).toURL();
+      return uri.toURL();
     }
     catch (final MalformedURLException e) {
       throw new UncheckedIOException(e);
@@ -343,14 +346,15 @@ public final class URLs {
    *
    * @param files The array of {@link File} objects.
    * @return An array of {@link URL} objects.
-   * @throws IllegalArgumentException If {@code files} or any member of {@code files} is null, or if a protocol handler for the URL
-   *           could not be found, or if some other error occurred while constructing the URL.
+   * @throws NullPointerException If {@code files} or any member of {@code files} is null.
+   * @throws IllegalArgumentException If a protocol handler for the URL could not be found, or if some other error occurred while
+   *           constructing the URL.
    */
   public static URL[] toURL(final File ... files) {
     try {
-      final URL[] urls = new URL[assertNotNull(files).length];
+      final URL[] urls = new URL[files.length];
       for (int i = 0, i$ = files.length; i < i$; ++i) // [A]
-        urls[i] = assertNotNull(files[i]).toURI().toURL();
+        urls[i] = files[i].toURI().toURL();
 
       return urls;
     }
@@ -387,11 +391,12 @@ public final class URLs {
    * @param url The {@link URL} to test.
    * @param timeout The timeout to be used when attempting to open a connection to the {@code url}.
    * @return {@code true} if the specified {@link URL} references a resource that exists; otherwise {@code false}.
-   * @throws IllegalArgumentException If {@code url} is null, or if {@code timeout} is negative.
+   * @throws NullPointerException If {@code url} is null.
+   * @throws IllegalArgumentException If {@code timeout} is negative.
    */
   public static boolean exists(final URL url, final int timeout) {
     try {
-      if ("file".equals(assertNotNull(url).getProtocol()))
+      if ("file".equals(url.getProtocol()))
         return new File(url.toURI()).exists();
     }
     catch (final URISyntaxException ignored) {
@@ -433,10 +438,10 @@ public final class URLs {
    *
    * @param url The {@link URL}.
    * @return {@code true} if the specified {@link URL} represents a file path; otherwise {@code false}.
-   * @throws IllegalArgumentException If {@code url} is null.
+   * @throws NullPointerException If {@code url} is null.
    */
   public static boolean isLocalFile(final URL url) {
-    final String host = assertNotNull(url).getHost();
+    final String host = url.getHost();
     return "file".equalsIgnoreCase(url.getProtocol()) && (host == null || host.length() == 0 || "localhost".equals(host));
   }
 
@@ -448,11 +453,11 @@ public final class URLs {
    *
    * @param url The {@link URL} to test.
    * @return {@code true} if the specified {@link URL} represents a location that is local; otherwise {@code false}.
-   * @throws IllegalArgumentException If {@code url} is null.
+   * @throws NullPointerException If {@code url} is null.
    */
   public static boolean isLocalJarFile(URL url) {
     do {
-      if (!assertNotNull(url).toString().startsWith("jar:"))
+      if (!url.toString().startsWith("jar:"))
         return false;
 
       final String path = url.toString().substring(4);
@@ -489,11 +494,11 @@ public final class URLs {
    *
    * @param url The {@link URL} to test.
    * @return {@code true} if the specified {@link URL} references a Jar resource; otherwise {@code false}.
-   * @throws IllegalArgumentException If {@code url} is null.
+   * @throws NullPointerException If {@code url} is null.
    */
   public static boolean isJar(final URL url) {
     try {
-      return assertNotNull(url).toURI().toString().startsWith("jar:");
+      return url.toURI().toString().startsWith("jar:");
     }
     catch (final URISyntaxException e) {
       return false;
@@ -533,10 +538,10 @@ public final class URLs {
    * @param url The {@link URL}.
    * @return The name of the file or directory denoted by the specified {@link URL}, or the empty string if the name sequence of
    *         {@code url} is empty.
-   * @throws IllegalArgumentException If {@code url} is null.
+   * @throws NullPointerException If {@code url} is null.
    */
   public static String getName(final URL url) {
-    return StringPaths.getName(assertNotNull(url).toString());
+    return StringPaths.getName(url.toString());
   }
 
   /**
@@ -547,10 +552,10 @@ public final class URLs {
    * @param url The {@link URL}.
    * @return The simple name of the file or directory denoted by the specified {@link URL}, or the empty string if the name sequence
    *         of {@code url} is empty.
-   * @throws IllegalArgumentException If {@code url} is null.
+   * @throws NullPointerException If {@code url} is null.
    */
   public static String getSimpleName(final URL url) {
-    return StringPaths.getSimpleName(assertNotNull(url).toString());
+    return StringPaths.getSimpleName(url.toString());
   }
 
   /**
@@ -560,11 +565,11 @@ public final class URLs {
    * @param url The {@link URL}.
    * @return The URL representing the parent of the specified {@link URL}, or {@code null} if {@code url} does not name a parent
    *         directory.
-   * @throws IllegalArgumentException If {@code url} is null.
+   * @throws NullPointerException If {@code url} is null.
    * @see StringPaths#getParent(String)
    */
   public static URL getParent(final URL url) {
-    final String parentPath = StringPaths.getParent(assertNotNull(url).toString());
+    final String parentPath = StringPaths.getParent(url.toString());
     return parentPath == null ? null : create(parentPath);
   }
 
@@ -606,12 +611,12 @@ public final class URLs {
    * @param enc The name of a supported character encoding.
    * @return The translated {@link String}.
    * @throws UnsupportedOperationException If the named encoding is not supported.
-   * @throws IllegalArgumentException If {@code s} or {@code enc} is null.
+   * @throws NullPointerException If {@code s} or {@code enc} is null.
    * @see URLs#decode(String,String)
    */
   public static String encode(final String s, final String enc) {
     try {
-      return URLEncoder.encode(assertNotNull(s), assertNotNull(enc));
+      return URLEncoder.encode(s, enc);
     }
     catch (final UnsupportedEncodingException e) {
       throw new UnsupportedOperationException(e);
@@ -632,12 +637,12 @@ public final class URLs {
    * @param charset The {@link Charset}.
    * @return The translated {@link String}.
    * @throws UnsupportedOperationException If the named encoding is not supported.
-   * @throws IllegalArgumentException If {@code s} or {@code charset} is null.
+   * @throws NullPointerException If {@code s} or {@code charset} is null.
    * @see URLs#decode(String,Charset)
    */
   public static String encode(final String s, final Charset charset) {
     try {
-      return URLEncoder.encode(assertNotNull(s), assertNotNull(charset).name());
+      return URLEncoder.encode(s, charset.name());
     }
     catch (final UnsupportedEncodingException e) {
       throw new UnsupportedOperationException(e);
@@ -664,12 +669,12 @@ public final class URLs {
    * @param s The {@link String} to decode.
    * @param charset The {@link Charset}.
    * @return The decoded {@link String}.
-   * @throws IllegalArgumentException If {@code s} or {@code charset} is null, or if the implementation encounters illegal
-   *           characters.
+   * @throws NullPointerException If {@code s} or {@code charset} is null.
+   * @throws IllegalArgumentException If the implementation encounter an illegal character.
    * @see URLs#encode(String,Charset)
    */
   public static String decode(final String s, final Charset charset) {
-    return decode(s, assertNotNull(charset), false);
+    return decode(s, charset, false);
   }
 
   /**
@@ -681,15 +686,15 @@ public final class URLs {
    * @param s The {@link String} to decode.
    * @param enc The name of a supported encoding.
    * @return The decoded {@link String}.
-   * @throws IllegalArgumentException If {@code s} or {@code charset} is null, or if the implementation encounters illegal
-   *           characters, or if the provided charset name is null.
+   * @throws NullPointerException If {@code s} or {@code enc} is null.
+   * @throws IllegalArgumentException If the implementation encounters an illegal character.
    * @throws IllegalCharsetNameException If the provided charset name is illegal.
    * @throws UnsupportedCharsetException If no support for the named charset is available in this instance of the Java virtual
    *           machine.
    * @see URLs#encode(String,String)
    */
   public static String decode(final String s, final String enc) {
-    return decode(s, Charset.forName(assertNotNull(enc)), false);
+    return decode(s, Charset.forName(enc), false);
   }
 
   private static String decode(final String s, final Charset charset, final boolean isPath) {
@@ -917,11 +922,11 @@ public final class URLs {
    * @return The {@code byte[]} containing all bytes that were read from the provided {@link URL}.
    * @throws IOException If the first byte cannot be read for any reason other than the end of the file, if the input stream has
    *           been closed, or if some other I/O error occurs.
-   * @throws IllegalArgumentException If {@code url} is null.
+   * @throws NullPointerException If {@code url} is null.
    * @see InputStream#read(byte[])
    */
   public static byte[] readBytes(final URL url) throws IOException {
-    try (final InputStream in = assertNotNull(url).openStream()) {
+    try (final InputStream in = url.openStream()) {
       final ByteArrayOutputStream buf = new ByteArrayOutputStream(1024);
       final byte[] data = new byte[1024];
       for (int length; (length = in.read(data)) != -1; buf.write(data, 0, length)); // [ST]

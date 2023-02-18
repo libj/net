@@ -16,8 +16,6 @@
 
 package org.libj.net;
 
-import static org.libj.lang.Assertions.*;
-
 import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Map;
@@ -39,11 +37,9 @@ public final class Cookies {
    * @param name The cookie name.
    * @return The cookie value associated with the given cookie name, or {@code null} if the cookie {@code name} is not found in the
    *         {@code request}.
-   * @throws IllegalArgumentException If {@code request} or {@code name} is null.
+   * @throws NullPointerException If {@code request} or {@code name} is null.
    */
   public static String getCookieValue(final HttpServletRequest request, final String name) {
-    assertNotNull(request);
-    assertNotNull(name);
     final Cookie[] cookies = request.getCookies();
     if (cookies == null)
       return null;
@@ -62,13 +58,14 @@ public final class Cookies {
    * @param name The cookie name to associate the cookie value with.
    * @param value The actual cookie value to be set in the given servlet response.
    * @param maxAge The expiration interval in seconds. If this is set to 0, then the cookie will immediately expire.
-   * @throws IllegalArgumentException If {@code response} is null, or if the cookie name is null or empty or contains any illegal
-   *           characters (for example, a comma, space, or semicolon) or matches a token reserved for use by the cookie protocol.
+   * @throws NullPointerException If {@code response} is null, or if the cookie {@code name} is null.
+   * @throws IllegalArgumentException If the cookie {@code name} is empty or contains any illegal characters (for example, a comma,
+   *           space, or semicolon) or matches a token reserved for use by the cookie protocol.
    */
   public static void setCookieValue(final HttpServletResponse response, final String name, final String value, final int maxAge) {
     final Cookie cookie = new Cookie(name, value);
     cookie.setMaxAge(maxAge);
-    assertNotNull(response).addCookie(cookie);
+    response.addCookie(cookie);
   }
 
   /**
@@ -91,10 +88,10 @@ public final class Cookies {
    * @param cookies The collection of cookies.
    * @return A {@code Map.Entry<String,String>} with key set to {@code "Cookie"}, and value set to semicolon-delimited
    *         {@code cookies}.
-   * @throws IllegalArgumentException If {@code cookies} is null.
+   * @throws NullPointerException If {@code cookies} is null.
    */
   public static Map.Entry<String,String> createCookieHeader(final Collection<String> cookies) {
-    return new AbstractMap.SimpleEntry<>("Cookie", CollectionUtil.toString(assertNotNull(cookies), ";"));
+    return new AbstractMap.SimpleEntry<>("Cookie", CollectionUtil.toString(cookies, ";"));
   }
 
   private Cookies() {

@@ -16,8 +16,6 @@
 
 package org.libj.net;
 
-import static org.libj.lang.Assertions.*;
-
 import java.net.InetAddress;
 
 /**
@@ -27,14 +25,14 @@ public final class InetAddresses {
   /**
    * Returns the decimal representation of the IP of an {@link InetAddress}
    * <p>
-   * (i.e. where each number is specified as a value in the range 0-255)
+   * (i.e. where each number is specified as a value in the range {@code 0-255})
    *
    * @param address The {@link InetAddress}.
    * @return The decimal representation of the IP of an {@link InetAddress}.
-   * @throws IllegalArgumentException If {@code address} is null.
+   * @throws NullPointerException If {@code address} is null.
    */
   public static String toStringIP(final InetAddress address) {
-    final byte[] bytes = assertNotNull(address).getAddress();
+    final byte[] bytes = address.getAddress();
     final StringBuilder builder = new StringBuilder();
     for (int i = 0, i$ = bytes.length; i < i$; ++i) { // [A]
       if (i > 0)

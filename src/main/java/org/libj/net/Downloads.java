@@ -16,8 +16,6 @@
 
 package org.libj.net;
 
-import static org.libj.lang.Assertions.*;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -49,10 +47,10 @@ public final class Downloads {
    * @param options Options specifying how the download should be done.
    * @return The <b>closed</b> {@link HttpURLConnection} that was used to download the file.
    * @throws IOException If an I/O error has occurred.
-   * @throws IllegalArgumentException If the provided {@code fromUrl}, {@code toFile}, or {@code options} is null.
+   * @throws NullPointerException If the provided {@code fromUrl}, {@code toFile}, or {@code options} is null.
    */
   public static HttpURLConnection downloadFile(final String fromUrl, final File toFile, final CopyOption ... options) throws IOException {
-    return downloadFile(new URL(assertNotNull(fromUrl)), toFile, options);
+    return downloadFile(new URL(fromUrl), toFile, options);
   }
 
   /**
@@ -73,10 +71,10 @@ public final class Downloads {
    * @param options Options specifying how the download should be done.
    * @return The <b>closed</b> {@link HttpURLConnection} that was used to download the file.
    * @throws IOException If an I/O error has occurred.
-   * @throws IllegalArgumentException If the provided {@code fromUrl}, {@code toFile}, or {@code options} is null.
+   * @throws NullPointerException If the provided {@code fromUrl}, {@code toFile}, or {@code options} is null.
    */
   public static HttpURLConnection downloadFile(final String fromUrl, final File toFile, final int connectTimeout, final int readTimeout, final CopyOption ... options) throws IOException {
-    return downloadFile(new URL(assertNotNull(fromUrl)), toFile, connectTimeout, readTimeout, options);
+    return downloadFile(new URL(fromUrl), toFile, connectTimeout, readTimeout, options);
   }
 
   /**
@@ -89,7 +87,7 @@ public final class Downloads {
    * @param options Options specifying how the download should be done.
    * @return The <b>closed</b> {@link HttpURLConnection} that was used to download the file.
    * @throws IOException If an I/O error has occurred.
-   * @throws IllegalArgumentException If {@code fromUrl}, {@code toFile}, or {@code options} is null.
+   * @throws NullPointerException If {@code fromUrl}, {@code toFile}, or {@code options} is null.
    */
   public static HttpURLConnection downloadFile(final URL fromUrl, final File toFile, final CopyOption ... options) throws IOException {
     return downloadFile(fromUrl, toFile, 0, 0, options);
@@ -113,11 +111,11 @@ public final class Downloads {
    * @param options Options specifying how the download should be done.
    * @return The <b>closed</b> {@link HttpURLConnection} that was used to download the file.
    * @throws IOException If an I/O error has occurred.
-   * @throws IllegalArgumentException If {@code fromUrl}, {@code toFile} or {@code options} is null, or if the
-   *           {@code connectTimeout} or {@code readTimeout} parameter is negative.
+   * @throws NullPointerException If {@code fromUrl}, {@code toFile} or {@code options} is null.
+   * @throws IllegalArgumentException If the {@code connectTimeout} or {@code readTimeout} parameter is negative.
    */
   public static HttpURLConnection downloadFile(final URL fromUrl, final File toFile, final int connectTimeout, final int readTimeout, CopyOption ... options) throws IOException {
-    final HttpURLConnection connection = (HttpURLConnection)assertNotNull(fromUrl).openConnection();
+    final HttpURLConnection connection = (HttpURLConnection)fromUrl.openConnection();
     connection.setConnectTimeout(connectTimeout);
     connection.setReadTimeout(readTimeout);
     try {
@@ -144,22 +142,18 @@ public final class Downloads {
   }
 
   /**
-   * Send the given file as a byte array to the servlet response. If attachment
-   * is set to true, then show a "Save as" dialogue, else show the file inline
-   * in the browser or let the operating system open it in the right
-   * application.
+   * Send the given file as a byte array to the servlet response. If attachment is set to true, then show a "Save as" dialogue, else
+   * show the file inline in the browser or let the operating system open it in the right application.
    *
    * @param response The {@link HttpServletResponse}.
    * @param bytes The file contents in a byte array.
    * @param fileName The file name.
-   * @param attachment If {@code true}, "Content-Disposition" will be
-   *          "attachment", otherwise "inline".
+   * @param attachment If {@code true}, "Content-Disposition" will be "attachment", otherwise "inline".
    * @throws IOException If an I/O error has occurred.
-   * @throws IllegalArgumentException If {@code response}, {@code bytes}, or
-   *           {@code fileName} is null.
+   * @throws NullPointerException If {@code response}, {@code bytes}, or {@code fileName} is null.
    */
   public static void downloadFile(final HttpServletResponse response, final byte[] bytes, final String fileName, final boolean attachment) throws IOException {
-    try (final InputStream in = new ByteArrayInputStream(assertNotNull(bytes))) {
+    try (final InputStream in = new ByteArrayInputStream(bytes)) {
       downloadFile(response, in, fileName, attachment);
     }
   }
@@ -172,11 +166,11 @@ public final class Downloads {
    * @param toFile The file as a File object.
    * @param attachment If {@code true}, "Content-Disposition" will be "attachment", otherwise "inline".
    * @throws IOException If an I/O error has occurred.
-   * @throws IllegalArgumentException If {@code response} or {@code file} is null.
+   * @throws NullPointerException If {@code response} or {@code file} is null.
    */
   public static void downloadFile(final HttpServletResponse response, final File toFile, final boolean attachment) throws IOException {
     try (final InputStream in = new FileInputStream(toFile)) {
-      downloadFile(response, in, assertNotNull(toFile).getName(), attachment);
+      downloadFile(response, in, toFile.getName(), attachment);
     }
   }
 
@@ -189,11 +183,9 @@ public final class Downloads {
    * @param fileName The file name.
    * @param attachment If {@code true}, "Content-Disposition" will be "attachment", otherwise "inline".
    * @throws IOException If an I/O error has occurred.
-   * @throws IllegalArgumentException If {@code response}, {@code in}, or {@code fileName} is null.
+   * @throws NullPointerException If {@code response}, {@code in}, or {@code fileName} is null.
    */
   public static void downloadFile(final HttpServletResponse response, final InputStream in, final String fileName, final boolean attachment) throws IOException {
-    assertNotNull(response);
-    assertNotNull(fileName);
     String contentType = URLConnection.guessContentTypeFromName(fileName);
     if (contentType == null)
       contentType = "application/octet-stream";

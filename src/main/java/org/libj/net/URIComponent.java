@@ -16,8 +16,6 @@
 
 package org.libj.net;
 
-import static org.libj.lang.Assertions.*;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -53,10 +51,10 @@ public final class URIComponent {
    * @return The decoded string, or {@code null} if the provided string is null.
    * @throws UnsupportedEncodingException If character encoding needs to be consulted, but named character encoding is not
    *           supported.
-   * @throws IllegalArgumentException If {@code enc} is null.
+   * @throws NullPointerException If {@code enc} is null.
    */
   public static String decode(final String uri, final String enc) throws UnsupportedEncodingException {
-    return uri != null ? URLDecoder.decode(uri, assertNotNull(enc)) : null;
+    return uri != null ? URLDecoder.decode(uri, enc) : null;
   }
 
   /**
@@ -103,10 +101,10 @@ public final class URIComponent {
    * @return The encoded string, or {@code null} if the provided string is null.
    * @throws UnsupportedEncodingException If character encoding needs to be consulted, but named character encoding is not
    *           supported.
-   * @throws IllegalArgumentException If {@code enc} is null.
+   * @throws NullPointerException If {@code enc} is null.
    */
   public static String encode(final String uri, final String enc) throws UnsupportedEncodingException {
-    return uri == null ? null : URLEncoder.encode(uri, assertNotNull(enc)).replace("+", "%20"); //.replace("%21", "!").replace("%27", "'").replace("%28", "(").replace("%29", ")").replace("%7E", "~") : null;
+    return uri == null ? null : URLEncoder.encode(uri, enc).replace("+", "%20"); //.replace("%21", "!").replace("%27", "'").replace("%28", "(").replace("%29", ")").replace("%7E", "~") : null;
   }
 
   /**

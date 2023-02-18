@@ -16,8 +16,6 @@
 
 package org.libj.net;
 
-import static org.libj.lang.Assertions.*;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -36,16 +34,16 @@ import java.util.Objects;
  */
 public abstract class DelegateURLConnection extends URLConnection {
   /** The target {@link URLConnection}. */
-  protected volatile URLConnection target;
+  protected URLConnection target;
 
   /**
    * Creates a new {@link DelegateURLConnection} with the specified target {@link URLConnection}.
    *
    * @param target The target {@link URLConnection}.
-   * @throws IllegalArgumentException If the target {@link URLConnection} is null.
+   * @throws NullPointerException If the target {@link URLConnection} is null.
    */
   public DelegateURLConnection(final URLConnection target) {
-    super(assertNotNull(target).getURL());
+    super(target.getURL());
     this.target = target;
   }
 
@@ -162,7 +160,6 @@ public abstract class DelegateURLConnection extends URLConnection {
   }
 
   @Override
-  @SuppressWarnings("rawtypes")
   public Object getContent(final Class[] classes) throws IOException {
     return target.getContent(classes);
   }

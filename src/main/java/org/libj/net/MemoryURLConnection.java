@@ -16,8 +16,6 @@
 
 package org.libj.net;
 
-import static org.libj.lang.Assertions.*;
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URL;
@@ -34,10 +32,10 @@ public class MemoryURLConnection extends URLConnection {
    *
    * @param url The {@link URL}.
    * @param data The data.
-   * @throws IllegalArgumentException If the {@link URL} or {@code data} is null.
+   * @throws NullPointerException If the {@link URL} or {@code data} is null.
    */
   public MemoryURLConnection(final URL url, final byte[] data) {
-    super(assertNotNull(url));
+    super(url);
     this.in = new ByteArrayInputStream(data);
   }
 

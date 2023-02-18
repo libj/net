@@ -16,8 +16,6 @@
 
 package org.libj.net;
 
-import static org.libj.lang.Assertions.*;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -38,11 +36,9 @@ public final class URLConnections {
    *
    * @param urlConnection The {@link URLConnection}.
    * @param properties The {@link Properties}.
-   * @throws IllegalArgumentException If {@code urlConnection} or {@code properties} is null.
+   * @throws NullPointerException If {@code urlConnection} or {@code properties} is null.
    */
   public static void setRequestProperties(final URLConnection urlConnection, final Properties properties) {
-    assertNotNull(urlConnection);
-    assertNotNull(properties);
     if (properties.size() > 0)
       for (final Map.Entry<Object,Object> entry : properties.entrySet()) // [S]
         urlConnection.setRequestProperty((String)entry.getKey(), (String)entry.getValue());
@@ -54,10 +50,10 @@ public final class URLConnections {
    * @param url The {@link URL}.
    * @return An {@link InputStream} to the specified url that may or may not exist at a redirected location.
    * @throws IOException If an I/O error has occurred.
-   * @throws IllegalArgumentException If the specified {@link URL} is null.
+   * @throws NullPointerException If the specified {@link URL} is null.
    */
   public static InputStream tryOpenRedirectStream(final URL url) throws IOException {
-    final URLConnection connection = assertNotNull(url).openConnection();
+    final URLConnection connection = url.openConnection();
     if (connection instanceof HttpURLConnection && Arrays.binarySearch(REDIRECT_CODES, ((HttpURLConnection)connection).getResponseCode()) > 0) {
       final String location = connection.getHeaderField("Location");
       return new URL(location).openConnection().getInputStream();
