@@ -52,7 +52,7 @@ import javax.servlet.http.Part;
  */
 public abstract class DelegateHttpServletRequest implements HttpServletRequest {
   /** The target {@link HttpServletRequest}. */
-  protected volatile HttpServletRequest target;
+  protected HttpServletRequest target;
 
   /**
    * Creates a new {@link DelegateHttpServletRequest} with the specified target {@link HttpServletRequest}.

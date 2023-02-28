@@ -33,7 +33,7 @@ import javax.servlet.ServletInputStream;
  */
 public class FilterServletInputStream extends ServletInputStream {
   /** The input stream to be filtered. */
-  protected volatile ServletInputStream in;
+  protected ServletInputStream in;
 
   /**
    * Creates a {@link FilterServletInputStream} by assigning the argument {@code in} to the field {@code this.in} so as to remember
