@@ -16,8 +16,6 @@
 
 package org.libj.net;
 
-import static org.libj.lang.Assertions.*;
-
 import java.net.URL;
 import java.net.URLStreamHandler;
 
@@ -35,10 +33,10 @@ public abstract class ClasspathURLStreamHandler extends URLStreamHandler {
    *
    * @param resourcePath The resource path.
    * @return A "classpath" protocol {@link URL} for the specified resource path.
-   * @throws IllegalArgumentException If {@code resourcePath} is null.
+   * @throws NullPointerException If {@code resourcePath} is null.
    */
   public static URL createURL(final String resourcePath) {
-    return URLs.create("classpath:" + assertNotNull(resourcePath));
+    return URLs.create("classpath:" + resourcePath.toString());
   }
 
   /**

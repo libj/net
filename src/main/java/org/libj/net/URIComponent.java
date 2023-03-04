@@ -116,7 +116,7 @@ public final class URIComponent {
    * @return The encoded string, or {@code null} if the provided string is null.
    * @throws UnsupportedEncodingException If character encoding needs to be consulted, but named character encoding is not
    *           supported.
-   * @throws IllegalArgumentException If {@code enc} is null.
+   * @throws NullPointerException If {@code enc} is null.
    */
   // FIXME: Reimplement more efficiently
   public static String encode(final char ch, final String enc) throws UnsupportedEncodingException {

@@ -148,8 +148,9 @@ public final class URLs {
    * @param host The name of the host.
    * @param file The file on the host.
    * @return The new {@link URL}.
-   * @throws IllegalArgumentException If {@code file} is null, or if {@code str} declares a protocol that could not be found in a
-   *           specification string, or if the string could not be parsed.
+   * @throws NullPointerException If {@code file} is null.
+   * @throws IllegalArgumentException If {@code str} declares a protocol that could not be found in a specification string, or if
+   *           the string could not be parsed.
    */
   public static URL create(final String protocol, final String host, final String file) {
     return create(protocol, host, -1, file, null);
@@ -172,8 +173,9 @@ public final class URLs {
    * @param port The port number on the host.
    * @param file The file on the host.
    * @return The new {@link URL}.
-   * @throws IllegalArgumentException If {@code file} is null, or if {@code str} declares a protocol that could not be found in a
-   *           specification string, or if the string could not be parsed.
+   * @throws NullPointerException If {@code file} is null.
+   * @throws IllegalArgumentException If {@code str} declares a protocol that could not be found in a specification string, or if
+   *           the string could not be parsed.
    */
   public static URL create(final String protocol, final String host, int port, final String file) {
     return create(protocol, host, port, file, null);
@@ -216,8 +218,9 @@ public final class URLs {
    * @param basedir The base directory of the path in the resulting {@link URL}.
    * @param path The child path off of {@code basedir} in the resulting {@link URL}.
    * @return A {@link URL} created from the specified {@code basedir} parent directory, and {@code path} child path.
-   * @throws IllegalArgumentException If {@code basedir} or {@code path} is null, or if a protocol is specified but is unknown, or
-   *           the spec is null, or the parsed URL fails to comply with the specific syntax of the associated protocol.
+   * @throws NullPointerException If {@code basedir} or {@code path} is null.
+   * @throws IllegalArgumentException If a protocol is specified but is unknown, or the parsed URL fails to comply with the specific
+   *           syntax of the associated protocol.
    * @see URLs#fromStringPath(String)
    * @see StringPaths#newPath(String,String)
    * @see StringPaths#isAbsoluteLocalWindows(String)
@@ -239,8 +242,8 @@ public final class URLs {
    *
    * @param stringPath The string path from which to create a {@link URL}.
    * @return A {@link URL} created from the specified string, or {@code null} if the specified string is null.
-   * @throws IllegalArgumentException If a protocol is specified but is unknown, or the spec is null, or the parsed URL fails to
-   *           comply with the specific syntax of the associated protocol.
+   * @throws IllegalArgumentException If a protocol is specified but is unknown, or the parsed URL fails to comply with the specific
+   *           syntax of the associated protocol.
    * @see StringPaths#isAbsoluteLocalWindows(String)
    */
   public static URL fromStringPath(String stringPath) {
@@ -295,8 +298,9 @@ public final class URLs {
    * @return A canonical {@link URL} created from the specified string, or {@code null} if the specified string is null
    *         ({@code ".."} and {@code "."} path names are dereferenced in a canonical {@link URL}, and redundant {@code '/'} path
    *         separators are removed).
-   * @throws IllegalArgumentException If {@code stringPath} is null, or if a protocol is specified but is unknown, or the spec is
-   *           null, or the parsed URL fails to comply with the specific syntax of the associated protocol.
+   * @throws NullPointerException If {@code stringPath} is null.
+   * @throws IllegalArgumentException If a protocol is specified but is unknown, or the parsed URL fails to comply with the specific
+   *           syntax of the associated protocol.
    * @see URLs#canonicalize(URL)
    * @see StringPaths#isAbsoluteLocalWindows(String)
    */
@@ -317,9 +321,9 @@ public final class URLs {
    * @return A canonical {@link URL} created from the specified {@code basedir} parent directory, and {@code path} child path
    *         ({@code ".."} and {@code "."} path names are dereferenced in a canonical {@link URL}, and redundant {@code '/'} path
    *         separators are removed).
-   * @throws IllegalArgumentException If {@code basedir} is null, or if {@code basedir} or {@code path} is null, or if a protocol is
-   *           specified but is unknown, or the spec is null, or the parsed URL fails to comply with the specific syntax of the
-   *           associated protocol.
+   * @throws NullPointerException If {@code basedir} is null, or if {@code basedir} or {@code path} is null.
+   * @throws IllegalArgumentException If a protocol is specified but is unknown, or the parsed URL fails to comply with the specific
+   *           syntax of the associated protocol.
    * @see URLs#fromStringPath(String)
    * @see URLs#canonicalize(URL)
    * @see StringPaths#newPath(String,String)
@@ -370,8 +374,8 @@ public final class URLs {
    * @param url The {@link URL}.
    * @return The canonical version of the specified {@link URL}, where redundant names such as {@code "."} and {@code ".."} are
    *         dereferenced and removed from the path.
-   * @throws IllegalArgumentException If a protocol is specified but is unknown, or the spec is null, or the parsed URL fails to
-   *           comply with the specific syntax of the associated protocol.
+   * @throws IllegalArgumentException If a protocol is specified but is unknown, or the parsed URL fails to comply with the specific
+   *           syntax of the associated protocol.
    */
   public static URL canonicalize(final URL url) {
     return url == null ? null : create(url.getProtocol(), url.getHost(), url.getPort(), StringPaths.canonicalize(url.getPath().toString()));
@@ -426,7 +430,7 @@ public final class URLs {
    *
    * @param url The {@link URL} to test.
    * @return {@code true} if the specified {@link URL} references a resource that exists; otherwise {@code false}.
-   * @throws IllegalArgumentException If {@code url} is null.
+   * @throws NullPointerException If {@code url} is null.
    */
   public static boolean exists(final URL url) {
     return exists(url, DEFAULT_TIMEOUT);
@@ -483,7 +487,7 @@ public final class URLs {
    * @param url The {@link URL} to test.
    * @return {@code true} if the specified {@link URL} represents a location that is either a local file with protocol
    *         {@code "file:"}, or a local JAR file with protocol {@code "jar:file:"}; otherwise {@code false}.
-   * @throws IllegalArgumentException If {@code url} is null.
+   * @throws NullPointerException If {@code url} is null.
    */
   public static boolean isLocal(final URL url) {
     return isLocalFile(url) || isLocalJarFile(url);
@@ -512,7 +516,7 @@ public final class URLs {
    * @param url The {@link URL}.
    * @return A {@link URL} representing the location of the Jar in {@code url}, if {@code url} is "Jar URL" resembling the
    *         {@code "jar:<url>...!..."} semantics; or {@code null} if {@code url} is not a "Jar URL".
-   * @throws IllegalArgumentException If {@code url} is null.
+   * @throws NullPointerException If {@code url} is null.
    */
   public static URL getJarURL(final URL url) {
     return isJar(url) ? create(url.getFile().substring(0, url.getFile().indexOf('!'))) : null;
@@ -525,7 +529,7 @@ public final class URLs {
    * @param url The {@link URL}.
    * @return The path portion of the resource referenced inside a Jar of the specified {@code url} "Jar URL" (if {@code url} is "Jar
    *         URL" resembling the {@code "jar:<url>...!..."} semantics), or {@code null} if {@code url} is not a "Jar URL".
-   * @throws IllegalArgumentException If {@code url} is null.
+   * @throws NullPointerException If {@code url} is null.
    */
   public static String getJarPath(final URL url) {
     return !isJar(url) ? null : url.getFile().substring(url.getFile().indexOf('!') + 2);
@@ -654,7 +658,8 @@ public final class URLs {
    *
    * @param s The {@link String} to decode.
    * @return The decoded {@link String}.
-   * @throws IllegalArgumentException If {@code s} is null, or if the implementation encounters illegal path separators.
+   * @throws NullPointerException If {@code s} is null.
+   * @throws IllegalArgumentException If the implementation encounters illegal path separators.
    */
   public static String decode(final String s) {
     return decode(s, StandardCharsets.UTF_8, false);
@@ -819,7 +824,7 @@ public final class URLs {
    *
    * @param url The {@link URL} for which {@code http} and {@code https} protocols are to be disabled.
    * @return A {@link URL} with {@code http} and {@code https} protocols disabled.
-   * @throws IllegalArgumentException If the specified {@link URL url} is null.
+   * @throws NullPointerException If the specified {@link URL url} is null.
    */
   public static URL disableHttp(final URL url) {
     if (!url.getProtocol().startsWith("http"))
@@ -906,8 +911,9 @@ public final class URLs {
    *
    * @param spec The String to parse as a URL.
    * @return A {@link URL} for which the {@linkplain URL#getHost() host} is treated as a literal string.
-   * @throws IllegalArgumentException If no protocol is specified, or an unknown protocol is found, or spec is null, or the parsed
-   *           URL fails to comply with the specific syntax of the associated protocol.
+   * @throws NullPointerException If {@code spec} is null.
+   * @throws IllegalArgumentException If no protocol is specified, an unknown protocol is found, or the parsed URL fails to comply
+   *           with the specific syntax of the associated protocol.
    * @throws SecurityException If a security manager exists and its checkPermission method doesn't allow specifying a stream
    *           handler.
    */

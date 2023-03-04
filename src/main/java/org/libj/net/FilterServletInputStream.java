@@ -16,10 +16,9 @@
 
 package org.libj.net;
 
-import static org.libj.lang.Assertions.*;
-
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
@@ -40,10 +39,10 @@ public class FilterServletInputStream extends ServletInputStream {
    * it for later use.
    *
    * @param in The underlying input stream, or {@code null} if this instance is to be created without an underlying stream.
-   * @throws IllegalArgumentException If {@code in} is null.
+   * @throws NullPointerException If {@code in} is null.
    */
   protected FilterServletInputStream(final ServletInputStream in) {
-    this.in = assertNotNull(in);
+    this.in = Objects.requireNonNull(in);
   }
 
   /**

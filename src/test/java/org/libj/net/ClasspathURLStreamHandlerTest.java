@@ -35,9 +35,9 @@ public class ClasspathURLStreamHandlerTest {
 
     try {
       ClasspathURLStreamHandler.createURL(null);
-      fail("Expected IllegalArgumentException");
+      fail("Expected NullPointerException");
     }
-    catch (final IllegalArgumentException e) {
+    catch (final NullPointerException e) {
     }
 
     final URL classpathUrl = ClasspathURLStreamHandler.createURL(resourcePath);

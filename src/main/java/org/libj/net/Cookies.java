@@ -75,8 +75,9 @@ public final class Cookies {
    *
    * @param response The HttpServletResponse to be used.
    * @param name The cookie name of the cookie to be removed.
-   * @throws IllegalArgumentException If {@code response} is null, or if the cookie name is null or empty or contains any illegal
-   *           characters (for example, a comma, space, or semicolon) or matches a token reserved for use by the cookie protocol.
+   * @throws NullPointerException If {@code response} is null, or if the cookie {@code name} is null.
+   * @throws IllegalArgumentException If {@code name} is empty or contains any illegal characters (for example, a comma, space, or
+   *           semicolon) or matches a token reserved for use by the cookie protocol.
    */
   public static void removeCookie(final HttpServletResponse response, final String name) {
     setCookieValue(response, name, null, 0);

@@ -16,8 +16,6 @@
 
 package org.libj.net;
 
-import static org.libj.lang.Assertions.*;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -58,10 +56,10 @@ public abstract class DelegateHttpServletRequest implements HttpServletRequest {
    * Creates a new {@link DelegateHttpServletRequest} with the specified target {@link HttpServletRequest}.
    *
    * @param target The target {@link HttpServletRequest}.
-   * @throws IllegalArgumentException If the specified {@link HttpServletRequest} is null.
+   * @throws NullPointerException If the specified {@link HttpServletRequest} is null.
    */
   public DelegateHttpServletRequest(final HttpServletRequest target) {
-    this.target = assertNotNull(target);
+    this.target = Objects.requireNonNull(target);
   }
 
   /**

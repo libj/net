@@ -58,7 +58,8 @@ public class BufferedServletInputStream extends FilterServletInputStream {
    * @param in The {@link ServletInputStream} to wrap.
    * @param maxLength The maximum number of bytes to read.
    * @throws IOException If an I/O error has occurred.
-   * @throws IllegalArgumentException If {@code in} is null, or if {@code size <= 0}.
+   * @throws NullPointerException If {@code in} is null.
+   * @throws IllegalArgumentException If {@code size <= 0}.
    */
   public BufferedServletInputStream(final ServletInputStream in, final int maxLength) throws IOException {
     super(in);
