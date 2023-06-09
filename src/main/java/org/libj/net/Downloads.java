@@ -94,9 +94,9 @@ public final class Downloads {
   }
 
   /**
-   * Downloads a file from the specified {@link URL} to the provided {@link File}. If the provided {@code file} exists, its
-   * lastModified timestamp is used to specify the {@code If-Modified-Since} header in the GET request. Content is not downloaded if
-   * the file at the specified {@link URL} is not modified.
+   * Downloads a file from the specified {@link URL} to the provided {@link File} (with {@code followRedirects} turned on. If the
+   * provided {@code file} exists, its lastModified timestamp is used to specify the {@code If-Modified-Since} header in the GET
+   * request. Content is not downloaded if the file at the specified {@link URL} is not modified.
    *
    * @param fromUrl The {@link URL} from which to download.
    * @param toFile The destination {@link File}.
@@ -115,13 +115,34 @@ public final class Downloads {
    * @throws IllegalArgumentException If the {@code connectTimeout} or {@code readTimeout} parameter is negative.
    */
   public static HttpURLConnection downloadFile(final URL fromUrl, final File toFile, final int connectTimeout, final int readTimeout, CopyOption ... options) throws IOException {
-    final HttpURLConnection connection = (HttpURLConnection)fromUrl.openConnection();
-    connection.setConnectTimeout(connectTimeout);
-    connection.setReadTimeout(readTimeout);
-    try {
-      if (toFile.exists())
-        connection.setIfModifiedSince(toFile.lastModified());
+    return downloadFile(fromUrl, toFile, connectTimeout, readTimeout, true, options);
+  }
 
+  /**
+   * Downloads a file from the specified {@link URL} to the provided {@link File}. If the provided {@code file} exists, its
+   * lastModified timestamp is used to specify the {@code If-Modified-Since} header in the GET request. Content is not downloaded if
+   * the file at the specified {@link URL} is not modified.
+   *
+   * @param fromUrl The {@link URL} from which to download.
+   * @param toFile The destination {@link File}.
+   * @param connectTimeout Sets a specified timeout value, in milliseconds, to be used when opening a communications link to the
+   *          resource referenced by the {@link URLConnection} to {@code fromUrl}. If the timeout expires before the connection can
+   *          be established, a {@link java.net.SocketTimeoutException} is raised. A timeout of zero is interpreted as an infinite
+   *          timeout.
+   * @param readTimeout Sets a specified timeout value, in milliseconds, to be used when opening a communications link to the
+   *          resource referenced by the {@link URLConnection} to {@code fromUrl}. If the timeout expires before the connection can
+   *          be established, a {@link java.net.SocketTimeoutException} is raised. A timeout of zero is interpreted as an infinite
+   *          timeout.
+   * @param followRedirects Whether HTTP 301, HTTP 302, or HTTP 303 redirects should be followed.
+   * @param options Options specifying how the download should be done.
+   * @return The <b>closed</b> {@link HttpURLConnection} that was used to download the file.
+   * @throws IOException If an I/O error has occurred.
+   * @throws NullPointerException If {@code fromUrl}, {@code toFile} or {@code options} is null.
+   * @throws IllegalArgumentException If the {@code connectTimeout} or {@code readTimeout} parameter is negative.
+   */
+  public static HttpURLConnection downloadFile(final URL fromUrl, final File toFile, final int connectTimeout, final int readTimeout, final boolean followRedirects, CopyOption ... options) throws IOException {
+    final HttpURLConnection connection = (HttpURLConnection)(followRedirects ? URLConnections.checkFollowRedirect(fromUrl.openConnection(), c -> beforeDownloadFile(c, connectTimeout, readTimeout, toFile)) : fromUrl.openConnection());
+    try {
       if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
         try (final InputStream in = connection.getInputStream()) {
           final int index = ArrayUtil.indexOf(options, StandardCopyOption.COPY_ATTRIBUTES);
@@ -139,6 +160,13 @@ public final class Downloads {
     finally {
       connection.disconnect();
     }
+  }
+
+  private static void beforeDownloadFile(final HttpURLConnection connection, final int connectTimeout, final int readTimeout, final File toFile) {
+    connection.setConnectTimeout(connectTimeout);
+    connection.setReadTimeout(readTimeout);
+    if (toFile.exists())
+      connection.setIfModifiedSince(toFile.lastModified());
   }
 
   /**

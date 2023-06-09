@@ -77,9 +77,7 @@ public final class HTTP {
    * @throws UnsupportedEncodingException If the provided charset is not supported.
    */
   public static InputStream getAsStream(final String url, final Map<String,String[]> parameters, final String charset) throws IOException, UnsupportedEncodingException {
-    final URLConnection urlConnection = get(url, parameters, charset).openConnection();
-    urlConnection.setUseCaches(false);
-    return urlConnection.getInputStream();
+    return URLConnections.checkFollowRedirect(get(url, parameters, charset).openConnection(), c -> c.setUseCaches(false)).getInputStream();
   }
 
   /**
@@ -94,9 +92,7 @@ public final class HTTP {
    * @throws UnsupportedEncodingException If the provided charset is not supported.
    */
   public static InputStream getAsStream(final URL url) throws IOException, UnsupportedEncodingException {
-    final URLConnection urlConnection = url.openConnection();
-    urlConnection.setUseCaches(false);
-    return urlConnection.getInputStream();
+    return URLConnections.checkFollowRedirect(url.openConnection(), c -> c.setUseCaches(false)).getInputStream();
   }
 
   /**
@@ -113,8 +109,7 @@ public final class HTTP {
    * @throws UnsupportedEncodingException If the provided charset is not supported.
    */
   public static URL get(final String url, final Map<String,String[]> parameters, final String charset) throws IOException, UnsupportedEncodingException {
-    final String query = createQuery(parameters, charset);
-    return new URL(url + "?" + query);
+    return new URL(url + "?" + createQuery(parameters, charset));
   }
 
   /**
@@ -144,7 +139,7 @@ public final class HTTP {
    * @throws IOException If an I/O error has occurred.
    * @throws NullPointerException If {@code url} is null.
    */
-  public static InputStream postAsStream(final URL url, final Map<String,String[]> parameters, final Properties properties) throws IOException {
+  public static InputStream postAsStream(final URL url, final Map<String,String[]> parameters, final Properties properties) throws IOException { // FIXME: Should switch Properties to HashMap, and also need to make it case-insensitive?
     return postAsStream(url, parameters, properties, null);
   }
 
@@ -161,7 +156,7 @@ public final class HTTP {
    * @throws IOException If an I/O error has occurred.
    * @throws NullPointerException If {@code url} is null.
    */
-  public static InputStream postAsStream(final URL url, final Map<String,String[]> parameters, final Properties properties, final List<String> cookies) throws IOException {
+  public static InputStream postAsStream(final URL url, final Map<String,String[]> parameters, final Properties properties, final List<String> cookies) throws IOException { // FIXME: Should switch Properties to HashMap, and also need to make it case-insensitive?
     String charset = properties != null ? properties.getProperty("accept-charset") : null;
     if (charset == null)
       charset = "UTF-8";
