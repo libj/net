@@ -72,11 +72,12 @@ public final class URLConnections {
    * @param beforeConnect The {@link Consumer} to be called before this method invokes {@link HttpURLConnection#getResponseCode()}
    *          on the provided {@link URLConnection}.
    * @return An {@link InputStream} to the specified url that may or may not exist at a redirected location.
-   * @throws IOException If an I/O error has occurred, or if the redirects are found to loop.
+   * @throws IllegalArgumentException If {@code maxRedirects} is negative.
    * @throws NullPointerException If the provided {@link URLConnection} is null.
+   * @throws IOException If an I/O error has occurred, or if the redirects are found to loop.
    */
   public static URLConnection checkFollowRedirect(URLConnection connection, final int maxRedirects, final ThrowingConsumer<HttpURLConnection,IOException> beforeConnect) throws IOException {
-    assertPositive(maxRedirects);
+    assertNotNegative(maxRedirects);
 
     if (!(connection instanceof HttpURLConnection))
       return connection;
@@ -86,7 +87,7 @@ public final class URLConnections {
       beforeConnect.accept(httpURLConnection);
 
     int status = httpURLConnection.getResponseCode();
-    if (status < HttpURLConnection.HTTP_MOVED_PERM || HttpURLConnection.HTTP_SEE_OTHER < status)
+    if (status < HttpURLConnection.HTTP_MOVED_PERM || HttpURLConnection.HTTP_SEE_OTHER < status || 0 == maxRedirects)
       return connection;
 
     final String location0 = httpURLConnection.getURL().toString();
@@ -105,13 +106,13 @@ public final class URLConnections {
         beforeConnect.accept(httpURLConnection);
 
       status = httpURLConnection.getResponseCode();
-      if (status < HttpURLConnection.HTTP_MOVED_PERM || HttpURLConnection.HTTP_SEE_OTHER < status)
+      if (status < HttpURLConnection.HTTP_MOVED_PERM || HttpURLConnection.HTTP_SEE_OTHER < status || 1 == maxRedirects)
         return connection;
 
       final LinkedHashSet<String> visited = new LinkedHashSet<>();
       visited.add(location0);
       visited.add(location);
-      do {
+      int i = 1; do {
         location = httpURLConnection.getHeaderField("Location");
         if (!visited.add(location))
           throw new IOException("Infinite redirection loop: " + visited.stream().collect(Collectors.joining(" -> ")) + " -> " + location);
@@ -126,7 +127,7 @@ public final class URLConnections {
           beforeConnect.accept(httpURLConnection);
 
         status = httpURLConnection.getResponseCode();
-        if (status < HttpURLConnection.HTTP_MOVED_PERM || HttpURLConnection.HTTP_SEE_OTHER < status)
+        if (status < HttpURLConnection.HTTP_MOVED_PERM || HttpURLConnection.HTTP_SEE_OTHER < status || ++i == maxRedirects)
           return connection;
       }
       while (true);
