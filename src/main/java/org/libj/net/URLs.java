@@ -890,7 +890,7 @@ public final class URLs {
     }
 
     @Override
-    protected synchronized InetAddress getHostAddress(final URL u) {
+    protected InetAddress getHostAddress(final URL u) {
       return null;
     }
 
