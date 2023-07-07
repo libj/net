@@ -111,7 +111,7 @@ public final class Downloads {
    * @param options Options specifying how the download should be done.
    * @return The <b>closed</b> {@link HttpURLConnection} that was used to download the file.
    * @throws IOException If an I/O error has occurred.
-   * @throws NullPointerException If {@code fromUrl}, {@code toFile} or {@code options} is null.
+   * @throws NullPointerException If {@code fromUrl}, {@code toFile}, or {@code options} is null.
    * @throws IllegalArgumentException If the {@code connectTimeout} or {@code readTimeout} parameter is negative.
    */
   public static HttpURLConnection downloadFile(final URL fromUrl, final File toFile, final int connectTimeout, final int readTimeout, CopyOption ... options) throws IOException {
@@ -137,7 +137,7 @@ public final class Downloads {
    * @param options Options specifying how the download should be done.
    * @return The <b>closed</b> {@link HttpURLConnection} that was used to download the file.
    * @throws IOException If an I/O error has occurred.
-   * @throws NullPointerException If {@code fromUrl}, {@code toFile} or {@code options} is null.
+   * @throws NullPointerException If {@code fromUrl}, {@code toFile}, or {@code options} is null.
    * @throws IllegalArgumentException If the {@code connectTimeout} or {@code readTimeout} parameter is negative.
    */
   public static HttpURLConnection downloadFile(final URL fromUrl, final File toFile, final int connectTimeout, final int readTimeout, final boolean followRedirects, CopyOption ... options) throws IOException {

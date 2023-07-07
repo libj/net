@@ -407,9 +407,9 @@ public final class URLs {
     }
 
     try {
-      final URLConnection connection = url.openConnection(); // FIXME: Follow redirects?
+      final URLConnection connection = url.openConnection();
       connection.setConnectTimeout(timeout);
-      connection.getInputStream().close();
+      URLConnections.checkFollowRedirect(connection).getInputStream().close();
       return true;
     }
     catch (final IOException e) {
