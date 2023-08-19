@@ -26,7 +26,7 @@ public abstract class ClasspathURLStreamHandler extends URLStreamHandler {
     URLStreamHandlers.register(Handler.class, Handler.Factory.class);
   }
 
-  protected static boolean loadMe = true;
+  protected static final boolean loadMe = true;
 
   /**
    * Returns a "classpath" protocol {@link URL} for the specified resource path.
