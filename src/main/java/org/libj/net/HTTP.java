@@ -34,8 +34,8 @@ import java.util.Properties;
  */
 public final class HTTP {
   /**
-   * Create an {@link URL} for the specified {@code url} with the provided parameter map which will be encoded as UTF-8. It is
-   * highly recommended to close the obtained {@link InputStream} after processing.
+   * Create an {@link URL} for the specified {@code url} with the provided parameter map which will be encoded as UTF-8. It is highly
+   * recommended to close the obtained {@link InputStream} after processing.
    *
    * @param url The {@code url} to be invoked.
    * @param parameters The parameters to be processed as query parameters.
@@ -64,8 +64,8 @@ public final class HTTP {
   }
 
   /**
-   * Invoke a GET request on the specified {@code url} with the provided parameter map and charset encoding. It is highly
-   * recommended to close the obtained {@link InputStream} after processing.
+   * Invoke a GET request on the specified {@code url} with the provided parameter map and charset encoding. It is highly recommended
+   * to close the obtained {@link InputStream} after processing.
    *
    * @param url The {@code url} to be invoked.
    * @param parameters The parameters to be processed as query parameters.
@@ -81,8 +81,8 @@ public final class HTTP {
   }
 
   /**
-   * Invoke a GET request on the specified {@link URL} with the provided parameter map and charset encoding. It is highly
-   * recommended to close the obtained {@link InputStream} after processing.
+   * Invoke a GET request on the specified {@link URL} with the provided parameter map and charset encoding. It is highly recommended
+   * to close the obtained {@link InputStream} after processing.
    *
    * @param url The {@link URL} to be invoked.
    * @return The result of the GET request as an InputStream.
@@ -96,8 +96,8 @@ public final class HTTP {
   }
 
   /**
-   * Create an {@link URL} for a GET request on the specified {@code url} with the provided parameter map and charset encoding. It
-   * is highly recommended to close the obtained {@link InputStream} after processing.
+   * Create an {@link URL} for a GET request on the specified {@code url} with the provided parameter map and charset encoding. It is
+   * highly recommended to close the obtained {@link InputStream} after processing.
    *
    * @param url The {@code url} to be invoked.
    * @param parameters The parameters to be processed as query parameters.

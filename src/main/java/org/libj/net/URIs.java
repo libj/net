@@ -41,8 +41,7 @@ public final class URIs {
    * @param url The {@link URL} to convert to a {@link URI}.
    * @return The new {@link URI}.
    * @throws NullPointerException If {@code url} is null.
-   * @throws IllegalArgumentException if this URL is not formatted strictly according to to RFC2396 and cannot be converted to a
-   *           URI.
+   * @throws IllegalArgumentException if this URL is not formatted strictly according to to RFC2396 and cannot be converted to a URI.
    */
   public static URI fromURL(final URL url) {
     try {
@@ -183,8 +182,8 @@ public final class URIs {
   /**
    * Tests whether the specified {@link URI} represents a location that is a local JAR file with scheme {@code "jar:file:"}.
    * <p>
-   * The composite scheme definition is unwrapped in order to determine if the root resource locator in the URI is local. This
-   * method then uses {@link #isLocalFile(URI)} to check whether {@code uri} is local.
+   * The composite scheme definition is unwrapped in order to determine if the root resource locator in the URI is local. This method
+   * then uses {@link #isLocalFile(URI)} to check whether {@code uri} is local.
    *
    * @param uri The {@link URI} to test.
    * @return {@code true} if the specified {@link URI} represents a location that is local; otherwise {@code false}.
@@ -209,15 +208,15 @@ public final class URIs {
   }
 
   /**
-   * Tests whether the specified {@link URI} represents a location that is either a local file with scheme {@code "file:"}, or a
-   * local JAR file with scheme {@code "jar:file:"}.
+   * Tests whether the specified {@link URI} represents a location that is either a local file with scheme {@code "file:"}, or a local
+   * JAR file with scheme {@code "jar:file:"}.
    * <p>
    * URIs with composite scheme definitions, such as {@code "jar:file:"} are first unwrapped in order to digest the root resource
    * locator in the URI. This method then uses {@link #isLocalFile(URI)} to check whether {@code uri} is local.
    *
    * @param uri The {@link URI} to test.
-   * @return {@code true} if the specified {@link URI} represents a location that is either a local file with scheme
-   *         {@code "file:"}, or a local JAR file with scheme {@code "jar:file:"}; otherwise {@code false}.
+   * @return {@code true} if the specified {@link URI} represents a location that is either a local file with scheme {@code "file:"},
+   *         or a local JAR file with scheme {@code "jar:file:"}; otherwise {@code false}.
    * @throws NullPointerException If {@code uri} is null.
    */
   public static boolean isLocal(final URI uri) {
@@ -239,8 +238,8 @@ public final class URIs {
 
   /**
    * Returns the simple name of the file or directory denoted by the specified {@link URI}. This is just the last name in the name
-   * sequence of {@code uri}, with its dot-extension removed if present. If the name sequence of {@code uri} is empty, then the
-   * empty string is returned.
+   * sequence of {@code uri}, with its dot-extension removed if present. If the name sequence of {@code uri} is empty, then the empty
+   * string is returned.
    *
    * @param uri The {@link URI}.
    * @return The simple name of the file or directory denoted by the specified {@link URI}, or the empty string if the name sequence
@@ -285,15 +284,16 @@ public final class URIs {
    * @param baseURI The base URI of the path in the resulting {@link URI}.
    * @param path The child path off of {@code baseURI} in the resulting {@link URI}.
    * @return An {@link URI} created from the specified {@code baseURI} parent directory, and {@code path} child path.
-   * @throws IllegalArgumentException If the specified {@code baseURI} contains a query string; if both a scheme and a path are
-   *           given but the path is relative, if the URI string constructed from the given components violates RFC 2396, or if the
+   * @throws IllegalArgumentException If the specified {@code baseURI} contains a query string; if both a scheme and a path are given
+   *           but the path is relative, if the URI string constructed from the given components violates RFC 2396, or if the
    *           authority component of the string is present but cannot be parsed as a server-based authority.
    * @throws NullPointerException If {@code baseURI} or {@code path} is null.
    */
   public static URI toURI(final URI baseURI, String path) {
-    final int slash = baseURI.getPath().lastIndexOf('/');
+    final String p = baseURI.getPath();
+    final int slash = p.lastIndexOf('/');
     if (slash != -1)
-      path = baseURI.getPath().substring(0, slash + 1) + path;
+      path = p.substring(0, slash + 1) + path;
 
     try {
       return new URI(baseURI.getScheme(), baseURI.getUserInfo(), baseURI.getHost(), baseURI.getPort(), path, baseURI.getQuery(), baseURI.getFragment());

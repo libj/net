@@ -53,8 +53,8 @@ public final class URLConnections {
    * {@link URLConnection} if a redirect is not present.
    *
    * @param connection The {@link URLConnection}.
-   * @param beforeConnect The {@link Consumer} to be called before this method invokes {@link HttpURLConnection#getResponseCode()}
-   *          on the provided {@link URLConnection}.
+   * @param beforeConnect The {@link Consumer} to be called before this method invokes {@link HttpURLConnection#getResponseCode()} on
+   *          the provided {@link URLConnection}.
    * @return An {@link InputStream} to the specified url that may or may not exist at a redirected location.
    * @throws IOException If an I/O error has occurred, or if the redirects are found to loop.
    * @throws NullPointerException If the provided {@link URLConnection} is null.
@@ -69,8 +69,8 @@ public final class URLConnections {
    *
    * @param connection The {@link URLConnection}.
    * @param maxRedirects The maximum number of redirects to be followed.
-   * @param beforeConnect The {@link Consumer} to be called before this method invokes {@link HttpURLConnection#getResponseCode()}
-   *          on the provided {@link URLConnection}.
+   * @param beforeConnect The {@link Consumer} to be called before this method invokes {@link HttpURLConnection#getResponseCode()} on
+   *          the provided {@link URLConnection}.
    * @return An {@link InputStream} to the specified url that may or may not exist at a redirected location.
    * @throws IllegalArgumentException If {@code maxRedirects} is negative.
    * @throws NullPointerException If the provided {@link URLConnection} is null.
@@ -112,7 +112,8 @@ public final class URLConnections {
       final LinkedHashSet<String> visited = new LinkedHashSet<>();
       visited.add(location0);
       visited.add(location);
-      int i = 1; do {
+      int i = 1;
+      do {
         location = httpURLConnection.getHeaderField("Location");
         if (!visited.add(location))
           throw new IOException("Infinite redirection loop: " + visited.stream().collect(Collectors.joining(" -> ")) + " -> " + location);

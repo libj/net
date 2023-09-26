@@ -29,6 +29,7 @@ import java.util.ServiceLoader;
  */
 public final class URLStreamHandlers implements URLStreamHandlerFactory {
   // TODO: Saving for future move to support jdk9+
+  // @formatter:off
 //  private static boolean canLookupViaProvider(final String className) throws IOException {
 //    final Enumeration<URL> resources = ClassLoader.getSystemClassLoader().getResources("META-INF/services/java.net.spi.URLStreamHandlerProvider");
 //    while (resources.hasMoreElements()) {
@@ -40,6 +41,7 @@ public final class URLStreamHandlers implements URLStreamHandlerFactory {
 //
 //    return false;
 //  }
+  // @formatter:on
 
   private static boolean canLookupViaProperty(final String className) {
     try {
@@ -62,10 +64,10 @@ public final class URLStreamHandlers implements URLStreamHandlerFactory {
   }
 
   /**
-   * Registers the provided {@link URLStreamHandler} and its corresponding {@link URLStreamHandlerFactory} classes. This method
-   * first attempts to register the handler with the {@code "java.protocol.handler.pkgs"} property definition. If this fails, this
-   * method will then register the {@link URLStreamHandlers} class via
-   * {@link URL#setURLStreamHandlerFactory(URLStreamHandlerFactory)} to manage {@link URLStreamHandler} lookups.
+   * Registers the provided {@link URLStreamHandler} and its corresponding {@link URLStreamHandlerFactory} classes. This method first
+   * attempts to register the handler with the {@code "java.protocol.handler.pkgs"} property definition. If this fails, this method
+   * will then register the {@link URLStreamHandlers} class via {@link URL#setURLStreamHandlerFactory(URLStreamHandlerFactory)} to
+   * manage {@link URLStreamHandler} lookups.
    *
    * @param handlerClass The {@link URLStreamHandler} class to register.
    * @param factoryClass The corresponding {@link URLStreamHandlerFactory} class.

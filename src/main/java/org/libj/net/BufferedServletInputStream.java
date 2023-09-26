@@ -52,8 +52,8 @@ public class BufferedServletInputStream extends FilterServletInputStream {
   private int readlimit; /* Valid only when markedChar > 0 */
 
   /**
-   * Creates a {@link BufferedServletInputStream} with the underlying provided {@link ServletInputStream}, and reads the full
-   * contents of the provided {@link ServletInputStream} into the buffer.
+   * Creates a {@link BufferedServletInputStream} with the underlying provided {@link ServletInputStream}, and reads the full contents
+   * of the provided {@link ServletInputStream} into the buffer.
    *
    * @param in The {@link ServletInputStream} to wrap.
    * @param maxLength The maximum number of bytes to read.
@@ -158,9 +158,8 @@ public class BufferedServletInputStream extends FilterServletInputStream {
   private int read1(final byte[] b, final int off, final int len) throws IOException {
     if (pos >= count) {
       /*
-       * If the requested length is at least as large as the buffer, and if there is no mark/reset activity, and if line feeds are
-       * not being skipped, do not bother to copy the characters into the local buffer. In this way buffered streams will cascade
-       * harmlessly.
+       * If the requested length is at least as large as the buffer, and if there is no mark/reset activity, and if line feeds are not
+       * being skipped, do not bother to copy the characters into the local buffer. In this way buffered streams will cascade harmlessly.
        */
       if (len >= buf.length && markpos <= UNMARKED)
         return in.read(b, off, len);

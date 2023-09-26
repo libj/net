@@ -62,14 +62,14 @@ public final class URLs {
    * <p>
    * This method is provided for use in situations where it is known that the provided string is a legal URL, for example for URL
    * constants declared within in a program, and so it would be considered a programming error for the string not to parse as such.
-   * The constructors, which throw {@link MalformedURLException} directly, should be used situations where a URL is being
-   * constructed from user input or from some other source that may be prone to errors.
+   * The constructors, which throw {@link MalformedURLException} directly, should be used situations where a URL is being constructed
+   * from user input or from some other source that may be prone to errors.
    *
    * @param str The string to parse.
    * @return The new {@link URL}.
    * @throws NullPointerException If {@code str} is null.
-   * @throws IllegalArgumentException If {@code str} declares a protocol that could not be found in a specification string, or if
-   *           the string could not be parsed.
+   * @throws IllegalArgumentException If {@code str} declares a protocol that could not be found in a specification string, or if the
+   *           string could not be parsed.
    */
   public static URL create(final String str) {
     try {
@@ -89,15 +89,15 @@ public final class URLs {
    * <p>
    * This method is provided for use in situations where it is known that the provided string is a legal URL, for example for URL
    * constants declared within in a program, and so it would be considered a programming error for the string not to parse as such.
-   * The constructors, which throw {@link MalformedURLException} directly, should be used situations where a URL is being
-   * constructed from user input or from some other source that may be prone to errors.
+   * The constructors, which throw {@link MalformedURLException} directly, should be used situations where a URL is being constructed
+   * from user input or from some other source that may be prone to errors.
    *
    * @param context The context in which to parse the specification.
    * @param spec The {@link String} to parse.
    * @return The new {@link URL}.
    * @throws NullPointerException If {@code spec} is null.
-   * @throws IllegalArgumentException If {@code str} declares a protocol that could not be found in a specification string, or if
-   *           the string could not be parsed.
+   * @throws IllegalArgumentException If {@code str} declares a protocol that could not be found in a specification string, or if the
+   *           string could not be parsed.
    */
   public static URL create(final URL context, final String spec) {
     return create(context, spec, null);
@@ -112,16 +112,16 @@ public final class URLs {
    * <p>
    * This method is provided for use in situations where it is known that the provided string is a legal URL, for example for URL
    * constants declared within in a program, and so it would be considered a programming error for the string not to parse as such.
-   * The constructors, which throw {@link MalformedURLException} directly, should be used situations where a URL is being
-   * constructed from user input or from some other source that may be prone to errors.
+   * The constructors, which throw {@link MalformedURLException} directly, should be used situations where a URL is being constructed
+   * from user input or from some other source that may be prone to errors.
    *
    * @param context The context in which to parse the specification.
    * @param spec The {@link String} to parse.
    * @param handler The stream handler for the URL.
    * @return The new {@link URL}.
    * @throws NullPointerException If {@code spec} is null.
-   * @throws IllegalArgumentException If {@code str} declares a protocol that could not be found in a specification string, or if
-   *           the string could not be parsed.
+   * @throws IllegalArgumentException If {@code str} declares a protocol that could not be found in a specification string, or if the
+   *           string could not be parsed.
    */
   public static URL create(final URL context, final String spec, final URLStreamHandler handler) {
     try {
@@ -141,16 +141,16 @@ public final class URLs {
    * <p>
    * This method is provided for use in situations where it is known that the provided string is a legal URL, for example for URL
    * constants declared within in a program, and so it would be considered a programming error for the string not to parse as such.
-   * The constructors, which throw {@link MalformedURLException} directly, should be used situations where a URL is being
-   * constructed from user input or from some other source that may be prone to errors.
+   * The constructors, which throw {@link MalformedURLException} directly, should be used situations where a URL is being constructed
+   * from user input or from some other source that may be prone to errors.
    *
    * @param protocol The name of the protocol to use.
    * @param host The name of the host.
    * @param file The file on the host.
    * @return The new {@link URL}.
    * @throws NullPointerException If {@code file} is null.
-   * @throws IllegalArgumentException If {@code str} declares a protocol that could not be found in a specification string, or if
-   *           the string could not be parsed.
+   * @throws IllegalArgumentException If {@code str} declares a protocol that could not be found in a specification string, or if the
+   *           string could not be parsed.
    */
   public static URL create(final String protocol, final String host, final String file) {
     return create(protocol, host, -1, file, null);
@@ -165,8 +165,8 @@ public final class URLs {
    * <p>
    * This method is provided for use in situations where it is known that the provided string is a legal URL, for example for URL
    * constants declared within in a program, and so it would be considered a programming error for the string not to parse as such.
-   * The constructors, which throw {@link MalformedURLException} directly, should be used situations where a URL is being
-   * constructed from user input or from some other source that may be prone to errors.
+   * The constructors, which throw {@link MalformedURLException} directly, should be used situations where a URL is being constructed
+   * from user input or from some other source that may be prone to errors.
    *
    * @param protocol The name of the protocol to use.
    * @param host The name of the host.
@@ -174,8 +174,8 @@ public final class URLs {
    * @param file The file on the host.
    * @return The new {@link URL}.
    * @throws NullPointerException If {@code file} is null.
-   * @throws IllegalArgumentException If {@code str} declares a protocol that could not be found in a specification string, or if
-   *           the string could not be parsed.
+   * @throws IllegalArgumentException If {@code str} declares a protocol that could not be found in a specification string, or if the
+   *           string could not be parsed.
    */
   public static URL create(final String protocol, final String host, int port, final String file) {
     return create(protocol, host, port, file, null);
@@ -190,8 +190,8 @@ public final class URLs {
    * <p>
    * This method is provided for use in situations where it is known that the provided string is a legal URL, for example for URL
    * constants declared within in a program, and so it would be considered a programming error for the string not to parse as such.
-   * The constructors, which throw {@link MalformedURLException} directly, should be used situations where a URL is being
-   * constructed from user input or from some other source that may be prone to errors.
+   * The constructors, which throw {@link MalformedURLException} directly, should be used situations where a URL is being constructed
+   * from user input or from some other source that may be prone to errors.
    *
    * @param protocol The name of the protocol to use.
    * @param host The name of the host.
@@ -200,8 +200,8 @@ public final class URLs {
    * @param handler The stream handler for the URL.
    * @return The new {@link URL}.
    * @throws NullPointerException If {@code file} is null.
-   * @throws IllegalArgumentException If {@code str} declares a protocol that could not be found in a specification string, or if
-   *           the string could not be parsed.
+   * @throws IllegalArgumentException If {@code str} declares a protocol that could not be found in a specification string, or if the
+   *           string could not be parsed.
    */
   public static URL create(final String protocol, final String host, int port, final String file, final URLStreamHandler handler) {
     try {
@@ -269,8 +269,8 @@ public final class URLs {
    * @return The new {@link URL}.
    * @throws NullPointerException If the specified {@link URI uri} is null.
    * @throws IllegalArgumentException If this {@link URL} is not absolute.
-   * @throws UncheckedIOException If a protocol handler for the {@link URL} could not be found, or if some other error occurred
-   *           while constructing the {@link URL}.
+   * @throws UncheckedIOException If a protocol handler for the {@link URL} could not be found, or if some other error occurred while
+   *           constructing the {@link URL}.
    */
   public static URL fromURI(final URI uri) {
     try {
@@ -282,9 +282,8 @@ public final class URLs {
   }
 
   /**
-   * Returns a canonical {@link URL} created from the specified string, or {@code null} if the specified string is null
-   * ({@code ".."} and {@code "."} path names are dereferenced in a canonical {@link URL}, and redundant {@code '/'} path separators
-   * are removed).
+   * Returns a canonical {@link URL} created from the specified string, or {@code null} if the specified string is null ({@code ".."}
+   * and {@code "."} path names are dereferenced in a canonical {@link URL}, and redundant {@code '/'} path separators are removed).
    * <ul>
    * <li>If the specified path contains the string {@code ":/"}, the resulting {@link URL} is created with
    * {@link URL#URL(String)}.</li>
@@ -295,9 +294,9 @@ public final class URLs {
    * {@link StringPaths#isAbsoluteLocalWindows(String)}.
    *
    * @param stringPath The string from which to create a {@link URL}.
-   * @return A canonical {@link URL} created from the specified string, or {@code null} if the specified string is null
-   *         ({@code ".."} and {@code "."} path names are dereferenced in a canonical {@link URL}, and redundant {@code '/'} path
-   *         separators are removed).
+   * @return A canonical {@link URL} created from the specified string, or {@code null} if the specified string is null ({@code ".."}
+   *         and {@code "."} path names are dereferenced in a canonical {@link URL}, and redundant {@code '/'} path separators are
+   *         removed).
    * @throws NullPointerException If {@code stringPath} is null.
    * @throws IllegalArgumentException If a protocol is specified but is unknown, or the parsed URL fails to comply with the specific
    *           syntax of the associated protocol.
@@ -550,8 +549,8 @@ public final class URLs {
 
   /**
    * Returns the simple name of the file or directory denoted by the specified {@link URL}. This is just the last name in the name
-   * sequence of {@code url}, with its dot-extension removed if present. If the name sequence of {@code url} is empty, then the
-   * empty string is returned.
+   * sequence of {@code url}, with its dot-extension removed if present. If the name sequence of {@code url} is empty, then the empty
+   * string is returned.
    *
    * @param url The {@link URL}.
    * @return The simple name of the file or directory denoted by the specified {@link URL}, or the empty string if the name sequence
@@ -628,8 +627,8 @@ public final class URLs {
   }
 
   /**
-   * Translates a string into {@code application/x-www-form-urlencoded} format using a specific {@link Charset}. This method uses
-   * the supplied charset to obtain the bytes for unsafe characters.
+   * Translates a string into {@code application/x-www-form-urlencoded} format using a specific {@link Charset}. This method uses the
+   * supplied charset to obtain the bytes for unsafe characters.
    * <p>
    * <em><strong>Note:</strong> The <a href= "http://www.w3.org/TR/html40/appendix/notes.html#non-ascii-chars"> World Wide Web
    * Consortium Recommendation</a> states that UTF-8 should be used. Not doing so may introduce incompatibilities.</em>
@@ -804,8 +803,8 @@ public final class URLs {
   /**
    * Returns the URL-decoded path string.
    * <p>
-   * URL path segments may contain {@code '+'} symbols which should not be decoded into {@code ' '}. This method replaces
-   * {@code '+'} with {@code "%2B"} and delegates to URLDecoder.
+   * URL path segments may contain {@code '+'} symbols which should not be decoded into {@code ' '}. This method replaces {@code '+'}
+   * with {@code "%2B"} and delegates to URLDecoder.
    *
    * @param path The path to decode.
    * @return The URL-decoded path string.
@@ -906,16 +905,15 @@ public final class URLs {
   }
 
   /**
-   * Returns a {@link URL} for which the {@linkplain URL#getHost() host} is treated as a literal string (as opposed to its resolved
-   * IP address, as is dereferenced by default during the {@link URL#equals(Object)} and {@link URL#hashCode()} operations).
+   * Returns a {@link URL} for which the {@linkplain URL#getHost() host} is treated as a literal string (as opposed to its resolved IP
+   * address, as is dereferenced by default during the {@link URL#equals(Object)} and {@link URL#hashCode()} operations).
    *
    * @param spec The String to parse as a URL.
    * @return A {@link URL} for which the {@linkplain URL#getHost() host} is treated as a literal string.
    * @throws NullPointerException If {@code spec} is null.
    * @throws IllegalArgumentException If no protocol is specified, an unknown protocol is found, or the parsed URL fails to comply
    *           with the specific syntax of the associated protocol.
-   * @throws SecurityException If a security manager exists and its checkPermission method doesn't allow specifying a stream
-   *           handler.
+   * @throws SecurityException If a security manager exists and its checkPermission method doesn't allow specifying a stream handler.
    */
   public static URL withLiteralHost(final String spec) {
     return create(null, spec, new LiteralHostStreamHandler());
@@ -926,8 +924,8 @@ public final class URLs {
    *
    * @param url The {@link URL} from which to read.
    * @return The {@code byte[]} containing all bytes that were read from the provided {@link URL}.
-   * @throws IOException If the first byte cannot be read for any reason other than the end of the file, if the input stream has
-   *           been closed, or if some other I/O error occurs.
+   * @throws IOException If the first byte cannot be read for any reason other than the end of the file, if the input stream has been
+   *           closed, or if some other I/O error occurs.
    * @throws NullPointerException If {@code url} is null.
    * @see InputStream#read(byte[])
    */

@@ -47,12 +47,12 @@ public final class Services {
   }
 
   /**
-   * Returns the {@link Service} definition for the specified TCP/UDP scheme, or {@code null} if a {@link Service} is not defined
-   * for the scheme.
+   * Returns the {@link Service} definition for the specified TCP/UDP scheme, or {@code null} if a {@link Service} is not defined for
+   * the scheme.
    *
    * @param scheme The scheme.
-   * @return The {@link Service} definition for the specified TCP/UDP scheme, or {@code null} if a {@link Service} is not defined
-   *         for the scheme.
+   * @return The {@link Service} definition for the specified TCP/UDP scheme, or {@code null} if a {@link Service} is not defined for
+   *         the scheme.
    */
   public static Service getService(final String scheme) {
     final Service service = makeService(jnr.netdb.Service.getServiceByName(scheme, "tcp"));

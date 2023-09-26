@@ -61,12 +61,12 @@ public final class Downloads {
    * @param fromUrl The URL from which to download.
    * @param toFile The destination {@link File}.
    * @param connectTimeout Sets a specified timeout value, in milliseconds, to be used when opening a communications link to the
-   *          resource referenced by the {@link URLConnection} to {@code fromUrl}. If the timeout expires before the connection can
-   *          be established, a {@link java.net.SocketTimeoutException} is raised. A timeout of zero is interpreted as an infinite
+   *          resource referenced by the {@link URLConnection} to {@code fromUrl}. If the timeout expires before the connection can be
+   *          established, a {@link java.net.SocketTimeoutException} is raised. A timeout of zero is interpreted as an infinite
    *          timeout.
-   * @param readTimeout Sets a specified timeout value, in milliseconds, to be used when opening a communications link to the
-   *          resource referenced by the {@link URLConnection} to {@code fromUrl}. If the timeout expires before the connection can
-   *          be established, a {@link java.net.SocketTimeoutException} is raised. A timeout of zero is interpreted as an infinite
+   * @param readTimeout Sets a specified timeout value, in milliseconds, to be used when opening a communications link to the resource
+   *          referenced by the {@link URLConnection} to {@code fromUrl}. If the timeout expires before the connection can be
+   *          established, a {@link java.net.SocketTimeoutException} is raised. A timeout of zero is interpreted as an infinite
    *          timeout.
    * @param options Options specifying how the download should be done.
    * @return The <b>closed</b> {@link HttpURLConnection} that was used to download the file.
@@ -101,12 +101,12 @@ public final class Downloads {
    * @param fromUrl The {@link URL} from which to download.
    * @param toFile The destination {@link File}.
    * @param connectTimeout Sets a specified timeout value, in milliseconds, to be used when opening a communications link to the
-   *          resource referenced by the {@link URLConnection} to {@code fromUrl}. If the timeout expires before the connection can
-   *          be established, a {@link java.net.SocketTimeoutException} is raised. A timeout of zero is interpreted as an infinite
+   *          resource referenced by the {@link URLConnection} to {@code fromUrl}. If the timeout expires before the connection can be
+   *          established, a {@link java.net.SocketTimeoutException} is raised. A timeout of zero is interpreted as an infinite
    *          timeout.
-   * @param readTimeout Sets a specified timeout value, in milliseconds, to be used when opening a communications link to the
-   *          resource referenced by the {@link URLConnection} to {@code fromUrl}. If the timeout expires before the connection can
-   *          be established, a {@link java.net.SocketTimeoutException} is raised. A timeout of zero is interpreted as an infinite
+   * @param readTimeout Sets a specified timeout value, in milliseconds, to be used when opening a communications link to the resource
+   *          referenced by the {@link URLConnection} to {@code fromUrl}. If the timeout expires before the connection can be
+   *          established, a {@link java.net.SocketTimeoutException} is raised. A timeout of zero is interpreted as an infinite
    *          timeout.
    * @param options Options specifying how the download should be done.
    * @return The <b>closed</b> {@link HttpURLConnection} that was used to download the file.
@@ -126,12 +126,12 @@ public final class Downloads {
    * @param fromUrl The {@link URL} from which to download.
    * @param toFile The destination {@link File}.
    * @param connectTimeout Sets a specified timeout value, in milliseconds, to be used when opening a communications link to the
-   *          resource referenced by the {@link URLConnection} to {@code fromUrl}. If the timeout expires before the connection can
-   *          be established, a {@link java.net.SocketTimeoutException} is raised. A timeout of zero is interpreted as an infinite
+   *          resource referenced by the {@link URLConnection} to {@code fromUrl}. If the timeout expires before the connection can be
+   *          established, a {@link java.net.SocketTimeoutException} is raised. A timeout of zero is interpreted as an infinite
    *          timeout.
-   * @param readTimeout Sets a specified timeout value, in milliseconds, to be used when opening a communications link to the
-   *          resource referenced by the {@link URLConnection} to {@code fromUrl}. If the timeout expires before the connection can
-   *          be established, a {@link java.net.SocketTimeoutException} is raised. A timeout of zero is interpreted as an infinite
+   * @param readTimeout Sets a specified timeout value, in milliseconds, to be used when opening a communications link to the resource
+   *          referenced by the {@link URLConnection} to {@code fromUrl}. If the timeout expires before the connection can be
+   *          established, a {@link java.net.SocketTimeoutException} is raised. A timeout of zero is interpreted as an infinite
    *          timeout.
    * @param followRedirects Whether HTTP 301, HTTP 302, or HTTP 303 redirects should be followed.
    * @param options Options specifying how the download should be done.
@@ -187,8 +187,8 @@ public final class Downloads {
   }
 
   /**
-   * Send the given file as a File object to the servlet response. If attachment is set to true, then show a "Save as" dialogue,
-   * else show the file inline in the browser or let the operating system open it in the right application.
+   * Send the given file as a File object to the servlet response. If attachment is set to true, then show a "Save as" dialogue, else
+   * show the file inline in the browser or let the operating system open it in the right application.
    *
    * @param response The {@link HttpServletResponse}.
    * @param toFile The file as a File object.
@@ -203,8 +203,8 @@ public final class Downloads {
   }
 
   /**
-   * Send the given file as an InputStream to the servlet response. If attachment is set to true, then show a "Save as" dialogue,
-   * else show the file inline in the browser or let the operating system open it in the right application.
+   * Send the given file as an InputStream to the servlet response. If attachment is set to true, then show a "Save as" dialogue, else
+   * show the file inline in the browser or let the operating system open it in the right application.
    *
    * @param response The {@link HttpServletResponse}.
    * @param in The file contents in an InputStream.

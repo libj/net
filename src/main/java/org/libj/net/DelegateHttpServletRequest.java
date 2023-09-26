@@ -410,7 +410,7 @@ public abstract class DelegateHttpServletRequest implements HttpServletRequest {
   }
 
   @Override
-  public <T extends HttpUpgradeHandler>T upgrade(final Class<T> handlerClass) throws IOException, ServletException {
+  public <T extends HttpUpgradeHandler> T upgrade(final Class<T> handlerClass) throws IOException, ServletException {
     throw new UnsupportedOperationException();
   }
 
