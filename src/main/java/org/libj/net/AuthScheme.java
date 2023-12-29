@@ -101,7 +101,7 @@ public abstract class AuthScheme implements Serializable {
      * @return The username.
      */
     public String getUsername() {
-      return this.username;
+      return username;
     }
 
     /**
@@ -110,7 +110,7 @@ public abstract class AuthScheme implements Serializable {
      * @return The password.
      */
     public String getPassword() {
-      return this.password;
+      return password;
     }
 
     @Override
@@ -212,7 +212,7 @@ public abstract class AuthScheme implements Serializable {
      * @return The token.
      */
     public String getToken() {
-      return this.token;
+      return token;
     }
 
     @Override

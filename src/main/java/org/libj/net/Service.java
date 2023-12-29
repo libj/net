@@ -52,7 +52,7 @@ public class Service {
    * @return The name.
    */
   public String getName() {
-    return this.serviceName;
+    return serviceName;
   }
 
   /**
@@ -61,7 +61,7 @@ public class Service {
    * @return The port.
    */
   public int getPort() {
-    return this.port;
+    return port;
   }
 
   /**
@@ -70,7 +70,7 @@ public class Service {
    * @return The aliases.
    */
   public Collection<String> getAliases() {
-    return this.aliases;
+    return aliases;
   }
 
   @Override
