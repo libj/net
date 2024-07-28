@@ -168,7 +168,7 @@ public abstract class AuthScheme implements Serializable {
      * @return A header string encoding of the provided {@code token}.
      */
     public static String encode(final String token) {
-      return name + " " + Base64.getEncoder().encodeToString(token.getBytes());
+      return name + " " + token;
     }
 
     /**
@@ -182,7 +182,7 @@ public abstract class AuthScheme implements Serializable {
      * @throws IllegalArgumentException If {@code authorization} is not in valid Base64 scheme.
      */
     public static Bearer decode(final String authorization) {
-      return prototype.matches(Objects.requireNonNull(authorization)) ? new Bearer(new String(Base64.getDecoder().decode(authorization.substring(7)))) : null;
+      return prototype.matches(Objects.requireNonNull(authorization)) ? new Bearer(authorization.substring(7)) : null;
     }
 
     private final String token;
