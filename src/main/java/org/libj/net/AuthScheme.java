@@ -124,6 +124,11 @@ public abstract class AuthScheme implements Serializable {
     }
 
     @Override
+    int schemeLength() {
+      return 6;
+    }
+
+    @Override
     public boolean equals(final Object obj) {
       if (obj == this)
         return true;
@@ -182,7 +187,7 @@ public abstract class AuthScheme implements Serializable {
      * @throws IllegalArgumentException If {@code authorization} is not in valid Base64 scheme.
      */
     public static Bearer decode(final String authorization) {
-      return prototype.matches(Objects.requireNonNull(authorization)) ? new Bearer(authorization.substring(7)) : null;
+      return prototype.matches(Objects.requireNonNull(authorization)) ? new Bearer(authorization.substring(prototype.schemeLength() + 1)) : null;
     }
 
     private final String token;
@@ -223,6 +228,11 @@ public abstract class AuthScheme implements Serializable {
     @Override
     Bearer newInstance(final String authorization) {
       return decode(authorization);
+    }
+
+    @Override
+    int schemeLength() {
+      return 6;
     }
 
     @Override
@@ -296,4 +306,5 @@ public abstract class AuthScheme implements Serializable {
   public abstract String encode();
 
   abstract AuthScheme newInstance(String authorization);
+  abstract int schemeLength();
 }
