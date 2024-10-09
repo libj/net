@@ -141,7 +141,7 @@ public final class Downloads {
    * @throws IllegalArgumentException If the {@code connectTimeout} or {@code readTimeout} parameter is negative.
    */
   public static HttpURLConnection downloadFile(final URL fromUrl, final File toFile, final int connectTimeout, final int readTimeout, final boolean followRedirects, CopyOption ... options) throws IOException {
-    final HttpURLConnection connection = (HttpURLConnection)(followRedirects ? URLConnections.checkFollowRedirect(fromUrl.openConnection(), c -> beforeDownloadFile(c, connectTimeout, readTimeout, toFile)) : fromUrl.openConnection());
+    final HttpURLConnection connection = (HttpURLConnection)(followRedirects ? URLConnections.checkFollowRedirect(fromUrl.openConnection(), (final HttpURLConnection c) -> beforeDownloadFile(c, connectTimeout, readTimeout, toFile)) : fromUrl.openConnection());
     try {
       if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
         try (final InputStream in = connection.getInputStream()) {
